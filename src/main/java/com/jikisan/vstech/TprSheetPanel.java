@@ -1,5 +1,7 @@
 package com.jikisan.vstech;
 
+import com.jikisan.vstech.Model.DataModel;
+import com.jikisan.vstech.Model.DateListModel;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,19 +16,23 @@ public class TprSheetPanel extends JPanel {
 
     private final int totalRows = 51;
     private final int totalColumns = 36;
-    private List<String> data = new ArrayList<String>(); // Data to be displayed on the grid
-    private List<String> dateList = new ArrayList<String>(); // Data to be displayed on the grid
+    private DataModel dataModel;
+    private TemperatureToYPointMapper mapper;
+
+    public TprSheetPanel(DataModel dataModel) {
+        this.dataModel = dataModel;
+        mapper = new TemperatureToYPointMapper();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         drawGrid(g, totalRows, totalColumns);
-        fillUpDate(dateList, g);
-        setData(dateList, g);
+        fillDates(g);
+        setData(g);
         drawTempLine(g);
 
-//        drawConnectedLine(g); // Draw lines using specified row/column coordinates
     }
 
     private void drawGrid(Graphics g, int rows, int columns) {
@@ -171,59 +177,63 @@ public class TprSheetPanel extends JPanel {
 
     }
 
-    public void fillUpDate(List<String> datesList, Graphics g) {
+    public void fillDates(Graphics g) {
 
-        dateList.clear();
-//        dateList.add("May 5");
-//        dateList.add("May 6");
-//        dateList.add("May 7");
-//        dateList.add("May 8");
-//        dateList.add("May 9");
-//        dateList.add("May 10");
-//        dateList.add("May 11");
+        DateListModel dates = dataModel.getDateList();
 
         int row = 8;
         int column = 1;
-        for (String date : datesList) {
+        for (String date : dates.getDateArray()) {
             g.drawString(date, textRow(row, 1), textColumn(column));
             row += 6;
         }
-        repaint(); // Repaint the panel to reflect the new data
+        repaint();
     }
 
-    public void setData(List<String> data, Graphics g) {
-        this.data = data;
+    public void setData(Graphics g) {
         repaint();
     }
 
     private void drawTempLine(Graphics g) {
-        
-        Graphics2D g2d = (Graphics2D) g; // Cast to Graphics2D for advanced features
 
-        float lineThickness = 5.0f;
-        g2d.setStroke(new BasicStroke(lineThickness));
-
-        g.setColor(Color.BLACK);
-        
         // 12AM = 6
         // 4AM = 7
         // 8AM = 8
-        
+        //36.5 degrees = 16.5
+        //36.6 degrees = 16.6
+        //36.7 degrees = 16.7
+        //36.8 degrees = 16.8
+        //36.9 degrees = 16.9
         // 37 degrees = 17
         // 37.5 degrees = 16
         // 38 degrees = 15
         // 38.5 degrees = 14
         // 39 degrees = 13
-        
-        int[] xPoints = {tempRow(6),  tempRow(7), tempRow(8)};
-        int[] yPoints = {tempColumn(16), tempColumn(17), tempColumn(18)};
+        //Input: 12AM 37.5
+        //Output: xPoints = {tempRow(6)}, yPoints = {tempColumn(16)}
+        //Input: 4AM 37
+        //Output: xPoints = {tempRow(7)}, yPoints = {tempColumn(17)}
+        //Input: 8AM 37.5
+        //Output: xPoints = {tempRow(8)}, yPoints = {tempColumn(18)}
+        Graphics2D g2d = (Graphics2D) g;
+        DateListModel dates = dataModel.getDateList();
+
+        float lineThickness = 5.0f;
+        g2d.setStroke(new BasicStroke(lineThickness));
+
+        g.setColor(Color.BLACK);
+
+//        int[] xPoints = {tempRow(6), tempRow(7), tempRow(8)};
+//        int[] yPoints = {tempColumn(16), tempColumn(17), tempColumn(18)};
+        int[] xPoints = {tempRow(6)};
+        int[] yPoints = {tempColumn(16)};
 
         g.drawPolyline(xPoints, yPoints, xPoints.length);
     }
 
     private int tempRow(int columnNum) {
         int colWidth = getWidth() / totalColumns;
-        int row = (colWidth * columnNum) +(colWidth / 2);
+        int row = (colWidth * columnNum) + (colWidth / 2);
         return row;
     }
 
@@ -232,7 +242,7 @@ public class TprSheetPanel extends JPanel {
         int column = (int) ((rowHeight * rowNum) + (rowHeight / 2));
         return column;
     }
-    
+
     private int textRow(int columnNum, int num2) {
         int colWidth = getWidth() / totalColumns;
         int row = (colWidth * columnNum) + num2;
@@ -246,30 +256,4 @@ public class TprSheetPanel extends JPanel {
         return column;
     }
 
-//    private void drawConnectedLine(Graphics g) {
-//        Graphics2D g2d = (Graphics2D) g; // Cast to Graphics2D for advanced features
-//
-//        float lineThickness = 5.0f;
-//        g2d.setStroke(new BasicStroke(lineThickness));
-//
-//        g.setColor(Color.BLUE);
-//
-//        // Plot lines at specific row/column coordinates
-//        int[] xPoints = {getColCoordinate(1), getColCoordinate(2)};
-//        int[] yPoints = {getRowCoordinate(12), getRowCoordinate(11)};
-//
-//        g.drawPolyline(xPoints, yPoints, xPoints.length); // Draw connected lines between points
-//    }
-//
-//    private int getRowCoordinate(int row) {
-//        int height = getHeight();
-//        int rowHeight = height / totalRows;
-//        return row * rowHeight; // Y-coordinate based on row
-//    }
-//
-//    private int getColCoordinate(int col) {
-//        int width = getWidth();
-//        int colWidth = width / totalColumns;
-//        return col * colWidth; // X-coordinate based on column
-//    }
 }
