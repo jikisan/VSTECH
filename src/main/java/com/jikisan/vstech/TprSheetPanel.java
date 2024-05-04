@@ -61,9 +61,16 @@ public class TprSheetPanel extends JPanel {
             } else {
                 if (i > 6 && i % 3 != 0) {
                     g.drawLine(x, rowHeight * 2, x, gridHeight - (rowHeight * 7));
-                } else {
-
                 }
+            }
+        }
+
+        int y = 9;
+        for (int i = 9; i <= columns; i++) {
+            int x = i * colWidth;
+            if (i == y) {
+                y += 6;
+                g.drawLine(x, rowHeight * 45, x, gridHeight);
             }
         }
 
@@ -171,7 +178,7 @@ public class TprSheetPanel extends JPanel {
         int fourthLabelRow = 7;
         int fourthLabelColumn = 45;
         for (int i = 0; i < 5; i++) {
-            g.drawString("Blood Pressure", textRow(fourthLabelRow, 1), textColumn(fourthLabelColumn));
+            g.drawString("Blood Pressure", textRow(fourthLabelRow, 10), textColumn(fourthLabelColumn));
             fourthLabelRow += 6;
         }
 
@@ -223,12 +230,18 @@ public class TprSheetPanel extends JPanel {
 
         g.setColor(Color.BLACK);
 
+        mapper.getYPoint(37.5f);
+        
 //        int[] xPoints = {tempRow(6), tempRow(7), tempRow(8)};
 //        int[] yPoints = {tempColumn(16), tempColumn(17), tempColumn(18)};
         int[] xPoints = {tempRow(6)};
-        int[] yPoints = {tempColumn(16)};
+        int[] yPoints = {tempColumn((int)mapper.getYPoint(37.5f))};
 
-        g.drawPolyline(xPoints, yPoints, xPoints.length);
+        if (xPoints.length <= 1) {
+            g.fillOval(xPoints[0], yPoints[0], 10, 10);
+        } else {
+            g.drawPolyline(xPoints, yPoints, xPoints.length);
+        }
     }
 
     private int tempRow(int columnNum) {
