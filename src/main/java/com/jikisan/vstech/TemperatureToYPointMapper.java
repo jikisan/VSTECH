@@ -28,20 +28,4 @@ public class TemperatureToYPointMapper {
         }
     }
 
-    public static void main(String[] args) {
-        TemperatureToYPointMapper mapper = new TemperatureToYPointMapper();
-
-        // Test with some temperatures
-        try {
-            System.out.println("Y-Point for 35 degrees: " + mapper.getYPoint(35.0));
-            System.out.println("Y-Point for 36.5 degrees: " + mapper.getYPoint(36.5));
-            System.out.println("Y-Point for 40 degrees: " + mapper.getYPoint(40.0));
-            System.out.println("Y-Point for 45 degrees: " + mapper.getYPoint(45.0));
-
-            // This will throw an exception because it's out of range
-            System.out.println("Y-Point for 34 degrees: " + mapper.getYPoint(34.0));
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
 }

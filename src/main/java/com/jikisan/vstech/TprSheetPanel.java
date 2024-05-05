@@ -8,22 +8,24 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JPanel;
 
 public class TprSheetPanel extends JPanel {
 
+    private final Map<String, Integer> dateTimeMapper;
     private final int totalRows = 51;
     private final int totalColumns = 36;
     private DataModel dataModel;
     private TemperatureToYPointMapper mapper;
-    
-        private List<String> dateTimeList = new ArrayList<String>();
 
+    private List<String> dateTimeList = new ArrayList<String>();
 
-    public TprSheetPanel(DataModel dataModel) {
+    public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap) {
         this.dataModel = dataModel;
+        this.dateTimeMapper = _dateTimeMap;
     }
 
     @Override
@@ -34,9 +36,6 @@ public class TprSheetPanel extends JPanel {
         fillDates(g);
         setData(g);
         drawTempLine(g);
-        
-        DateListModel dates = dataModel.getDateList();
-        Mapper.getXpointsMap(dates.getDateArray());
 
     }
 
@@ -85,16 +84,16 @@ public class TprSheetPanel extends JPanel {
     private void setStaticText(Graphics g, int colWidth, int rowHeight) {
 
         String[] firstLabel = {
-            "200", "180", "170", "160", "150", "140", "130", "120", "110", "100",
-            "90", "80", "70", "60", "50", "40", "30", "20", "10", "0"
+                "200", "180", "170", "160", "150", "140", "130", "120", "110", "100",
+                "90", "80", "70", "60", "50", "40", "30", "20", "10", "0"
         };
 
         String[] secondLabel = {
-            "43", "42", "41", "40", "39", "38", "37", "36", "35", "34", "32", "30"
+                "43", "42", "41", "40", "39", "38", "37", "36", "35", "34", "32", "30"
         };
 
         String[] thirdLabel = {
-            "6-2", "2-10", "10-6"
+                "6-2", "2-10", "10-6"
         };
 
         g.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -199,6 +198,11 @@ public class TprSheetPanel extends JPanel {
             g.drawString(date, textRow(row, 1), textColumn(column));
             row += 6;
         }
+
+        Graphics2D g2d = (Graphics2D) g;
+        float lineThickness = 5.0f;
+        g2d.setStroke(new BasicStroke(lineThickness));
+
         repaint();
     }
 
@@ -207,61 +211,92 @@ public class TprSheetPanel extends JPanel {
     }
 
     private void drawTempLine(Graphics g) {
+        // 35 degrees = 21 
+        // 35.1 degrees = 20
+        // 35.2 degrees = 20
+        // 35.3 degrees = 20
+        // 35.4 degrees = 20
+        // 35.5 degrees = 20
+        // 35.6 degrees = 20
+        // 35.7 degrees = 20
+        // 35.8 degrees = 20
+        // 35.9 degrees = 20
+        // 36 degrees = 19 
+        // 36.1 degrees = 18
+        // 36.2 degrees = 18
+        // 36.3 degrees = 18
+        // 36.4 degrees = 18
+        // 36.5 degrees = 18
+        // 36.6 degrees = 18
+        // 36.7 degrees = 18
+        // 36.8 degrees = 18
+        // 36.9 degrees = 18
+        // 37 degrees = 17
+        // 37.1 degrees = 16
+        // 37.2 degrees = 16
+        // 37.3 degrees = 16
+        // 37.4 degrees = 16
+        // 37.5 degrees = 16
+        // 37.6 degrees = 16
+        // 37.7 degrees = 16
+        // 37.8 degrees = 16
+        // 37.9 degrees = 16
+        // 38 degrees = 15
+
+        // Input: 12AM 37.5
+        // Output: xPoints = {tempRow(6)}, yPoints = {tempColumn(16)}
+        // Input: 4AM 37
+        // Output: xPoints = {tempRow(7)}, yPoints = {tempColumn(17)}
+        // Input: 8AM 37.5
+        // Output: xPoints = {tempRow(8)}, yPoints = {tempColumn(18)}
 
         Graphics2D g2d = (Graphics2D) g;
         float lineThickness = 5.0f;
         g2d.setStroke(new BasicStroke(lineThickness));
-        // 12AM = 6
-        // 4AM = 7
-        // 8AM = 8
-
-        //36.5 degrees = 16.5
-        //36.6 degrees = 16.6
-        //36.7 degrees = 16.7
-        //36.8 degrees = 16.8
-        //36.9 degrees = 16.9
-        // 37 degrees = 17
-        // 37.5 degrees = 16
-        // 38 degrees = 15
-        // 38.5 degrees = 14
-        // 39 degrees = 13
-        //Input: 12AM 37.5
-        //Output: xPoints = {tempRow(6)}, yPoints = {tempColumn(16)}
-        //Input: 4AM 37
-        //Output: xPoints = {tempRow(7)}, yPoints = {tempColumn(17)}
-        //Input: 8AM 37.5
-        //Output: xPoints = {tempRow(8)}, yPoints = {tempColumn(18)}
-        
-
         g.setColor(Color.BLACK);
 
+        String dateTime1 = "May 5 12-am";
+        String dateTime2 = "May 5 4-am";
+        String dateTime3 = "May 5 8-am";
+        String dateTime4 = "May 5 12-pm";
+        String dateTime5 = "May 5 4-pm";
+        String dateTime6 = "May 5 8-pm";
+
         int[] xPoints = {
-            tempRow(6),
-            tempRow(7),
-            tempRow(8)
+                dateXpoint(dateTime1),
+                dateXpoint(dateTime2),
+                dateXpoint(dateTime3),
+                dateXpoint(dateTime4),
+                dateXpoint(dateTime5),
+                dateXpoint(dateTime6),
         };
         int[] yPoints = {
-            tempColumn(16),
-            tempColumn(17),
-            tempColumn(18)
+                tempYpoint(5),
+                tempYpoint(5),
+                tempYpoint(5),
+                tempYpoint(5),
+                tempYpoint(5),
+                tempYpoint(5),
         };
-//        int[] xPoints = {tempRow(6)};
-//        int[] yPoints = {tempColumn(16)};
+        // int[] xPoints = {tempRow(6)};
+        // int[] yPoints = {tempColumn(16)};
 
         if (xPoints.length <= 1) {
             g.fillOval(xPoints[0], yPoints[0], 10, 10);
         } else {
             g.drawPolyline(xPoints, yPoints, xPoints.length);
         }
+        repaint();
     }
 
-    private int tempRow(int columnNum) {
+    private int dateXpoint(String dateTime) {
+        int columnNum = dateTimeMapper.get(dateTime.toLowerCase());
         int colWidth = getWidth() / totalColumns;
         int row = (colWidth * columnNum) + (colWidth / 2);
         return row;
     }
 
-    private int tempColumn(int rowNum) {
+    private int tempYpoint(int rowNum) {
         int rowHeight = getHeight() / totalRows;
         int column = (int) ((rowHeight * rowNum) + (rowHeight / 2));
         return column;
