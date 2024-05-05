@@ -26,6 +26,7 @@ public class Homepage extends javax.swing.JFrame {
                 initComponents();
                 setPlaceholderImg();
                 generateTprSheet();
+
         }
 
         @SuppressWarnings("unchecked")
@@ -487,27 +488,55 @@ public class Homepage extends javax.swing.JFrame {
                 rrData = new ArrayList<RrDataModel>();
                 bpData = new ArrayList<BpDataModel>();
 
-                String[] dates = { "May 5", "May 6", "May 7", "May 8", "May 9" };
-                String[] temps = { "37.0", "38.1", "39.2", "38.3", "40.5" };
-                // String[] dates = { "May 5" };
-                // String[] temps = { "37.0" };
+                String[] dates = {
+                                "May 5", "May 6", "May 7", "May 8", "May 9"
+                };
 
+                String[] xpoints = {
+                                "May 5 12-am", "May 5 4-am", "May 5 8-am",
+                                "May 5 12-pm", "May 5 4-pm", "May 5 8-pm",
+                                "May 6 12-am", "May 6 4-am"
+                };
+                String[] temps = {
+                                "37.0", "38.1", "39.2",
+                                "38.3", "38.4", "37.8",
+                                "38.0", "36.5",
+                };
+                String[] prs = {
+                                "100", "103", "105",
+                                "95", "90", "85",
+                                "80", "80"
+                };
+                String[] rrs = {
+                                "25", "20", "17",
+                                "15", "19", "16",
+                                "11", "10"
+                };
+                String[] bp = {
+                                // "25", "20", "17",
+                                // "15", "19", "16",
+                                // "11", "13"
+                };
+
+                // ADD TEMP DATA
                 for (int i = 0; i < temps.length; i++) {
-                        tempData.add(new TempDataModel(dates[i], "4-am", temps[i]));
+                        addTemp(xpoints[i], "4-am", temps[i]);
                 }
 
-                String[] prs = { "100", "103", "105", "95", "80" };
-                // String[] prs = { "175" };
-
+                // ADD PR DATA
                 for (int i = 0; i < prs.length; i++) {
-                        prData.add(new PrDataModel(dates[i], "4-am", prs[i]));
+                        addPR(xpoints[i], "4-am", prs[i]);;
                 }
 
-                RrDataModel rr = new RrDataModel("", "", "");
-                rrData.add(rr);
+                // ADD RR DATA
+                for (int i = 0; i < rrs.length; i++) {
+                        addRR(xpoints[i], "4-am", rrs[i]);
+                }
 
-                BpDataModel bp = new BpDataModel("", "", "");
-                bpData.add(bp);
+                // ADD BP DATA
+                for (int i = 0; i < bp.length; i++) {
+                        bpData.add(new BpDataModel(xpoints[i], "4-am", bp[i]));
+                }
 
                 DateListModel date = new DateListModel(dates);
 
@@ -523,6 +552,18 @@ public class Homepage extends javax.swing.JFrame {
                 // Reapply layout and repaint to ensure changes are reflected
                 tprSheetPanel.revalidate();
                 tprSheetPanel.repaint();
+        }
+
+        public void addTemp(String date, String hour, String temp) {
+                tempData.add(new TempDataModel(date, hour, temp));
+        }
+
+        public void addPR(String date, String hour, String temp) {
+                prData.add(new PrDataModel(date, hour, temp));
+        }
+
+        public void addRR(String date, String hour, String temp) {
+                rrData.add(new RrDataModel(date, hour, temp));
         }
 
         public static void main(String args[]) {

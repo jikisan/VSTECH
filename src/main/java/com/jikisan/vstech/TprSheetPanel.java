@@ -3,6 +3,7 @@ package com.jikisan.vstech;
 import com.jikisan.vstech.Model.DataModel;
 import com.jikisan.vstech.Model.DateListModel;
 import com.jikisan.vstech.Model.PrDataModel;
+import com.jikisan.vstech.Model.RrDataModel;
 import com.jikisan.vstech.Model.TempDataModel;
 
 import java.awt.BasicStroke;
@@ -25,10 +26,11 @@ public class TprSheetPanel extends JPanel {
 
     private List<TempDataModel> tempList;
     private List<PrDataModel> prList;
-    private List<String> dateTimeList;
+    private List<RrDataModel> rrList;
 
     private final int totalRows = 51;
     private final int totalColumns = 36;
+    private final float lineThickness = 3.0f;
     private DataModel dataModel;
 
     public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap) {
@@ -38,9 +40,9 @@ public class TprSheetPanel extends JPanel {
         this.prMapper = Mapper.getPrYpointsMap();
 
         dates = this.dataModel.getDateList();
-        tempList = dataModel.getTempData();
-        prList = dataModel.getPrData();
-        dateTimeList = Mapper.getCombinedDates();
+        tempList = dataModel.getTempData() == null ? new ArrayList<TempDataModel>() : dataModel.getTempData();
+        prList = dataModel.getPrData() == null ? new ArrayList<PrDataModel>() : dataModel.getPrData();
+        rrList = dataModel.getRrData() == null ? new ArrayList<RrDataModel>() : dataModel.getRrData();
     }
 
     @Override
@@ -52,6 +54,7 @@ public class TprSheetPanel extends JPanel {
         setData(g);
         drawTempLine(g);
         drawPrLine(g);
+        drawRrLine(g);
     }
 
     private void drawGrid(Graphics g, int rows, int columns) {
@@ -213,7 +216,7 @@ public class TprSheetPanel extends JPanel {
         }
 
         Graphics2D g2d = (Graphics2D) g;
-        float lineThickness = 5.0f;
+        
         g2d.setStroke(new BasicStroke(lineThickness));
 
         repaint();
@@ -226,7 +229,7 @@ public class TprSheetPanel extends JPanel {
     private void drawTempLine(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
-        float lineThickness = 5.0f;
+        
         g2d.setStroke(new BasicStroke(lineThickness));
         g.setColor(Color.BLACK);
 
@@ -236,13 +239,13 @@ public class TprSheetPanel extends JPanel {
         for (int i = 0; i < tempList.size(); i++) {
             String date = tempList.get(i).getDate();
             String hour = tempList.get(i).getHour();
-            xPoints[i] = dateXpoint(date + " " + hour);
+            xPoints[i] = dateXpoint(date);
             yPoints[i] = tempYpoint(tempList.get(i).getTemp());
         }
 
         if (xPoints.length == 1) {
             g.fillOval(xPoints[0], yPoints[0], 10, 10);
-        } else if (xPoints.length > 1){
+        } else if (xPoints.length > 1) {
             g.drawPolyline(xPoints, yPoints, xPoints.length);
         }
 
@@ -251,7 +254,7 @@ public class TprSheetPanel extends JPanel {
 
     private void drawPrLine(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        float lineThickness = 5.0f;
+        
         g2d.setStroke(new BasicStroke(lineThickness));
         g.setColor(Color.RED);
 
@@ -261,13 +264,38 @@ public class TprSheetPanel extends JPanel {
         for (int i = 0; i < prList.size(); i++) {
             String date = prList.get(i).getDate();
             String hour = prList.get(i).getHour();
-            xPoints[i] = dateXpoint(date + " " + hour);
+            xPoints[i] = dateXpoint(date);
             yPoints[i] = prYpoint(prList.get(i).getPR());
         }
 
         if (xPoints.length == 1) {
             g.fillOval(xPoints[0], yPoints[0], 10, 10);
-        } else if (xPoints.length > 1){
+        } else if (xPoints.length > 1) {
+            g.drawPolyline(xPoints, yPoints, xPoints.length);
+        }
+
+        repaint();
+    }
+
+    private void drawRrLine(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        
+        g2d.setStroke(new BasicStroke(lineThickness));
+        g.setColor(Color.BLUE);
+
+        int[] xPoints = new int[rrList.size()];
+        int[] yPoints = new int[rrList.size()];
+
+        for (int i = 0; i < rrList.size(); i++) {
+            String date = rrList.get(i).getDate();
+            String hour = rrList.get(i).getHour();
+            xPoints[i] = dateXpoint(date);
+            yPoints[i] = prYpoint(rrList.get(i).getRR());
+        }
+
+        if (xPoints.length == 1) {
+            g.fillOval(xPoints[0], yPoints[0], 10, 10);
+        } else if (xPoints.length > 1) {
             g.drawPolyline(xPoints, yPoints, xPoints.length);
         }
 
