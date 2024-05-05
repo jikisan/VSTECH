@@ -10,7 +10,8 @@ public class Mapper {
     private static List<String> combinedDateTimes = new ArrayList<>();
 
     public static Map<String, Integer> getXpointsMap(String[] dateArray) {
-        String[] timeArray = new String[]{"12", "4", "8"};
+
+        String[] timeArray = new String[] { "12", "4", "8" };
         combinedDateTimes.clear();
 
         // For each date, we first process AM times, then PM times
@@ -26,6 +27,7 @@ public class Mapper {
                 String dateTime = date.toLowerCase() + " " + time + "-pm";
                 combinedDateTimes.add(dateTime);
             }
+
         }
 
         return mapDateTime(combinedDateTimes);
@@ -38,6 +40,7 @@ public class Mapper {
         int step = 1;
 
         for (int i = 0; i < combinedDateTimes.size(); i++) {
+            System.out.println(combinedDateTimes.get(i));
             dateTimeMap.put(combinedDateTimes.get(i), baseXPoint);
             baseXPoint += step;
         }
@@ -45,31 +48,384 @@ public class Mapper {
         return dateTimeMap;
     }
 
+    public static List<String> getCombinedDates() {
+        return combinedDateTimes;
+    }
+
     public static Map<String, Integer> getTempYpointsMap() {
         final Map<String, Integer> temperatureMap = new HashMap<>();
 
-        int baseYPoint = 21; // Start with the initial value
-        int step = 1; // Step to reduce by 1
+        temperatureMap.put("35.0", 21);
+        temperatureMap.put("35.1", 21);
+        temperatureMap.put("35.2", 21);
+        temperatureMap.put("35.3", 21);
+        temperatureMap.put("35.4", 21);
+        temperatureMap.put("35.5", 20);
+        temperatureMap.put("35.6", 20);
+        temperatureMap.put("35.7", 20);
+        temperatureMap.put("35.8", 20);
+        temperatureMap.put("35.9", 20);
 
-        // Define the changes in steps at specific points
-        double[] decreasePoints = {35.0, 35.9, 36.0, 36.9, 37.0,  37.9, 38.0, 38.9, 39.0, 39.9,
-             40.0, 40.9, 41.0, 41.9, 42.0, 42.9, 43.0};
-        int decreaseIndex = 0; // To track which decrease point we're at
+        temperatureMap.put("36.0", 19);
+        temperatureMap.put("36.1", 19);
+        temperatureMap.put("36.2", 19);
+        temperatureMap.put("36.3", 19);
+        temperatureMap.put("36.4", 19);
+        temperatureMap.put("36.5", 18);
+        temperatureMap.put("36.6", 18);
+        temperatureMap.put("36.7", 18);
+        temperatureMap.put("36.8", 18);
+        temperatureMap.put("36.9", 18);
 
-        for (double temp = 35.0; temp == 43.1; temp += 0.1) {
-            temperatureMap.put(String.format("%.1f", temp), baseYPoint);
-            System.out.println(String.valueOf(decreasePoints[decreaseIndex]));
-            System.out.println(String.format("%.1f", temp) + " degrees = " + baseYPoint);
+        temperatureMap.put("37.0", 17);
+        temperatureMap.put("37.1", 17);
+        temperatureMap.put("37.2", 17);
+        temperatureMap.put("37.3", 17);
+        temperatureMap.put("37.4", 17);
+        temperatureMap.put("37.5", 16);
+        temperatureMap.put("37.6", 16);
+        temperatureMap.put("37.7", 16);
+        temperatureMap.put("37.8", 16);
+        temperatureMap.put("37.9", 16);
 
-            if (String.format("%.1f", temp).equalsIgnoreCase(String.valueOf(decreasePoints[decreaseIndex]))) {
-                baseYPoint -= step; // Apply the step only when reaching a decrease point
-                decreaseIndex++; // Move to the next decrease point
-            }
-            
-        }
+        temperatureMap.put("38.0", 15);
+        temperatureMap.put("38.1", 15);
+        temperatureMap.put("38.2", 15);
+        temperatureMap.put("38.3", 15);
+        temperatureMap.put("38.4", 15);
+        temperatureMap.put("38.5", 14);
+        temperatureMap.put("38.6", 14);
+        temperatureMap.put("38.7", 14);
+        temperatureMap.put("38.8", 14);
+        temperatureMap.put("38.9", 14);
+
+        temperatureMap.put("39.0", 13);
+        temperatureMap.put("39.1", 13);
+        temperatureMap.put("39.2", 13);
+        temperatureMap.put("39.3", 13);
+        temperatureMap.put("39.4", 13);
+        temperatureMap.put("39.5", 12);
+        temperatureMap.put("39.6", 12);
+        temperatureMap.put("39.7", 12);
+        temperatureMap.put("39.8", 12);
+        temperatureMap.put("39.9", 12);
+
+        temperatureMap.put("40.0", 11);
+        temperatureMap.put("40.1", 11);
+        temperatureMap.put("40.2", 11);
+        temperatureMap.put("40.3", 11);
+        temperatureMap.put("40.4", 11);
+        temperatureMap.put("40.5", 10);
+        temperatureMap.put("40.6", 10);
+        temperatureMap.put("40.7", 10);
+        temperatureMap.put("40.8", 10);
+        temperatureMap.put("40.9", 10);
+
+        temperatureMap.put("41.0", 9);
+        temperatureMap.put("41.1", 9);
+        temperatureMap.put("41.2", 9);
+        temperatureMap.put("41.3", 9);
+        temperatureMap.put("41.4", 9);
+        temperatureMap.put("41.5", 8);
+        temperatureMap.put("41.6", 8);
+        temperatureMap.put("41.7", 8);
+        temperatureMap.put("41.8", 8);
+        temperatureMap.put("41.9", 8);
+
+        temperatureMap.put("42.0", 7);
+        temperatureMap.put("42.1", 7);
+        temperatureMap.put("42.2", 7);
+        temperatureMap.put("42.3", 7);
+        temperatureMap.put("42.4", 7);
+        temperatureMap.put("42.5", 6);
+        temperatureMap.put("42.6", 6);
+        temperatureMap.put("42.7", 6);
+        temperatureMap.put("42.8", 6);
+        temperatureMap.put("42.9", 6);
+
+        temperatureMap.put("43.0", 5);
+        temperatureMap.put("43.1", 5);
+        temperatureMap.put("43.2", 5);
+        temperatureMap.put("43.3", 5);
+        temperatureMap.put("43.4", 5);
+        temperatureMap.put("43.5", 4);
+        temperatureMap.put("43.6", 4);
+        temperatureMap.put("43.7", 4);
+        temperatureMap.put("43.8", 4);
+        temperatureMap.put("43.9", 4);
 
         return temperatureMap;
     }
-        
- 
+
+    public static Map<String, Integer> getPrYpointsMap() {
+        final Map<String, Integer> temperatureMap = new HashMap<>();
+
+        temperatureMap.put("210", 4);
+        temperatureMap.put("209", 4);
+        temperatureMap.put("208", 4);
+        temperatureMap.put("207", 4);
+        temperatureMap.put("206", 4);
+
+        temperatureMap.put("204", 5);
+        temperatureMap.put("203", 5);
+        temperatureMap.put("202", 5);
+        temperatureMap.put("201", 5);
+        temperatureMap.put("200", 5); // Correct
+
+        temperatureMap.put("199", 6);
+        temperatureMap.put("198", 6);
+        temperatureMap.put("197", 6);
+        temperatureMap.put("196", 6);
+        temperatureMap.put("195", 6);
+
+        temperatureMap.put("194", 6);
+        temperatureMap.put("193", 6);
+        temperatureMap.put("192", 6);
+        temperatureMap.put("191", 6);
+        temperatureMap.put("190", 6);
+
+        // Continue mapping with decreasing keys
+        temperatureMap.put("189", 7);
+        temperatureMap.put("188", 7);
+        temperatureMap.put("187", 7);
+        temperatureMap.put("186", 7);
+        temperatureMap.put("185", 7);
+
+        temperatureMap.put("184", 7);
+        temperatureMap.put("183", 7);
+        temperatureMap.put("182", 7);
+        temperatureMap.put("181", 7);
+        temperatureMap.put("180", 7); // Correct
+
+        // int startValue = 8;
+        // int countBeforeIncrease = 0;
+        // for (int i = 179; i >= 0; i--) {
+        //     temperatureMap.put("179", startValue);
+
+        //     countBeforeIncrease++;
+        //     if (countBeforeIncrease == 5) {
+        //         startValue++;
+        //     }
+        // }
+
+        temperatureMap.put("179", 8);
+        temperatureMap.put("178", 8);
+        temperatureMap.put("177", 8);
+        temperatureMap.put("176", 8);
+        temperatureMap.put("175", 8);
+
+        temperatureMap.put("174", 9);
+        temperatureMap.put("173", 9);
+        temperatureMap.put("172", 9);
+        temperatureMap.put("171", 9);
+        temperatureMap.put("170", 9);
+
+        temperatureMap.put("169", 10);
+        temperatureMap.put("168", 10);
+        temperatureMap.put("167", 10);
+        temperatureMap.put("166", 10);
+        temperatureMap.put("165", 10);
+
+        temperatureMap.put("164", 11);
+        temperatureMap.put("163", 11);
+        temperatureMap.put("162", 11);
+        temperatureMap.put("161", 11);
+        temperatureMap.put("160", 11);
+
+        // Continue the pattern, increasing every 5 keys
+        temperatureMap.put("159", 12);
+        temperatureMap.put("158", 12);
+        temperatureMap.put("157", 12);
+        temperatureMap.put("156", 12);
+        temperatureMap.put("155", 12);
+
+        temperatureMap.put("154", 13);
+        temperatureMap.put("153", 13);
+        temperatureMap.put("152", 13);
+        temperatureMap.put("151", 13);
+        temperatureMap.put("150", 13);
+
+        temperatureMap.put("149", 14);
+        temperatureMap.put("148", 14);
+        temperatureMap.put("147", 14);
+        temperatureMap.put("146", 14);
+        temperatureMap.put("145", 14);
+
+        temperatureMap.put("144", 15);
+        temperatureMap.put("143", 15);
+        temperatureMap.put("142", 15);
+        temperatureMap.put("141", 15);
+        temperatureMap.put("140", 15);
+
+        temperatureMap.put("139", 16);
+        temperatureMap.put("138", 16);
+        temperatureMap.put("137", 16);
+        temperatureMap.put("136", 16);
+        temperatureMap.put("135", 16);
+
+        temperatureMap.put("134", 17);
+        temperatureMap.put("133", 17);
+        temperatureMap.put("132", 17);
+        temperatureMap.put("131", 17);
+        temperatureMap.put("130", 17);
+
+        temperatureMap.put("129", 18);
+        temperatureMap.put("128", 18);
+        temperatureMap.put("127", 18);
+        temperatureMap.put("126", 18);
+        temperatureMap.put("125", 18);
+
+        temperatureMap.put("124", 19);
+        temperatureMap.put("123", 19);
+        temperatureMap.put("122", 19);
+        temperatureMap.put("121", 19);
+        temperatureMap.put("120", 19);
+
+        temperatureMap.put("119", 20);
+        temperatureMap.put("118", 20);
+        temperatureMap.put("117", 20);
+        temperatureMap.put("116", 20);
+        temperatureMap.put("115", 20);
+
+        temperatureMap.put("114", 21);
+        temperatureMap.put("113", 21);
+        temperatureMap.put("112", 21);
+        temperatureMap.put("111", 21);
+        temperatureMap.put("110", 21);
+
+        temperatureMap.put("109", 22);
+        temperatureMap.put("108", 22);
+        temperatureMap.put("107", 22);
+        temperatureMap.put("106", 22);
+        temperatureMap.put("105", 22);
+
+        temperatureMap.put("104", 23);
+        temperatureMap.put("103", 23);
+        temperatureMap.put("102", 23);
+        temperatureMap.put("101", 23);
+        temperatureMap.put("100", 23);
+
+        temperatureMap.put("99", 24);
+        temperatureMap.put("98", 24);
+        temperatureMap.put("97", 24);
+        temperatureMap.put("96", 24);
+        temperatureMap.put("95", 24);
+
+        temperatureMap.put("94", 25);
+        temperatureMap.put("93", 25);
+        temperatureMap.put("92", 25);
+        temperatureMap.put("91", 25);
+        temperatureMap.put("90", 25);
+
+        temperatureMap.put("89", 26);
+        temperatureMap.put("88", 26);
+        temperatureMap.put("87", 26);
+        temperatureMap.put("86", 26);
+        temperatureMap.put("85", 26);
+
+        temperatureMap.put("84", 27);
+        temperatureMap.put("83", 27);
+        temperatureMap.put("82", 27);
+        temperatureMap.put("81", 27);
+        temperatureMap.put("80", 27);
+
+        temperatureMap.put("79", 28);
+        temperatureMap.put("78", 28);
+        temperatureMap.put("77", 28);
+        temperatureMap.put("76", 28);
+        temperatureMap.put("75", 28);
+
+        temperatureMap.put("74", 29);
+        temperatureMap.put("73", 29);
+        temperatureMap.put("72", 29);
+        temperatureMap.put("71", 29);
+        temperatureMap.put("70", 29);
+
+        temperatureMap.put("69", 30);
+        temperatureMap.put("68", 30);
+        temperatureMap.put("67", 30);
+        temperatureMap.put("66", 30);
+        temperatureMap.put("65", 30);
+
+        temperatureMap.put("64", 31);
+        temperatureMap.put("63", 31);
+        temperatureMap.put("62", 31);
+        temperatureMap.put("61", 31);
+        temperatureMap.put("60", 31);
+
+        temperatureMap.put("59", 32);
+        temperatureMap.put("58", 32);
+        temperatureMap.put("57", 32);
+        temperatureMap.put("56", 32);
+        temperatureMap.put("55", 32);
+
+        temperatureMap.put("54", 33);
+        temperatureMap.put("53", 33);
+        temperatureMap.put("52", 33);
+        temperatureMap.put("51", 33);
+        temperatureMap.put("50", 33);
+
+        temperatureMap.put("49", 34);
+        temperatureMap.put("48", 34);
+        temperatureMap.put("47", 34);
+        temperatureMap.put("46", 34);
+        temperatureMap.put("45", 34);
+
+        temperatureMap.put("44", 35);
+        temperatureMap.put("43", 35);
+        temperatureMap.put("42", 35);
+        temperatureMap.put("41", 35);
+        temperatureMap.put("40", 35);
+
+        temperatureMap.put("39", 36);
+        temperatureMap.put("38", 36);
+        temperatureMap.put("37", 36);
+        temperatureMap.put("36", 36);
+        temperatureMap.put("35", 36);
+
+        temperatureMap.put("34", 37);
+        temperatureMap.put("33", 37);
+        temperatureMap.put("32", 37);
+        temperatureMap.put("31", 37);
+        temperatureMap.put("30", 37);
+
+        temperatureMap.put("29", 38);
+        temperatureMap.put("28", 38);
+        temperatureMap.put("27", 38);
+        temperatureMap.put("26", 38);
+        temperatureMap.put("25", 38);
+
+        temperatureMap.put("24", 39);
+        temperatureMap.put("23", 39);
+        temperatureMap.put("22", 39);
+        temperatureMap.put("21", 39);
+        temperatureMap.put("20", 39);
+
+        temperatureMap.put("19", 40);
+        temperatureMap.put("18", 40);
+        temperatureMap.put("17", 40);
+        temperatureMap.put("16", 40);
+        temperatureMap.put("15", 40);
+
+        temperatureMap.put("14", 41);
+        temperatureMap.put("13", 41);
+        temperatureMap.put("12", 41);
+        temperatureMap.put("11", 41);
+        temperatureMap.put("10", 41);
+
+        temperatureMap.put("9", 42);
+        temperatureMap.put("8", 42);
+        temperatureMap.put("7", 42);
+        temperatureMap.put("6", 42);
+        temperatureMap.put("5", 42);
+
+        temperatureMap.put("4", 43);
+        temperatureMap.put("3", 43);
+        temperatureMap.put("2", 43);
+        temperatureMap.put("1", 43);
+        temperatureMap.put("0", 43);
+
+        return temperatureMap;
+    }
+
 }

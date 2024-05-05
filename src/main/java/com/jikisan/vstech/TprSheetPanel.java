@@ -2,6 +2,9 @@ package com.jikisan.vstech;
 
 import com.jikisan.vstech.Model.DataModel;
 import com.jikisan.vstech.Model.DateListModel;
+import com.jikisan.vstech.Model.PrDataModel;
+import com.jikisan.vstech.Model.TempDataModel;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -16,16 +19,28 @@ import javax.swing.JPanel;
 public class TprSheetPanel extends JPanel {
 
     private final Map<String, Integer> dateTimeMapper;
+    private final Map<String, Integer> tempMapper;
+    private final Map<String, Integer> prMapper;
+    private DateListModel dates;
+
+    private List<TempDataModel> tempList;
+    private List<PrDataModel> prList;
+    private List<String> dateTimeList;
+
     private final int totalRows = 51;
     private final int totalColumns = 36;
     private DataModel dataModel;
-    private TemperatureToYPointMapper mapper;
-
-    private List<String> dateTimeList = new ArrayList<String>();
 
     public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap) {
         this.dataModel = dataModel;
         this.dateTimeMapper = _dateTimeMap;
+        this.tempMapper = Mapper.getTempYpointsMap();
+        this.prMapper = Mapper.getPrYpointsMap();
+
+        dates = this.dataModel.getDateList();
+        tempList = dataModel.getTempData();
+        prList = dataModel.getPrData();
+        dateTimeList = Mapper.getCombinedDates();
     }
 
     @Override
@@ -36,7 +51,7 @@ public class TprSheetPanel extends JPanel {
         fillDates(g);
         setData(g);
         drawTempLine(g);
-
+        drawPrLine(g);
     }
 
     private void drawGrid(Graphics g, int rows, int columns) {
@@ -190,8 +205,6 @@ public class TprSheetPanel extends JPanel {
 
     public void fillDates(Graphics g) {
 
-        DateListModel dates = dataModel.getDateList();
-
         int row = 8;
         int column = 1;
         for (String date : dates.getDateArray()) {
@@ -211,81 +224,53 @@ public class TprSheetPanel extends JPanel {
     }
 
     private void drawTempLine(Graphics g) {
-        // 35 degrees = 21 
-        // 35.1 degrees = 20
-        // 35.2 degrees = 20
-        // 35.3 degrees = 20
-        // 35.4 degrees = 20
-        // 35.5 degrees = 20
-        // 35.6 degrees = 20
-        // 35.7 degrees = 20
-        // 35.8 degrees = 20
-        // 35.9 degrees = 20
-        // 36 degrees = 19 
-        // 36.1 degrees = 18
-        // 36.2 degrees = 18
-        // 36.3 degrees = 18
-        // 36.4 degrees = 18
-        // 36.5 degrees = 18
-        // 36.6 degrees = 18
-        // 36.7 degrees = 18
-        // 36.8 degrees = 18
-        // 36.9 degrees = 18
-        // 37 degrees = 17
-        // 37.1 degrees = 16
-        // 37.2 degrees = 16
-        // 37.3 degrees = 16
-        // 37.4 degrees = 16
-        // 37.5 degrees = 16
-        // 37.6 degrees = 16
-        // 37.7 degrees = 16
-        // 37.8 degrees = 16
-        // 37.9 degrees = 16
-        // 38 degrees = 15
-
-        // Input: 12AM 37.5
-        // Output: xPoints = {tempRow(6)}, yPoints = {tempColumn(16)}
-        // Input: 4AM 37
-        // Output: xPoints = {tempRow(7)}, yPoints = {tempColumn(17)}
-        // Input: 8AM 37.5
-        // Output: xPoints = {tempRow(8)}, yPoints = {tempColumn(18)}
 
         Graphics2D g2d = (Graphics2D) g;
         float lineThickness = 5.0f;
         g2d.setStroke(new BasicStroke(lineThickness));
         g.setColor(Color.BLACK);
 
-        String dateTime1 = "May 5 12-am";
-        String dateTime2 = "May 5 4-am";
-        String dateTime3 = "May 5 8-am";
-        String dateTime4 = "May 5 12-pm";
-        String dateTime5 = "May 5 4-pm";
-        String dateTime6 = "May 5 8-pm";
+        int[] xPoints = new int[tempList.size()];
+        int[] yPoints = new int[tempList.size()];
 
-        int[] xPoints = {
-                dateXpoint(dateTime1),
-                dateXpoint(dateTime2),
-                dateXpoint(dateTime3),
-                dateXpoint(dateTime4),
-                dateXpoint(dateTime5),
-                dateXpoint(dateTime6),
-        };
-        int[] yPoints = {
-                tempYpoint(5),
-                tempYpoint(5),
-                tempYpoint(5),
-                tempYpoint(5),
-                tempYpoint(5),
-                tempYpoint(5),
-        };
-        // int[] xPoints = {tempRow(6)};
-        // int[] yPoints = {tempColumn(16)};
+        for (int i = 0; i < tempList.size(); i++) {
+            String date = tempList.get(i).getDate();
+            String hour = tempList.get(i).getHour();
+            xPoints[i] = dateXpoint(date + " " + hour);
+            yPoints[i] = tempYpoint(tempList.get(i).getTemp());
+        }
 
-        if (xPoints.length <= 1) {
+        if (xPoints.length == 1) {
             g.fillOval(xPoints[0], yPoints[0], 10, 10);
-        } else {
+        } else if (xPoints.length > 1){
             g.drawPolyline(xPoints, yPoints, xPoints.length);
         }
+
+        repaint();
+    }
+
+    private void drawPrLine(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        float lineThickness = 5.0f;
+        g2d.setStroke(new BasicStroke(lineThickness));
+        g.setColor(Color.RED);
+
+        int[] xPoints = new int[prList.size()];
+        int[] yPoints = new int[prList.size()];
+
+        for (int i = 0; i < prList.size(); i++) {
+            String date = prList.get(i).getDate();
+            String hour = prList.get(i).getHour();
+            xPoints[i] = dateXpoint(date + " " + hour);
+            yPoints[i] = prYpoint(prList.get(i).getPR());
+        }
+
+        if (xPoints.length == 1) {
+            g.fillOval(xPoints[0], yPoints[0], 10, 10);
+        } else if (xPoints.length > 1){
+            g.drawPolyline(xPoints, yPoints, xPoints.length);
+        }
+
         repaint();
     }
 
@@ -296,7 +281,15 @@ public class TprSheetPanel extends JPanel {
         return row;
     }
 
-    private int tempYpoint(int rowNum) {
+    private int tempYpoint(String temp) {
+        int rowNum = tempMapper.get(temp) == null ? 0 : tempMapper.get(temp);
+        int rowHeight = getHeight() / totalRows;
+        int column = (int) ((rowHeight * rowNum) + (rowHeight / 2));
+        return column;
+    }
+
+    private int prYpoint(String temp) {
+        int rowNum = prMapper.get(temp) == null ? 0 : prMapper.get(temp);
         int rowHeight = getHeight() / totalRows;
         int column = (int) ((rowHeight * rowNum) + (rowHeight / 2));
         return column;
