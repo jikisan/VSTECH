@@ -18,10 +18,12 @@ public class TprSheetPanel extends JPanel {
     private final int totalColumns = 36;
     private DataModel dataModel;
     private TemperatureToYPointMapper mapper;
+    
+        private List<String> dateTimeList = new ArrayList<String>();
+
 
     public TprSheetPanel(DataModel dataModel) {
         this.dataModel = dataModel;
-        mapper = new TemperatureToYPointMapper();
     }
 
     @Override
@@ -32,6 +34,9 @@ public class TprSheetPanel extends JPanel {
         fillDates(g);
         setData(g);
         drawTempLine(g);
+        
+        DateListModel dates = dataModel.getDateList();
+        Mapper.getXpointsMap(dates.getDateArray());
 
     }
 
@@ -203,9 +208,13 @@ public class TprSheetPanel extends JPanel {
 
     private void drawTempLine(Graphics g) {
 
+        Graphics2D g2d = (Graphics2D) g;
+        float lineThickness = 5.0f;
+        g2d.setStroke(new BasicStroke(lineThickness));
         // 12AM = 6
         // 4AM = 7
         // 8AM = 8
+
         //36.5 degrees = 16.5
         //36.6 degrees = 16.6
         //36.7 degrees = 16.7
@@ -222,20 +231,22 @@ public class TprSheetPanel extends JPanel {
         //Output: xPoints = {tempRow(7)}, yPoints = {tempColumn(17)}
         //Input: 8AM 37.5
         //Output: xPoints = {tempRow(8)}, yPoints = {tempColumn(18)}
-        Graphics2D g2d = (Graphics2D) g;
-        DateListModel dates = dataModel.getDateList();
-
-        float lineThickness = 5.0f;
-        g2d.setStroke(new BasicStroke(lineThickness));
+        
 
         g.setColor(Color.BLACK);
 
-        mapper.getYPoint(37.5f);
-        
-//        int[] xPoints = {tempRow(6), tempRow(7), tempRow(8)};
-//        int[] yPoints = {tempColumn(16), tempColumn(17), tempColumn(18)};
-        int[] xPoints = {tempRow(6)};
-        int[] yPoints = {tempColumn((int)mapper.getYPoint(37.5f))};
+        int[] xPoints = {
+            tempRow(6),
+            tempRow(7),
+            tempRow(8)
+        };
+        int[] yPoints = {
+            tempColumn(16),
+            tempColumn(17),
+            tempColumn(18)
+        };
+//        int[] xPoints = {tempRow(6)};
+//        int[] yPoints = {tempColumn(16)};
 
         if (xPoints.length <= 1) {
             g.fillOval(xPoints[0], yPoints[0], 10, 10);
