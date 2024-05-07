@@ -5,6 +5,9 @@ import com.jikisan.vstech.Model.DateListModel;
 import com.jikisan.vstech.Model.PrDataModel;
 import com.jikisan.vstech.Model.RrDataModel;
 import com.jikisan.vstech.Model.TempDataModel;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +19,12 @@ public class DataModel {
     private List<BpDataModel> bpData;
     private DateListModel dateList;
 
-    public DataModel(List<TempDataModel> tempData, List<PrDataModel> prData, List<RrDataModel> rrData, List<BpDataModel> bpData, DateListModel dateList) {
+    public DataModel(List<TempDataModel> tempData, List<PrDataModel> prData, List<RrDataModel> rrData, List<BpDataModel> bpData) {
         this.tempData = tempData;
         this.prData = prData;
         this.rrData = rrData;
         this.bpData = bpData;
-        this.dateList = dateList;
+        this.dateList = new DateListModel(generateDates());
     }
 
     public DateListModel getDateList() {
@@ -42,6 +45,19 @@ public class DataModel {
 
     public List<BpDataModel> getBpData() {
         return bpData;
+    }
+
+    private String[] generateDates() {
+        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM d");
+        String[] days = new String[5];
+        LocalDate currentDate = LocalDate.now();
+
+        for (int i = 0; i < 5; i++) {
+            days[i] = currentDate.plusDays(i).format(FORMATTER).toString();
+            System.out.println(days[i]);
+        }
+
+        return days;
     }
 
 }
