@@ -17,6 +17,28 @@ public class NurseModel {
         this.username = username;
         this.password = password;
     }
-    
-    
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

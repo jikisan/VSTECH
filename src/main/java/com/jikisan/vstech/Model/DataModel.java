@@ -27,8 +27,7 @@ public class DataModel {
     public DateListModel getDateList() {
         return dateList;
     }
-    
-    
+
     public List<TempDataModel> getTempData() {
         return tempData;
     }

@@ -3,6 +3,7 @@ package com.jikisan.vstech.Forms;
 
 public class LoginPage extends javax.swing.JFrame {
 
+    
     public LoginPage() {
         initComponents();
     }

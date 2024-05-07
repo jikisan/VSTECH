@@ -7,7 +7,7 @@ import com.jikisan.vstech.Model.DateListModel;
 import com.jikisan.vstech.Model.PrDataModel;
 import com.jikisan.vstech.Model.RrDataModel;
 import com.jikisan.vstech.Model.TempDataModel;
-import com.jikisan.vstech.TprSheetPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -18,24 +18,25 @@ import javax.swing.JLabel;
 
 public class Homepage extends javax.swing.JFrame {
 
-        private List<TempDataModel> tempData;
-        private List<PrDataModel> prData;
-        private List<RrDataModel> rrData;
-        private List<BpDataModel> bpData;
-        private DateListModel dateList;
+    private List<TempDataModel> tempData;
+    private List<PrDataModel> prData;
+    private List<RrDataModel> rrData;
+    private List<BpDataModel> bpData;
+    private DateListModel dateList;
 
-        public Homepage() {
-                initComponents();
-                setPlaceholderImg();
-                generateTprSheet();
+    public Homepage() {
+        initComponents();
+        setPlaceholderImg();
+        generateTprSheet();
 
-        }
+    }
 
-        @SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel5 = new javax.swing.JPanel();
         javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
         lblProfileImg = new javax.swing.JLabel();
         javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
@@ -62,13 +63,19 @@ public class Homepage extends javax.swing.JFrame {
         javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
         tprSheetPanel = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(136, 191, 253));
-        setMinimumSize(new java.awt.Dimension(1500, 900));
+        setPreferredSize(new java.awt.Dimension(1500, 1000));
+
+        jPanel5.setMinimumSize(new java.awt.Dimension(1500, 1000));
+        jPanel5.setPreferredSize(new java.awt.Dimension(1500, 1000));
 
         jPanel1.setBackground(new java.awt.Color(196, 203, 228));
+        jPanel1.setMinimumSize(new java.awt.Dimension(500, 1000));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 1000));
 
         lblProfileImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblProfileImg.setMaximumSize(new java.awt.Dimension(150, 150));
@@ -258,17 +265,15 @@ public class Homepage extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,15 +284,12 @@ public class Homepage extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGap(100, 100, 100)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(309, Short.MAX_VALUE))
         );
-
-        tprSheetPanel.setBackground(new java.awt.Color(196, 203, 228));
-        tprSheetPanel.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout tprSheetPanelLayout = new javax.swing.GroupLayout(tprSheetPanel);
         tprSheetPanel.setLayout(tprSheetPanelLayout);
@@ -303,177 +305,203 @@ public class Homepage extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
         jLabel1.setText("VSTECH");
 
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(869, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(tprSheetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tprSheetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 495, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(34, 34, 34))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tprSheetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tprSheetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        private void setPlaceholderImg() {
-                // Load the original image
-                String currentWorkingDir = System.getProperty("user.dir");
-                ImageIcon originalIcon = new ImageIcon(
-                                currentWorkingDir + "\\src\\main\\java\\Images\\profile_img_placeholder.jpg");
+    private void setPlaceholderImg() {
+        // Load the original image
+        String currentWorkingDir = System.getProperty("user.dir");
+        ImageIcon originalIcon = new ImageIcon(
+                currentWorkingDir + "\\src\\main\\java\\Images\\profile_img_placeholder.jpg");
 
-                // Scale the image to fit the JLabel (e.g., 200x200 pixels)
-                int newWidth = 200; // Desired width
-                int newHeight = 200; // Desired height
+        // Scale the image to fit the JLabel (e.g., 200x200 pixels)
+        int newWidth = 200; // Desired width
+        int newHeight = 200; // Desired height
 
-                Image scaledImage = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-                ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-                lblProfileImg.setIcon(scaledIcon);
+        lblProfileImg.setIcon(scaledIcon);
+    }
+
+    private void generateTprSheet() {
+
+
+        String[] dates = {
+                "May 5", "May 6", "May 7", "May 8", "May 9"
+        };
+
+        String[] xpoints = {
+                "May 5 12-am", "May 5 4-am", "May 5 8-am",
+                "May 5 12-pm", "May 5 4-pm", "May 5 8-pm",
+                "May 6 12-am", "May 6 4-am"
+        };
+        String[] temps = {
+                "37.0", "38.1", "39.2",
+                "38.3", "38.4", "37.8",
+                "38.0", "36.5",
+        };
+        String[] prs = {
+                "100", "103", "105",
+                "95", "90", "85",
+                "80", "80"
+        };
+        String[] rrs = {
+                "25", "20", "17",
+                "15", "19", "16",
+                "11", "10"
+        };
+        String[] bp = {
+                // "25", "20", "17",
+                // "15", "19", "16",
+                // "11", "13"
+        };
+
+        tempData = new ArrayList<TempDataModel>();
+        prData = new ArrayList<PrDataModel>();
+        rrData = new ArrayList<RrDataModel>();
+        bpData = new ArrayList<BpDataModel>();
+
+        // ADD TEMP DATA
+        for (int i = 0; i < temps.length; i++) {
+            addTemp(xpoints[i], "4-am", temps[i]);
         }
 
-        private void generateTprSheet() {
+        // ADD PR DATA
+        for (int i = 0; i < prs.length; i++) {
+            addPR(xpoints[i], "4-am", prs[i]);
+            ;
+        }
 
-                tempData = new ArrayList<TempDataModel>();
-                prData = new ArrayList<PrDataModel>();
-                rrData = new ArrayList<RrDataModel>();
-                bpData = new ArrayList<BpDataModel>();
+        // ADD RR DATA
+        for (int i = 0; i < rrs.length; i++) {
+            addRR(xpoints[i], "4-am", rrs[i]);
+        }
 
-                String[] dates = {
-                                "May 5", "May 6", "May 7", "May 8", "May 9"
-                };
+        // ADD BP DATA
+        for (int i = 0; i < bp.length; i++) {
+            bpData.add(new BpDataModel(xpoints[i], "4-am", bp[i]));
+        }
 
-                String[] xpoints = {
-                                "May 5 12-am", "May 5 4-am", "May 5 8-am",
-                                "May 5 12-pm", "May 5 4-pm", "May 5 8-pm",
-                                "May 6 12-am", "May 6 4-am"
-                };
-                String[] temps = {
-                                "37.0", "38.1", "39.2",
-                                "38.3", "38.4", "37.8",
-                                "38.0", "36.5",
-                };
-                String[] prs = {
-                                "100", "103", "105",
-                                "95", "90", "85",
-                                "80", "80"
-                };
-                String[] rrs = {
-                                "25", "20", "17",
-                                "15", "19", "16",
-                                "11", "10"
-                };
-                String[] bp = {
-                                // "25", "20", "17",
-                                // "15", "19", "16",
-                                // "11", "13"
-                };
+        DateListModel date = new DateListModel(dates);
 
-                // ADD TEMP DATA
-                for (int i = 0; i < temps.length; i++) {
-                        addTemp(xpoints[i], "4-am", temps[i]);
+        TprSheetPanel tprSheetCustomPanel = new TprSheetPanel(
+                new DataModel(tempData, prData, rrData, bpData, date),
+                Mapper.getXpointsMap(dates));
+
+        // Clear the placeholder and add the custom panel
+        tprSheetPanel.removeAll(); // Remove existing content
+        tprSheetPanel.setLayout(new BorderLayout()); // Set layout manager, if needed
+        tprSheetPanel.add(tprSheetCustomPanel, BorderLayout.CENTER); // Add your custom panel
+
+        // Reapply layout and repaint to ensure changes are reflected
+        tprSheetPanel.revalidate();
+        tprSheetPanel.repaint();
+    }
+
+    public void addTemp(String date, String hour, String temp) {
+        tempData.add(new TempDataModel(date, hour, temp));
+    }
+
+    public void addPR(String date, String hour, String temp) {
+        prData.add(new PrDataModel(date, hour, temp));
+    }
+
+    public void addRR(String date, String hour, String temp) {
+        rrData.add(new RrDataModel(date, hour, temp));
+    }
+
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+                    .getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
                 }
-
-                // ADD PR DATA
-                for (int i = 0; i < prs.length; i++) {
-                        addPR(xpoints[i], "4-am", prs[i]);;
-                }
-
-                // ADD RR DATA
-                for (int i = 0; i < rrs.length; i++) {
-                        addRR(xpoints[i], "4-am", rrs[i]);
-                }
-
-                // ADD BP DATA
-                for (int i = 0; i < bp.length; i++) {
-                        bpData.add(new BpDataModel(xpoints[i], "4-am", bp[i]));
-                }
-
-                DateListModel date = new DateListModel(dates);
-
-                TprSheetPanel tprSheetCustomPanel = new TprSheetPanel(
-                                new DataModel(tempData, prData, rrData, bpData, date),
-                                Mapper.getXpointsMap(dates));
-
-                // Clear the placeholder and add the custom panel
-                tprSheetPanel.removeAll(); // Remove existing content
-                tprSheetPanel.setLayout(new BorderLayout()); // Set layout manager, if needed
-                tprSheetPanel.add(tprSheetCustomPanel, BorderLayout.CENTER); // Add your custom panel
-
-                // Reapply layout and repaint to ensure changes are reflected
-                tprSheetPanel.revalidate();
-                tprSheetPanel.repaint();
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
         }
+        // </editor-fold>
 
-        public void addTemp(String date, String hour, String temp) {
-                tempData.add(new TempDataModel(date, hour, temp));
-        }
-
-        public void addPR(String date, String hour, String temp) {
-                prData.add(new PrDataModel(date, hour, temp));
-        }
-
-        public void addRR(String date, String hour, String temp) {
-                rrData.add(new RrDataModel(date, hour, temp));
-        }
-
-        public static void main(String args[]) {
-                try {
-                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
-                                        .getInstalledLookAndFeels()) {
-                                if ("Nimbus".equals(info.getName())) {
-                                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                                        break;
-                                }
-                        }
-                } catch (ClassNotFoundException ex) {
-                        java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (InstantiationException ex) {
-                        java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (IllegalAccessException ex) {
-                        java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                        java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                }
-                // </editor-fold>
-
-                /* Create and display the form */
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                new Homepage().setVisible(true);
-                        }
-                });
-        }
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Homepage().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
