@@ -21,7 +21,6 @@ com\jikisan\vstech\Forms\SignUpPage$3.class
 com\jikisan\vstech\Forms\Homepage$1.class
 com\jikisan\vstech\Mapper.class
 com\jikisan\vstech\Model\PrDataModel.class
-com\jikisan\vstech\Forms\TprSheetPanel.class
 com\jikisan\vstech\Forms\Dashboard$2.class
 com\jikisan\vstech\Forms\LoginPage$1.class
 com\jikisan\vstech\Forms\AddPatientForm.class

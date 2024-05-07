@@ -1,4 +1,4 @@
-package com.jikisan.vstech.Forms;
+package com.jikisan.vstech.Panels;
 
 import com.jikisan.vstech.Mapper;
 import com.jikisan.vstech.Model.DataModel;

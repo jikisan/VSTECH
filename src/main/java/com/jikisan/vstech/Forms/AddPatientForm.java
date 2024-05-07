@@ -258,6 +258,11 @@ public class AddPatientForm extends javax.swing.JFrame {
             }
         }
 
+        if (selectedFile == null) {
+            JOptionPane.showMessageDialog(this, "Please select an image");
+            return;
+        }
+
         PatientListModel.getInstance().addPatient(new PatientModel(name, age, caseNumber, diagnosis, selectedFile.getName()));
         JOptionPane.showMessageDialog(this, "Patient registered successfully");
         new Dashboard().setVisible(true);
