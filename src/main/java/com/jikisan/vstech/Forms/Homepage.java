@@ -1,11 +1,13 @@
-package com.jikisan.vstech;
+package com.jikisan.vstech.Forms;
 
+import com.jikisan.vstech.Mapper;
 import com.jikisan.vstech.Model.BpDataModel;
 import com.jikisan.vstech.Model.DataModel;
 import com.jikisan.vstech.Model.DateListModel;
 import com.jikisan.vstech.Model.PrDataModel;
 import com.jikisan.vstech.Model.RrDataModel;
 import com.jikisan.vstech.Model.TempDataModel;
+import com.jikisan.vstech.TprSheetPanel;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -64,9 +66,7 @@ public class Homepage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(136, 191, 253));
-        setMaximumSize(new java.awt.Dimension(1500, 900));
         setMinimumSize(new java.awt.Dimension(1500, 900));
-        setPreferredSize(new java.awt.Dimension(1500, 900));
 
         jPanel1.setBackground(new java.awt.Color(196, 203, 228));
 
@@ -278,9 +278,7 @@ public class Homepage extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
