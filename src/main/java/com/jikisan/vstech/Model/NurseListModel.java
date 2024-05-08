@@ -6,6 +6,7 @@ import java.util.List;
 public class NurseListModel {
 
     private static NurseListModel instance; // The single instance of the class
+    private NurseModel nurse;
     private ArrayList<NurseModel> nurseList = new ArrayList<NurseModel>();
 
     // Private constructor to prevent instantiation from outside the class
@@ -21,11 +22,12 @@ public class NurseListModel {
         return instance; // Return the single instance
     }
 
-    public void addNurse(NurseModel nurse) {
-        nurseList.add(nurse);
+    public void setActiveNurse(NurseModel nurse) {
+        this.nurse = nurse;
     }
 
-    public ArrayList<NurseModel> getNurseList() {
-        return nurseList;
+
+    public NurseModel getActiveNurse() {
+        return this.nurse;
     }
 }

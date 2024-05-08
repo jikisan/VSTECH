@@ -23,24 +23,25 @@ public class TprSheetPanel extends JPanel {
     private final Map<String, Integer> dateTimeMapper;
     private final Map<String, Integer> tempMapper;
     private final Map<String, Integer> prMapper;
-    private DateListModel dates;
 
     private List<TempDataModel> tempList;
     private List<PrDataModel> prList;
     private List<RrDataModel> rrList;
+
+    private String[] dateLabels;
 
     private final int totalRows = 51;
     private final int totalColumns = 36;
     private final float lineThickness = 3.0f;
     private DataModel dataModel;
 
-    public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap) {
+    public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap, String [] dates) {
         this.dataModel = dataModel;
         this.dateTimeMapper = _dateTimeMap;
         this.tempMapper = Mapper.getTempYpointsMap();
         this.prMapper = Mapper.getPrYpointsMap();
+        this.dateLabels = dates;
 
-        dates = this.dataModel.getDateList();
         tempList = dataModel.getTempData() == null ? new ArrayList<TempDataModel>() : dataModel.getTempData();
         prList = dataModel.getPrData() == null ? new ArrayList<PrDataModel>() : dataModel.getPrData();
         rrList = dataModel.getRrData() == null ? new ArrayList<RrDataModel>() : dataModel.getRrData();
@@ -211,7 +212,7 @@ public class TprSheetPanel extends JPanel {
 
         int row = 8;
         int column = 1;
-        for (String date : dates.getDateArray()) {
+        for (String date : dateLabels) {
             g.drawString(date, textRow(row, 1), textColumn(column));
             row += 6;
         }

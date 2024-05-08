@@ -4,15 +4,25 @@
  */
 package com.jikisan.vstech.Forms;
 
+import com.jikisan.vstech.DAO.DbConn;
 import com.jikisan.vstech.Model.NurseListModel;
 import com.jikisan.vstech.Model.NurseModel;
 
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SignUpPage extends javax.swing.JFrame {
 
+    private Connection conn = null;
+    private PreparedStatement pst = null;
+    private ResultSet rs = null;
+
     public SignUpPage() {
         initComponents();
+        conn = DbConn.ConnectDb();
     }
 
     @SuppressWarnings("unchecked")
@@ -241,6 +251,12 @@ public class SignUpPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpBtnActionPerformed
+
+        if (name.getText().isEmpty() || age.getText().isEmpty() || department.getText().isEmpty() || licenseNum.getText().isEmpty() || username.getText().isEmpty() || password.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields");
+            return;
+        }
+
         String nurseName = name.getText();
         String nurseAge = age.getText();
         String nurseDept = department.getText();
@@ -248,15 +264,24 @@ public class SignUpPage extends javax.swing.JFrame {
         String nurseUsername = username.getText();
         String nursePassword = password.getText();
 
-        if (nurseName.isEmpty() || nurseAge.isEmpty() || nurseDept.isEmpty() || nurseLicenseNum.isEmpty() || nurseUsername.isEmpty() || nursePassword.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in all fields");
-            return;
-        }
+        String sql = "INSERT INTO Nurse(fullName, age, department, licenseNumber, username, password) VALUES (?, ?, ?, ?, ?, ?)";
 
-        NurseListModel.getInstance().addNurse(new NurseModel(nurseName, nurseAge, nurseDept, nurseLicenseNum, nurseUsername, nursePassword));
-        JOptionPane.showMessageDialog(this, "Nurse registered successfully");
-        new LoginPage().setVisible(true);
-        dispose();
+
+        try {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, nurseName);
+            pst.setString(2, nurseAge);
+            pst.setString(3, nurseDept);
+            pst.setString(4, nurseLicenseNum);
+            pst.setString(5, nurseUsername);
+            pst.setString(6, nursePassword);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Nurse registered successfully");
+            new LoginPage().setVisible(true);
+            dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
     }//GEN-LAST:event_SignUpBtnActionPerformed
 
     private void SignInBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SignInBtnMouseClicked

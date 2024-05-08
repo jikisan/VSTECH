@@ -1,16 +1,12 @@
 package com.jikisan.vstech.Forms;
 
+import com.jikisan.vstech.Model.*;
 import com.jikisan.vstech.Panels.TprSheetPanel;
 import com.jikisan.vstech.Mapper;
-import com.jikisan.vstech.Model.BpDataModel;
-import com.jikisan.vstech.Model.DataModel;
-import com.jikisan.vstech.Model.DateListModel;
-import com.jikisan.vstech.Model.PrDataModel;
-import com.jikisan.vstech.Model.RrDataModel;
-import com.jikisan.vstech.Model.TempDataModel;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.GroupLayout;
@@ -28,8 +24,28 @@ public class Homepage extends javax.swing.JFrame {
     public Homepage() {
         initComponents();
         setPlaceholderImg();
-        generateTprSheet();
+        generateTprSheet(ActivePatient.getInstance().getPatient());
+    }
 
+    public Homepage(PatientModel patientModel) {
+        initComponents();
+        setPlaceholderImg();
+        generatePatientData(patientModel);
+        generateTprSheet(patientModel);
+    }
+
+    private void generatePatientData(PatientModel patient) {
+
+        lblName.setText(patient.getName());
+        lblCaseNum.setText(patient.getCaseNumber());
+        lblAge.setText(patient.getAge());
+        lblDiagnosis.setText(patient.getDiagnosis());
+        String userDir = System.getProperty("user.dir");
+        String imageName = patient.getPhoto();
+        String imagePath = userDir + "\\images\\" + imageName + ".jpg"; // Modify as needed
+        ImageIcon icon = new ImageIcon(imagePath);
+
+        lblProfileImg.setIcon(icon);
     }
 
     @SuppressWarnings("unchecked")
@@ -52,11 +68,11 @@ public class Homepage extends javax.swing.JFrame {
         javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel12 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel13 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        tempTxtField = new javax.swing.JTextField();
+        prTextField = new javax.swing.JTextField();
+        rrTextField = new javax.swing.JTextField();
+        bpTextField = new javax.swing.JTextField();
+        o2TxtField = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
@@ -144,15 +160,44 @@ public class Homepage extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel13.setText("O2:");
 
-        jTextField1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        tempTxtField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        tempTxtField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            }
+        });
+        tempTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tempTxtFieldKeyPressed(evt);
+            }
+        });
 
-        jTextField2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        prTextField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        prTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                prTextFieldKeyPressed(evt);
+            }
+        });
 
-        jTextField3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        rrTextField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        rrTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rrTextFieldKeyPressed(evt);
+            }
+        });
 
-        jTextField4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        bpTextField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        bpTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                bpTextFieldKeyPressed(evt);
+            }
+        });
 
-        jTextField5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        o2TxtField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        o2TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                o2TxtFieldKeyPressed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(134, 171, 228));
         jButton2.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -178,39 +223,39 @@ public class Homepage extends javax.swing.JFrame {
                     .addComponent(jLabel10))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tempTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField4)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(rrTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(prTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(bpTextField)
+                        .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField1, jTextField2, jTextField3, jTextField4, jTextField5});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bpTextField, o2TxtField, prTextField, rrTextField, tempTxtField});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tempTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(prTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rrTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(10, Short.MAX_VALUE))
@@ -363,6 +408,36 @@ public class Homepage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void prTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println(prTextField.getText().toString());
+        }
+    }
+
+    private void rrTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println(rrTextField.getText().toString());
+        }
+    }
+
+    private void bpTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println(bpTextField.getText().toString());
+        }
+    }
+
+    private void o2TxtFieldKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println(o2TxtField.getText().toString());
+        }
+    }
+
+    private void tempTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {                                        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println(tempTxtField.getText().toString());
+        }
+    }
+
     private void setPlaceholderImg() {
         // Load the original image
         String currentWorkingDir = System.getProperty("user.dir");
@@ -379,32 +454,32 @@ public class Homepage extends javax.swing.JFrame {
         lblProfileImg.setIcon(scaledIcon);
     }
 
-    private void generateTprSheet() {
+    private void generateTprSheet(PatientModel patient) {
 
 
         String[] dates = {
-                "May 5", "May 6", "May 7", "May 8", "May 9"
+//                "May 5", "May 6", "May 7", "May 8", "May 9"
         };
 
         String[] xpoints = {
-                "May 5 12-am", "May 5 4-am", "May 5 8-am",
-                "May 5 12-pm", "May 5 4-pm", "May 5 8-pm",
-                "May 6 12-am", "May 6 4-am"
+//                "May 5 12-am", "May 5 4-am", "May 5 8-am",
+//                "May 5 12-pm", "May 5 4-pm", "May 5 8-pm",
+//                "May 6 12-am", "May 6 4-am"
         };
         String[] temps = {
-                "37.0", "38.1", "39.2",
-                "38.3", "38.4", "37.8",
-                "38.0", "36.5",
+//                "37.0", "38.1", "39.2",
+//                "38.3", "38.4", "37.8",
+//                "38.0", "36.5",
         };
         String[] prs = {
-                "100", "103", "105",
-                "95", "90", "85",
-                "80", "80"
+//                "100", "103", "105",
+//                "95", "90", "85",
+//                "80", "80"
         };
         String[] rrs = {
-                "25", "20", "17",
-                "15", "19", "16",
-                "11", "10"
+//                "25", "20", "17",
+//                "15", "19", "16",
+//                "11", "10"
         };
         String[] bp = {
                 // "25", "20", "17",
@@ -442,7 +517,9 @@ public class Homepage extends javax.swing.JFrame {
 
         TprSheetPanel tprSheetCustomPanel = new TprSheetPanel(
                 new DataModel(tempData, prData, rrData, bpData),
-                Mapper.getXpointsMap(dates));
+                Mapper.getXpointsMap(dates),
+                patient.getDates().split(",")
+        );
 
         // Clear the placeholder and add the custom panel
         tprSheetPanel.removeAll(); // Remove existing content
@@ -452,6 +529,11 @@ public class Homepage extends javax.swing.JFrame {
         // Reapply layout and repaint to ensure changes are reflected
         tprSheetPanel.revalidate();
         tprSheetPanel.repaint();
+    }
+
+    private String[] convertToArray(String dates) {
+        String[] tokens = dates.split(",");
+        return tokens;
     }
 
     public void addTemp(String date, String hour, String temp) {
@@ -499,21 +581,21 @@ public class Homepage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField bpTextField;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel lblAge;
     private javax.swing.JLabel lblCaseNum;
     private javax.swing.JLabel lblDiagnosis;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblProfileImg;
+    private javax.swing.JTextField o2TxtField;
+    private javax.swing.JTextField prTextField;
+    private javax.swing.JTextField rrTextField;
+    private javax.swing.JTextField tempTxtField;
     private javax.swing.JPanel tprSheetPanel;
     // End of variables declaration//GEN-END:variables
 

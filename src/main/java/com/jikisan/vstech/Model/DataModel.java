@@ -54,10 +54,9 @@ public class DataModel {
 
         for (int i = 0; i < 5; i++) {
             days[i] = currentDate.plusDays(i).format(FORMATTER).toString();
-            System.out.println(days[i]);
         }
 
-        return days;
+        return null;
     }
 
 }
