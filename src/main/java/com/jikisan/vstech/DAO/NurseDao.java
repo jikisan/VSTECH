@@ -29,7 +29,6 @@ public class NurseDao {
 
         if (isAuthenticated) {
             NurseModel.getInstance(rs.getString("fullName"), rs.getString("age"), rs.getString("department"), rs.getString("licenseNumber"), rs.getString("username"), rs.getString("password"));
-            System.out.println(NurseModel.getActiveNurse());
         }
 
         rs.close();

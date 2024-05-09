@@ -1,5 +1,7 @@
 package com.jikisan.vstech.Forms;
 
+import com.jikisan.vstech.DiagnosisForm.ConditionType;
+import com.jikisan.vstech.DiagnosisForm.DiagnosisForm;
 import com.jikisan.vstech.Model.*;
 import com.jikisan.vstech.Panels.TprSheetPanel;
 import com.jikisan.vstech.Mapper;
@@ -100,7 +102,7 @@ public class Homepage extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(136, 191, 253));
         setResizable(false);
 
@@ -493,7 +495,6 @@ public class Homepage extends javax.swing.JFrame {
         String userDir = System.getProperty("user.dir");
         String imageName = patient.getPhoto();
         String imagePath = userDir + "\\images\\" + imageName + ".jpg"; // Modify as needed
-        JOptionPane.showMessageDialog(this, imagePath);
 
         ImageIcon icon = new ImageIcon(imagePath);
 
@@ -502,58 +503,6 @@ public class Homepage extends javax.swing.JFrame {
 
     private void generateTprSheet() {
 
-
-        String[] temps = {
-//                "37", "38.1", "39.2",
-//                "38.3", "38.4", "37.8",
-//                "38.0", "36.5",
-        };
-        String[] prs = {
-//                "100", "103", "105",
-//                "95", "90", "85",
-//                "80", "80"
-        };
-        String[] rrs = {
-//                "25", "20", "17",
-//                "15", "19", "16",
-//                "11", "0"
-        };
-        String[] bp = {
-                "70/120", "80/110", "90/100",
-                "70/120", "80/110", "90/100",
-                "70/120", "80/110", "90/100",
-                "70/120", "80/110"
-        };
-
-        String[] bpHours = {
-                "10-6", "6-2", "10-6",
-                "2-10", "6-2", "10-6",
-                "2-10", "6-2", "2-10",
-                "2-10", "2-10"
-        };
-
-//        // ADD TEMP DATA
-//        for (int i = 0; i < temps.length; i++) {
-//            addTemp(xpoints[i], "n/a", temps[i]);
-//        }
-//
-//        // ADD PR DATA
-//        for (int i = 0; i < prs.length; i++) {
-//            addPR(xpoints[i], "n/a", prs[i]);
-//            ;
-//        }
-//
-//        // ADD RR DATA
-//        for (int i = 0; i < rrs.length; i++) {
-//            addRR(xpoints[i], "n/a", rrs[i]);
-//        }
-//
-//        // ADD BP DATA
-//        for (int i = 0; i < bp.length; i++) {
-//            bpData.add(new BpDataModel(xpoints[i], bpHours[i], bp[i]));
-//        }
-
-
         TprSheetPanel tprSheetCustomPanel = new TprSheetPanel(
                 new DataModel(tempData, prData, rrData, bpData),
                 xPointsMap,
@@ -561,26 +510,15 @@ public class Homepage extends javax.swing.JFrame {
                 patientDates
         );
 
-        // Clear the placeholder and add the custom panel
-        tprSheetPanel.removeAll(); // Remove existing content
-        tprSheetPanel.setLayout(new BorderLayout()); // Set layout manager, if needed
-        tprSheetPanel.add(tprSheetCustomPanel, BorderLayout.CENTER); // Add your custom panel
-
-        // Reapply layout and repaint to ensure changes are reflected
+        tprSheetPanel.removeAll();
+        tprSheetPanel.setLayout(new BorderLayout());
+        tprSheetPanel.add(tprSheetCustomPanel, BorderLayout.CENTER);
         tprSheetPanel.revalidate();
         tprSheetPanel.repaint();
     }
 
 
     //KEYTYPED
-    private void rrTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-
-        if (!Character.isDigit(c)) {
-            evt.consume();
-        }
-    }
-
     private void tempTxtFieldKeyTyped(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
 
@@ -596,7 +534,23 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
+    private void rrTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }
+
     private void prTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }
+
+    private void o2TxtFieldKeyTyped(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
 
         if (!Character.isDigit(c)) {
@@ -608,89 +562,8 @@ public class Homepage extends javax.swing.JFrame {
 
     }
 
-    private void o2TxtFieldKeyTyped(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-
-        if (!Character.isDigit(c)) {
-            evt.consume();
-        }
-    }
-
 
     //KEYPRESSED
-    private void prTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String pr = prTextField.getText().toString();
-
-            if (pr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a value.");
-                return;
-            }
-
-            if (Float.parseFloat(pr) > 200 || Float.parseFloat(pr) < 1) {
-                JOptionPane.showMessageDialog(this, "Invalid value.");
-                return;
-            }
-            if (xpoints.length > prData.size()) {
-                addPR(xpoints[prData.size()], "n/a", prTextField.getText().toString());
-            }
-
-        }
-    }
-
-    private void rrTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String rr = rrTextField.getText().toString();
-
-            if (rr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a value.");
-                return;
-            }
-
-            if (Float.parseFloat(rr) > 200 || Float.parseFloat(rr) < 1) {
-                JOptionPane.showMessageDialog(this, "Invalid value.");
-                return;
-            }
-
-            if (xpoints.length > rrData.size()) {
-                addRR(xpoints[rrData.size()], "n/a", rrTextField.getText().toString());
-            }
-
-        }
-    }
-
-    private void bpTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-            String bp = bpTextField.getText().toString();
-            String bpHours = bpHoursComboBox.getSelectedItem().toString();
-            if (bp.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a value.");
-                return;
-            }
-
-            int count = countOccurrences(bpData, bpHours);
-
-            if (count < 10) {
-                String bpDate = bpXpoints[count];
-                addBP(bpDate, bpHours, bp);
-            }
-
-        }
-    }
-
-    private void o2TxtFieldKeyPressed(java.awt.event.KeyEvent evt) {
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String o2 = o2TxtField.getText().toString();
-
-            if (o2.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a value.");
-                return;
-            }
-
-        }
-    }
-
     private void tempTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String temp = tempTxtField.getText().toString();
@@ -701,12 +574,159 @@ public class Homepage extends javax.swing.JFrame {
             }
 
             if (Float.parseFloat(temp) > 43 || Float.parseFloat(temp) < 30) {
-                JOptionPane.showMessageDialog(this, "Invalid value.");
+                JOptionPane.showMessageDialog(this, "Invalid input.");
                 return;
             }
 
             if (xpoints.length > tempData.size()) {
                 addTemp(xpoints[tempData.size()], "n/a", limitToFirstFour(temp));
+            }
+
+            if (Float.parseFloat(temp) < 36.5) {
+//                JOptionPane.showMessageDialog(this, "HYPOTHERMIA");
+                new DiagnosisForm(ConditionType.HYPOTHERMIA, this).setVisible(true);
+
+            }
+
+            if (Float.parseFloat(temp) > 37.5) {
+//                JOptionPane.showMessageDialog(this, "HYPERTHERMIA");
+                new DiagnosisForm(ConditionType.HYPERTHERMIA, this).setVisible(true);
+
+            }
+
+        }
+    }
+
+    private void prTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String pr = prTextField.getText().toString();
+
+            if (pr.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Please enter a value.");
+                return;
+            }
+
+            if (Float.parseFloat(pr) > 200 || Float.parseFloat(pr) < 1) {
+//                JOptionPane.showMessageDialog(this, "Invalid input.");
+                return;
+            }
+
+            if (xpoints.length > prData.size()) {
+                addPR(xpoints[prData.size()], "n/a", prTextField.getText().toString());
+            }
+
+            if (Float.parseFloat(pr) < 60) {
+//                JOptionPane.showMessageDialog(this, "BRADYCARDIA ");
+                new DiagnosisForm(ConditionType.BRADYCARDIA, this).setVisible(true);
+            }
+
+            if (Float.parseFloat(pr) > 101) {
+//                JOptionPane.showMessageDialog(this, "TACHYCARDIA");
+                new DiagnosisForm(ConditionType.TACHYCARDIA, this).setVisible(true);
+            }
+
+        }
+    }
+
+    private void rrTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String rr = rrTextField.getText().toString();
+
+            if (rr.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Please enter a value.");
+
+                return;
+            }
+
+            if (Float.parseFloat(rr) > 200 || Float.parseFloat(rr) < 1) {
+//                JOptionPane.showMessageDialog(this, "Invalid input.");
+
+                return;
+            }
+
+            if (xpoints.length > rrData.size()) {
+                addRR(xpoints[rrData.size()], "n/a", rrTextField.getText().toString());
+            }
+
+            if (Float.parseFloat(rr) < 12) {
+//                JOptionPane.showMessageDialog(this, "BRADYPNEA ");
+                new DiagnosisForm(ConditionType.BRADYPNEA, this).setVisible(true);
+
+            }
+
+            if (Float.parseFloat(rr) > 20) {
+//                JOptionPane.showMessageDialog(this, "TACHYPNEA");
+                new DiagnosisForm(ConditionType.TACHYPNEA, this).setVisible(true);
+
+            }
+
+        }
+    }
+
+    private void o2TxtFieldKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String o2 = o2TxtField.getText().toString();
+
+            if (o2.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Please enter a value.");
+
+                return;
+            }
+
+            if (Float.parseFloat(o2) > 100 || Float.parseFloat(o2) < 0) {
+//                JOptionPane.showMessageDialog(this, "Invalid input.");
+
+                return;
+            }
+
+
+            if (Float.parseFloat(o2) < 95) {
+//                JOptionPane.showMessageDialog(this, "LOW OXYGEN");
+                new DiagnosisForm(ConditionType.LOW_OXYGEN, this).setVisible(true);
+
+            }
+        }
+    }
+
+    private void bpTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            String bp = bpTextField.getText().toString();
+            String bpHours = bpHoursComboBox.getSelectedItem().toString();
+            if (bp.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Please enter a value.");
+                return;
+            }
+
+            int count = countOccurrences(bpData, bpHours);
+
+            // Validate blood pressure format (e.g., "120/80")
+            String[] parts = bp.split("/");
+            if (parts.length != 2) {
+                JOptionPane.showMessageDialog(this, "Invalid BP format. Use 'systolic/diastolic' (e.g., 120/80).");
+                return;
+            }
+
+            int systolic, diastolic;
+            try {
+                systolic = Integer.parseInt(parts[0].trim());
+                diastolic = Integer.parseInt(parts[1].trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid numeric value. Please enter integers for systolic and diastolic values.");
+                return;
+            }
+
+            // Validate blood pressure range
+            if (systolic > 120 || diastolic > 80) {
+                JOptionPane.showMessageDialog(this, "ALERT HYPERTENSION\nConsult your doctor.");
+            } else if (systolic < 90 || diastolic < 60) {
+                JOptionPane.showMessageDialog(this, "ALERT HYPOTENSION\nConsult your doctor.");
+            }
+
+
+            if (count < 10) {
+                String bpDate = bpXpoints[count];
+                addBP(bpDate, bpHours, bp);
             }
 
         }

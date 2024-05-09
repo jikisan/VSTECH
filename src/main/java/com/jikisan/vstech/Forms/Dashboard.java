@@ -30,11 +30,6 @@ public class Dashboard extends javax.swing.JFrame {
         conn = DbConn.ConnectDb();
         this.patientDao = new PatientDao();
         generatePatiends();
-
-        String userDir = System.getProperty("user.dir");
-        String imagePath = userDir + "\\images\\bed.png";
-        JOptionPane.showMessageDialog(this, imagePath);
-
     }
 
 
@@ -60,7 +55,6 @@ public class Dashboard extends javax.swing.JFrame {
         for (PatientModel patient : patients) {
             PatientItemPanel itemPanel = new PatientItemPanel(patient, Dashboard.this);
             panel.add(itemPanel);
-            System.out.println(patient.getName());
         }
 
         return panel;
@@ -231,4 +225,5 @@ public class Dashboard extends javax.swing.JFrame {
             g2.fillRect(0, 0, width, height);
         }
     }
+
 }

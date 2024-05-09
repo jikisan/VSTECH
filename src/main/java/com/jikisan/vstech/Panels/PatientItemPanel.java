@@ -18,10 +18,8 @@ public class PatientItemPanel extends JPanel{
 
     public PatientItemPanel(PatientModel patientModel, JFrame parentFrame) {
         String userDir = System.getProperty("user.dir");
-        String imageName = "bed";
-        String imagePath = userDir + "\\images\\" + imageName + ".png"; // Modify as needed
+        String imagePath = userDir + "\\images\\bed.png"; // Modify as needed
         ImageIcon icon = new ImageIcon(imagePath);
-        JOptionPane.showMessageDialog(this, imagePath);
 
         int iconLabelSize = 70;
 
@@ -56,8 +54,6 @@ public class PatientItemPanel extends JPanel{
             @Override
             public void mouseClicked(MouseEvent e) {
                 ActivePatient.getInstance().setPatient(patientModel);
-                System.out.println(patientModel.getDates());
-
                 new Homepage(patientModel).setVisible(true);
                 parentFrame.dispose();
             }

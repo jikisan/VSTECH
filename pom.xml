@@ -17,8 +17,11 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.45.2.0</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE210</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,15 +29,4 @@
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>com.jikisan.vstech.VSTECH</exec.mainClass>
     </properties>
-    <build>
-        <resources>
-            <resource>
-                <directory>images</directory>
-                <includes>
-                    <include>**/*.png</include> <!-- Include all PNG files -->
-                </includes>
-            </resource>
-        </resources>
-    </build>
-
 </project>
