@@ -493,6 +493,8 @@ public class Homepage extends javax.swing.JFrame {
         String userDir = System.getProperty("user.dir");
         String imageName = patient.getPhoto();
         String imagePath = userDir + "\\images\\" + imageName + ".jpg"; // Modify as needed
+        JOptionPane.showMessageDialog(this, imagePath);
+
         ImageIcon icon = new ImageIcon(imagePath);
 
         lblProfileImg.setIcon(icon);

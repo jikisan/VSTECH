@@ -26,4 +26,15 @@
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>com.jikisan.vstech.VSTECH</exec.mainClass>
     </properties>
+    <build>
+        <resources>
+            <resource>
+                <directory>images</directory>
+                <includes>
+                    <include>**/*.png</include> <!-- Include all PNG files -->
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
 </project>

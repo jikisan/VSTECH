@@ -30,11 +30,15 @@ public class Dashboard extends javax.swing.JFrame {
         conn = DbConn.ConnectDb();
         this.patientDao = new PatientDao();
         generatePatiends();
+
+        String userDir = System.getProperty("user.dir");
+        String imagePath = userDir + "\\images\\bed.png";
+        JOptionPane.showMessageDialog(this, imagePath);
+
     }
 
 
     private void generatePatiends() {
-
         JPanel patientCards = createPatientCards();
 
         patientPanel.removeAll();

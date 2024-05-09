@@ -17,13 +17,12 @@ public class PatientItemPanel extends JPanel{
     private JLabel iconLabel;
 
     public PatientItemPanel(PatientModel patientModel, JFrame parentFrame) {
-
         String userDir = System.getProperty("user.dir");
-        String imagePath = userDir + "\\images\\bed.png"; // Modify as needed
-
-//        String imagePath = userDir + "\\src\\main\\java\\Images\\bed.png"; // Modify as needed
-        System.out.println(imagePath);
+        String imageName = "bed";
+        String imagePath = userDir + "\\images\\" + imageName + ".png"; // Modify as needed
         ImageIcon icon = new ImageIcon(imagePath);
+        JOptionPane.showMessageDialog(this, imagePath);
+
         int iconLabelSize = 70;
 
         iconLabel = new JLabel();
