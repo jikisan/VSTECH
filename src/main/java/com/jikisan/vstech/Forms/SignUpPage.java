@@ -9,6 +9,7 @@ import com.jikisan.vstech.Model.NurseListModel;
 import com.jikisan.vstech.Model.NurseModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class SignUpPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
+        jPanel4 = new jPanelGradient();
         javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         javax.swing.JPanel jPanel2 = new javax.swing.JPanel();
@@ -58,6 +59,7 @@ public class SignUpPage extends javax.swing.JFrame {
         jPanel4.setPreferredSize(new java.awt.Dimension(800, 500));
 
         jPanel1.setBackground(new java.awt.Color(188, 188, 233));
+        jPanel1.setOpaque(false);
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 500));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 500));
 
@@ -308,9 +310,25 @@ public class SignUpPage extends javax.swing.JFrame {
     private javax.swing.JTextField age;
     private javax.swing.JTextField department;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField licenseNum;
     private javax.swing.JTextField name;
     private javax.swing.JTextField password;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
+
+    class jPanelGradient extends JPanel {
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            int width = getWidth();
+            int height = getHeight();
+            Color color1 = new Color(80, 131, 198);
+            Color color2 = new Color(130, 206, 234);
+            GradientPaint gp = new GradientPaint(0, 0, color1, 0, height, color2);
+            g2.setPaint(gp);
+            g2.fillRect(0, 0, width, height);
+        }
+    }
 }

@@ -19,28 +19,32 @@ public class PatientItemPanel extends JPanel{
     public PatientItemPanel(PatientModel patientModel, JFrame parentFrame) {
 
         String userDir = System.getProperty("user.dir");
-        String imagePath = userDir + "\\src\\main\\java\\Images\\user.png"; // Modify as needed
+        String imagePath = userDir + "\\src\\main\\java\\Images\\bed.png"; // Modify as needed
         System.out.println(imagePath);
         ImageIcon icon = new ImageIcon(imagePath);
+        int iconLabelSize = 70;
 
         iconLabel = new JLabel();
-        iconLabel.setSize(50, 50);
-        iconLabel.setMaximumSize(new Dimension(50, 50));
-        iconLabel.setMinimumSize(new Dimension(50, 50));
+        iconLabel.setSize(iconLabelSize, iconLabelSize);
+        iconLabel.setMaximumSize(new Dimension(iconLabelSize, iconLabelSize));
+        iconLabel.setMinimumSize(new Dimension(iconLabelSize, iconLabelSize));
         iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
         iconLabel.setVerticalAlignment(SwingConstants.CENTER);
         iconLabel.setHorizontalTextPosition(JLabel.CENTER);
         iconLabel.setVerticalTextPosition(JLabel.BOTTOM);
         iconLabel.setText(patientModel.getName().toUpperCase(Locale.ROOT));
+        iconLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        iconLabel.setIconTextGap(20);
         iconLabel.setIcon(icon);
 
-        // Set up the panel's layout and components
+        int panelSize = 200;
+
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        setMinimumSize(new Dimension(150, 150));
-        setMaximumSize(new Dimension(150, 150));
-        setPreferredSize(new Dimension(150, 150));
-        setSize(new Dimension(150, 150));
+        setOpaque(false);
+        setMinimumSize(new Dimension(panelSize, panelSize));
+        setMaximumSize(new Dimension(panelSize, panelSize));
+        setPreferredSize(new Dimension(panelSize, panelSize));
+        setSize(new Dimension(panelSize, panelSize));
 
         // Add icon and label to the panel
         add(iconLabel, BorderLayout.CENTER);

@@ -8,10 +8,12 @@ import java.util.Map;
 public class Mapper {
 
     private static List<String> combinedDateTimes = new ArrayList<>();
+    private static List<String> combinedBpDateTimes = new ArrayList<>();
+
 
     public static Map<String, Integer> getXpointsMap(String[] dateArray) {
 
-        String[] timeArray = new String[] { "12", "4", "8" };
+        String[] timeArray = new String[]{"12", "4", "8"};
         combinedDateTimes.clear();
 
         // For each date, we first process AM times, then PM times
@@ -40,7 +42,6 @@ public class Mapper {
         int step = 1;
 
         for (int i = 0; i < combinedDateTimes.size(); i++) {
-            System.out.println(combinedDateTimes.get(i));
             dateTimeMap.put(combinedDateTimes.get(i), baseXPoint);
             baseXPoint += step;
         }
@@ -48,9 +49,48 @@ public class Mapper {
         return dateTimeMap;
     }
 
+
+
+    public static Map<String, Integer> getBpXpointsMap(String[] dateArray) {
+
+        String[] timeArray = new String[]{"am", "pm"};
+        combinedBpDateTimes.clear();
+
+        for (String date : dateArray) {
+            // Process all AM times in the correct order
+            for (String time : timeArray) {
+                String dateTime = date.toLowerCase() + " " + time;
+                combinedBpDateTimes.add(dateTime);
+            }
+
+        }
+
+        return mapBpDateTime(combinedBpDateTimes);
+    }
+
+    private static Map<String, Integer> mapBpDateTime(List<String> bpDateTimes) {
+        final Map<String, Integer> dateTimeMap = new HashMap<>();
+
+        int baseXPoint = 6;
+        int step = 3;
+
+        for (int i = 0; i < bpDateTimes.size(); i++) {
+            dateTimeMap.put(bpDateTimes.get(i), baseXPoint);
+            baseXPoint += step;
+        }
+
+        return dateTimeMap;
+    }
+
+
     public static List<String> getCombinedDates() {
         return combinedDateTimes;
     }
+    public static List<String> getBpCombinedDates() {
+        return combinedBpDateTimes;
+    }
+
+
 
     public static Map<String, Integer> getTempYpointsMap() {
         final Map<String, Integer> temperatureMap = new HashMap<>();
@@ -330,7 +370,6 @@ public class Mapper {
 //        temperatureMap.put("21.1", 49);
 //        temperatureMap.put("21.0", 49);
 //        temperatureMap.put("21", 49);
-
 
 
         return temperatureMap;

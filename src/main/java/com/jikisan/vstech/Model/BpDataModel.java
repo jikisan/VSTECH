@@ -4,12 +4,12 @@ package com.jikisan.vstech.Model;
 public class BpDataModel {
     private String Date;
     private String Hour;
-    private String Temp;
+    private String Bp;
 
-    public BpDataModel(String Date, String Hour, String Temp) {
+    public BpDataModel(String Date, String Hour, String Bp) {
         this.Date = Date;
         this.Hour = Hour;
-        this.Temp = Temp;
+        this.Bp = Bp;
     }
 
     public String getDate() {
@@ -28,12 +28,12 @@ public class BpDataModel {
         this.Hour = Hour;
     }
 
-    public String getTemp() {
-        return Temp;
+    public String getBp() {
+        return Bp;
     }
 
-    public void setTemp(String Temp) {
-        this.Temp = Temp;
+    public void setBp(String Bp) {
+        this.Bp = Bp;
     }
     
     

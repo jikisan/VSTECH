@@ -1,11 +1,7 @@
 package com.jikisan.vstech.Panels;
 
 import com.jikisan.vstech.Mapper;
-import com.jikisan.vstech.Model.DataModel;
-import com.jikisan.vstech.Model.DateListModel;
-import com.jikisan.vstech.Model.PrDataModel;
-import com.jikisan.vstech.Model.RrDataModel;
-import com.jikisan.vstech.Model.TempDataModel;
+import com.jikisan.vstech.Model.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,23 +13,24 @@ import javax.swing.JPanel;
 public class TprSheetPanel extends JPanel {
 
     private final Map<String, Integer> dateTimeMapper;
+    private final Map<String, Integer> bpXpointsMap;
     private final Map<String, Integer> tempMapper;
     private final Map<String, Integer> prMapper;
 
     private List<TempDataModel> tempList;
     private List<PrDataModel> prList;
     private List<RrDataModel> rrList;
+    private List<BpDataModel> bpList;
 
     private String[] dateLabels;
 
     private final int totalRows = 51;
     private final int totalColumns = 36;
     private final float lineThickness = 3.0f;
-    private DataModel dataModel;
 
-    public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap, String [] dates) {
-        this.dataModel = dataModel;
+    public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap, Map<String, Integer> _bpXpointsMap, String [] dates) {
         this.dateTimeMapper = _dateTimeMap;
+        this.bpXpointsMap = _bpXpointsMap;
         this.tempMapper = Mapper.getTempYpointsMap();
         this.prMapper = Mapper.getPrYpointsMap();
         this.dateLabels = dates;
@@ -41,6 +38,7 @@ public class TprSheetPanel extends JPanel {
         tempList = dataModel.getTempData() == null ? new ArrayList<TempDataModel>() : dataModel.getTempData();
         prList = dataModel.getPrData() == null ? new ArrayList<PrDataModel>() : dataModel.getPrData();
         rrList = dataModel.getRrData() == null ? new ArrayList<RrDataModel>() : dataModel.getRrData();
+        bpList = dataModel.getBpData() == null ? new ArrayList<BpDataModel>() : dataModel.getBpData();
     }
 
     @Override
@@ -53,11 +51,12 @@ public class TprSheetPanel extends JPanel {
 
         drawGrid(g, totalRows, totalColumns);
         fillDates(g);
-        setData(g);
+        fillBpData(g);
         drawTempLine(g);
         drawPrLine(g);
         drawRrLine(g);
     }
+
 
     private void drawGrid(Graphics g, int rows, int columns) {
         int width = getWidth();
@@ -208,8 +207,9 @@ public class TprSheetPanel extends JPanel {
 
     }
 
-    public void fillDates(Graphics g) {
 
+
+    public void fillDates(Graphics g) {
         int row = 8;
         int column = 1;
         for (String date : dateLabels) {
@@ -218,14 +218,11 @@ public class TprSheetPanel extends JPanel {
         }
 
         Graphics2D g2d = (Graphics2D) g;
-        
+
         g2d.setStroke(new BasicStroke(lineThickness));
 
         repaint();
-    }
 
-    public void setData(Graphics g) {
-        repaint();
     }
 
     private void drawTempLine(Graphics g) {
@@ -304,11 +301,50 @@ public class TprSheetPanel extends JPanel {
         repaint();
     }
 
+    private void fillBpData(Graphics g) {
+
+        int column = 47;
+        for (BpDataModel bp : bpList) {
+
+            int row = bpXpoint(bp.getDate());
+
+            switch (bp.getHour()) {
+                case "6-2":
+                    column = 46;
+                    break;
+                case "2-10":
+                    column = 47;
+                    break;
+                case "10-6":
+                    column = 48;
+                    break;
+            }
+
+            g.drawString(bp.getBp(), textRow(row, 15), textColumn(column));
+        }
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setStroke(new BasicStroke(lineThickness));
+
+        repaint();
+    }
+
+
+
+
     private int dateXpoint(String dateTime) {
         int columnNum = dateTimeMapper.get(dateTime.toLowerCase());
         int colWidth = getWidth() / totalColumns;
         int row = (colWidth * columnNum) + (colWidth / 2);
         return row;
+    }
+
+    private int bpXpoint(String dateTime) {
+        int columnNum = bpXpointsMap.get(dateTime.toLowerCase());
+        int colWidth = getWidth() / totalColumns;
+        int row = (colWidth * columnNum) + (colWidth / 2);
+        return columnNum;
     }
 
     private int tempYpoint(String temp) {
@@ -325,9 +361,9 @@ public class TprSheetPanel extends JPanel {
         return column;
     }
 
-    private int textRow(int columnNum, int num2) {
+    private int textRow(int columnNum, int leftOffset) {
         int colWidth = getWidth() / totalColumns;
-        int row = (colWidth * columnNum) + num2;
+        int row = (colWidth * columnNum) + leftOffset;
         return row;
     }
 
@@ -336,6 +372,31 @@ public class TprSheetPanel extends JPanel {
         int rowHeight = getHeight() / totalRows;
         int column = (int) (((rowHeight * rowNum) + (rowHeight * .8)));
         return column;
+    }
+
+    private int countOccurrences(List<BpDataModel> list, String target) {
+        int sixToTwoCount = 0;
+        int twoToTenCount = 0;
+        int tenToSixCount = 0;
+        int count = 0;
+
+        for (BpDataModel item : list) {
+            switch (item.getHour()) {
+                case "6-2":
+                    sixToTwoCount++;
+                    count = sixToTwoCount;
+                    break;
+                case "2-10":
+                    twoToTenCount++;
+                    count = twoToTenCount;
+                    break;
+                case "10-6":
+                    tenToSixCount++;
+                    count = tenToSixCount;
+                    break;
+            }
+        }
+        return count;
     }
 
 }

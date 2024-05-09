@@ -5,6 +5,10 @@ import com.jikisan.vstech.Panels.TprSheetPanel;
 import com.jikisan.vstech.Mapper;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -22,9 +26,11 @@ public class Homepage extends javax.swing.JFrame {
     private DateListModel dateList;
 
     private Map<String, Integer> xPointsMap;
+    private Map<String, Integer> bpXpointsMap;
     private PatientModel patient;
     private String[] patientDates;
     private String[] xpoints;
+    private String[] bpXpoints;
 
     public Homepage() {
         tempData = new ArrayList<TempDataModel>();
@@ -33,16 +39,6 @@ public class Homepage extends javax.swing.JFrame {
         bpData = new ArrayList<BpDataModel>();
         new Dashboard().setVisible(true);
         dispose();
-//        initComponents();
-//        setPlaceholderImg();
-//        generateTprSheet();
-//
-//        tempData = new ArrayList<TempDataModel>();
-//        prData = new ArrayList<PrDataModel>();
-//        rrData = new ArrayList<RrDataModel>();
-//        bpData = new ArrayList<BpDataModel>();
-
-
     }
 
     public Homepage(PatientModel patientModel) {
@@ -53,8 +49,12 @@ public class Homepage extends javax.swing.JFrame {
 
         this.patient = patientModel;
         patientDates = patient.getDates().split(",");
+
         xPointsMap = Mapper.getXpointsMap(patientDates);
+        bpXpointsMap = Mapper.getBpXpointsMap(patientDates);
+
         xpoints = ListToArrayConverter(Mapper.getCombinedDates());
+        bpXpoints = ListToArrayConverter(Mapper.getBpCombinedDates());
 
         initComponents();
         setPlaceholderImg();
@@ -64,26 +64,12 @@ public class Homepage extends javax.swing.JFrame {
 
     }
 
-    private void generatePatientData(PatientModel patient) {
-
-        lblName.setText(patient.getName());
-        lblCaseNum.setText(patient.getCaseNumber());
-        lblAge.setText(patient.getAge());
-        lblDiagnosis.setText(patient.getDiagnosis());
-        String userDir = System.getProperty("user.dir");
-        String imageName = patient.getPhoto();
-        String imagePath = userDir + "\\images\\" + imageName + ".jpg"; // Modify as needed
-        ImageIcon icon = new ImageIcon(imagePath);
-
-        lblProfileImg.setIcon(icon);
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel5 = new javax.swing.JPanel();
+        jPanel5 = new jPanelGradient();
         javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
         lblProfileImg = new javax.swing.JLabel();
         javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
@@ -103,11 +89,13 @@ public class Homepage extends javax.swing.JFrame {
         rrTextField = new javax.swing.JTextField();
         bpTextField = new javax.swing.JTextField();
         o2TxtField = new javax.swing.JTextField();
+        bpHoursComboBox = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
+        backBtn = new javax.swing.JLabel();
         tprSheetPanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
@@ -123,6 +111,7 @@ public class Homepage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(196, 203, 228));
         jPanel1.setMaximumSize(new java.awt.Dimension(350, 1000));
         jPanel1.setMinimumSize(new java.awt.Dimension(350, 1000));
+        jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(350, 1000));
 
         lblProfileImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -132,6 +121,7 @@ public class Homepage extends javax.swing.JFrame {
         lblProfileImg.setPreferredSize(new java.awt.Dimension(150, 150));
 
         jPanel3.setBackground(new java.awt.Color(196, 203, 228));
+        jPanel3.setOpaque(false);
 
         lblName.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
         lblName.setText("Loading...");
@@ -156,7 +146,7 @@ public class Homepage extends javax.swing.JFrame {
                     .addComponent(lblCaseNum)
                     .addComponent(lblAge)
                     .addComponent(lblDiagnosis))
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,27 +231,36 @@ public class Homepage extends javax.swing.JFrame {
             }
         });
 
+        bpHoursComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6-2", "2-10", "10-6", " " }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel10))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tempTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(rrTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(prTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(21, 21, 21)
+                        .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel10))
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tempTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rrTextField)
+                            .addComponent(prTextField)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(21, 21, 21)
                         .addComponent(bpTextField)
-                        .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(199, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(bpHoursComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(57, 57, 57))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bpTextField, o2TxtField, prTextField, rrTextField, tempTxtField});
@@ -276,20 +275,23 @@ public class Homepage extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(prTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(rrTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(bpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(bpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bpHoursComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bpHoursComboBox, bpTextField});
 
         jPanel4.setOpaque(false);
 
@@ -331,6 +333,15 @@ public class Homepage extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        backBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        backBtn.setLabelFor(backBtn);
+        backBtn.setText("Back");
+        backBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -352,20 +363,26 @@ public class Homepage extends javax.swing.JFrame {
                                 .addComponent(lblProfileImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(43, Short.MAX_VALUE)
+                        .addGap(47, 47, 47)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(backBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
+                .addComponent(backBtn)
+                .addGap(9, 9, 9)
                 .addComponent(lblProfileImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 377, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -446,11 +463,117 @@ public class Homepage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void backBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseClicked
+        new Dashboard().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_backBtnMouseClicked
+
+    private void setPlaceholderImg() {
+        // Load the original image
+        String currentWorkingDir = System.getProperty("user.dir");
+        ImageIcon originalIcon = new ImageIcon(
+                currentWorkingDir + "\\src\\main\\java\\Images\\profile_img_placeholder.jpg");
+
+        // Scale the image to fit the JLabel (e.g., 200x200 pixels)
+        int newWidth = 200; // Desired width
+        int newHeight = 200; // Desired height
+
+        Image scaledImage = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        lblProfileImg.setIcon(scaledIcon);
+    }
+
+    private void generatePatientData(PatientModel patient) {
+
+        lblName.setText(patient.getName());
+        lblCaseNum.setText(patient.getCaseNumber());
+        lblAge.setText(patient.getAge());
+        lblDiagnosis.setText(patient.getDiagnosis());
+        String userDir = System.getProperty("user.dir");
+        String imageName = patient.getPhoto();
+        String imagePath = userDir + "\\images\\" + imageName + ".jpg"; // Modify as needed
+        ImageIcon icon = new ImageIcon(imagePath);
+
+        lblProfileImg.setIcon(icon);
+    }
+
+    private void generateTprSheet() {
 
 
+        String[] temps = {
+//                "37", "38.1", "39.2",
+//                "38.3", "38.4", "37.8",
+//                "38.0", "36.5",
+        };
+        String[] prs = {
+//                "100", "103", "105",
+//                "95", "90", "85",
+//                "80", "80"
+        };
+        String[] rrs = {
+//                "25", "20", "17",
+//                "15", "19", "16",
+//                "11", "0"
+        };
+        String[] bp = {
+                "70/120", "80/110", "90/100",
+                "70/120", "80/110", "90/100",
+                "70/120", "80/110", "90/100",
+                "70/120", "80/110"
+        };
+
+        String[] bpHours = {
+                "10-6", "6-2", "10-6",
+                "2-10", "6-2", "10-6",
+                "2-10", "6-2", "2-10",
+                "2-10", "2-10"
+        };
+
+//        // ADD TEMP DATA
+//        for (int i = 0; i < temps.length; i++) {
+//            addTemp(xpoints[i], "n/a", temps[i]);
+//        }
+//
+//        // ADD PR DATA
+//        for (int i = 0; i < prs.length; i++) {
+//            addPR(xpoints[i], "n/a", prs[i]);
+//            ;
+//        }
+//
+//        // ADD RR DATA
+//        for (int i = 0; i < rrs.length; i++) {
+//            addRR(xpoints[i], "n/a", rrs[i]);
+//        }
+//
+//        // ADD BP DATA
+//        for (int i = 0; i < bp.length; i++) {
+//            bpData.add(new BpDataModel(xpoints[i], bpHours[i], bp[i]));
+//        }
+
+
+        TprSheetPanel tprSheetCustomPanel = new TprSheetPanel(
+                new DataModel(tempData, prData, rrData, bpData),
+                xPointsMap,
+                bpXpointsMap,
+                patientDates
+        );
+
+        // Clear the placeholder and add the custom panel
+        tprSheetPanel.removeAll(); // Remove existing content
+        tprSheetPanel.setLayout(new BorderLayout()); // Set layout manager, if needed
+        tprSheetPanel.add(tprSheetCustomPanel, BorderLayout.CENTER); // Add your custom panel
+
+        // Reapply layout and repaint to ensure changes are reflected
+        tprSheetPanel.revalidate();
+        tprSheetPanel.repaint();
+    }
+
+
+    //KEYTYPED
     private void rrTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
-        
+
         if (!Character.isDigit(c)) {
             evt.consume();
         }
@@ -480,11 +603,7 @@ public class Homepage extends javax.swing.JFrame {
     }
 
     private void bpTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
 
-        if (!Character.isDigit(c)) {
-            evt.consume();
-        }
     }
 
     private void o2TxtFieldKeyTyped(java.awt.event.KeyEvent evt) {
@@ -496,7 +615,7 @@ public class Homepage extends javax.swing.JFrame {
     }
 
 
-
+    //KEYPRESSED
     private void prTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String pr = prTextField.getText().toString();
@@ -505,7 +624,15 @@ public class Homepage extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter a value.");
                 return;
             }
-            addPR(xpoints[prData.size()], "n/a", prTextField.getText().toString());
+
+            if (Float.parseFloat(pr) > 200 || Float.parseFloat(pr) < 1) {
+                JOptionPane.showMessageDialog(this, "Invalid value.");
+                return;
+            }
+            if (xpoints.length > prData.size()) {
+                addPR(xpoints[prData.size()], "n/a", prTextField.getText().toString());
+            }
+
         }
     }
 
@@ -517,17 +644,34 @@ public class Homepage extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter a value.");
                 return;
             }
-            addRR(xpoints[rrData.size()], "n/a", rrTextField.getText().toString());
+
+            if (Float.parseFloat(rr) > 200 || Float.parseFloat(rr) < 1) {
+                JOptionPane.showMessageDialog(this, "Invalid value.");
+                return;
+            }
+
+            if (xpoints.length > rrData.size()) {
+                addRR(xpoints[rrData.size()], "n/a", rrTextField.getText().toString());
+            }
+
         }
     }
 
     private void bpTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String bp = bpTextField.getText().toString();
 
+            String bp = bpTextField.getText().toString();
+            String bpHours = bpHoursComboBox.getSelectedItem().toString();
             if (bp.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter a value.");
                 return;
+            }
+
+            int count = countOccurrences(bpData, bpHours);
+
+            if (count < 10) {
+                String bpDate = bpXpoints[count];
+                addBP(bpDate, bpHours, bp);
             }
 
         }
@@ -554,97 +698,54 @@ public class Homepage extends javax.swing.JFrame {
                 return;
             }
 
-            if (Integer.parseInt(temp) > 43 || Integer.parseInt(temp) < 30) {
+            if (Float.parseFloat(temp) > 43 || Float.parseFloat(temp) < 30) {
                 JOptionPane.showMessageDialog(this, "Invalid value.");
                 return;
             }
 
             if (xpoints.length > tempData.size()) {
-                addTemp(xpoints[tempData.size()], "n/a", temp);
+                addTemp(xpoints[tempData.size()], "n/a", limitToFirstFour(temp));
             }
 
         }
     }
 
 
-
-    private void setPlaceholderImg() {
-        // Load the original image
-        String currentWorkingDir = System.getProperty("user.dir");
-        ImageIcon originalIcon = new ImageIcon(
-                currentWorkingDir + "\\src\\main\\java\\Images\\profile_img_placeholder.jpg");
-
-        // Scale the image to fit the JLabel (e.g., 200x200 pixels)
-        int newWidth = 200; // Desired width
-        int newHeight = 200; // Desired height
-
-        Image scaledImage = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
-        lblProfileImg.setIcon(scaledIcon);
+    //ADD DATA
+    public void addTemp(String date, String hour, String temp) {
+        tempData.add(new TempDataModel(date, hour, temp));
     }
 
-    private void generateTprSheet() {
+    public void addPR(String date, String hour, String temp) {
+        prData.add(new PrDataModel(date, hour, temp));
+    }
+
+    public void addRR(String date, String hour, String temp) {
+        rrData.add(new RrDataModel(date, hour, temp));
+    }
+
+    public void addBP(String date, String hour, String temp) {
+        bpData.add(new BpDataModel(date, hour, temp));
+    }
 
 
+    //UTILS
+    public String limitToFirstFour(String input) {
+        // Find the index of the decimal point, if it exists
+        int decimalIndex = input.indexOf(".");
 
-        String[] temps = {
-//                "37", "38.1", "39.2",
-//                "38.3", "38.4", "37.8",
-//                "38.0", "36.5",
-        };
-        String[] prs = {
-//                "100", "103", "105",
-//                "95", "90", "85",
-//                "80", "80"
-        };
-        String[] rrs = {
-//                "25", "20", "17",
-//                "15", "19", "16",
-//                "11", "0"
-        };
-        String[] bp = {
-                // "25", "20", "17",
-                // "15", "19", "16",
-                // "11", "13"
-        };
-
-//        // ADD TEMP DATA
-        for (int i = 0; i < temps.length; i++) {
-            addTemp(xpoints[i], "n/a", temps[i]);
+        // If there's no decimal, return the first four characters
+        if (decimalIndex == -1) {
+            return input.substring(0, Math.min(4, input.length()));
         }
-//
-//        // ADD PR DATA
-//        for (int i = 0; i < prs.length; i++) {
-//            addPR(xpoints[i], "n/a", prs[i]);
-//            ;
-//        }
-//
-//        // ADD RR DATA
-//        for (int i = 0; i < rrs.length; i++) {
-//            addRR(xpoints[i], "n/a", rrs[i]);
-//        }
-//
-//        // ADD BP DATA
-//        for (int i = 0; i < bp.length; i++) {
-//            bpData.add(new BpDataModel(xpoints[i], "n/a", bp[i]));
-//        }
 
+        // Determine the total length, including the integer and fractional parts
+        int maxAllowed = decimalIndex + 2; // One character after the decimal point
 
-        TprSheetPanel tprSheetCustomPanel = new TprSheetPanel(
-                new DataModel(tempData, prData, rrData, bpData),
-                xPointsMap,
-                patientDates
-        );
+        // Get the allowed substring (first part of the integer, one part of the decimal)
+        String limitedString = input.substring(0, Math.min(maxAllowed, input.length()));
 
-        // Clear the placeholder and add the custom panel
-        tprSheetPanel.removeAll(); // Remove existing content
-        tprSheetPanel.setLayout(new BorderLayout()); // Set layout manager, if needed
-        tprSheetPanel.add(tprSheetCustomPanel, BorderLayout.CENTER); // Add your custom panel
-
-        // Reapply layout and repaint to ensure changes are reflected
-        tprSheetPanel.revalidate();
-        tprSheetPanel.repaint();
+        return limitedString;
     }
 
     private String[] ListToArrayConverter(List<String> combinedDates) {
@@ -657,18 +758,18 @@ public class Homepage extends javax.swing.JFrame {
         return tokens;
     }
 
-    public void addTemp(String date, String hour, String temp) {
-        tempData.add(new TempDataModel(date, hour, temp));
+    private int countOccurrences(List<BpDataModel> list, String target) {
+        int count = 0;
+
+        for (BpDataModel item : list) {
+
+            if (item.getHour().equals(target)) {
+                count++;
+            }
+        }
+        return count;
     }
 
-    public void addPR(String date, String hour, String temp) {
-        prData.add(new PrDataModel(date, hour, temp));
-    }
-
-    public void addRR(String date, String hour, String temp) {
-
-        rrData.add(new RrDataModel(date, hour, temp));
-    }
 
     public static void main(String args[]) {
         try {
@@ -703,6 +804,8 @@ public class Homepage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel backBtn;
+    private javax.swing.JComboBox<String> bpHoursComboBox;
     private javax.swing.JTextField bpTextField;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -720,4 +823,18 @@ public class Homepage extends javax.swing.JFrame {
     private javax.swing.JPanel tprSheetPanel;
     // End of variables declaration//GEN-END:variables
 
+    class jPanelGradient extends JPanel {
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            int width = getWidth();
+            int height = getHeight();
+            Color color1 = new Color(80, 131, 198);
+            Color color2 = new Color(130, 206, 234);
+            GradientPaint gp = new GradientPaint(0, 0, color1, 0, height, color2);
+            g2.setPaint(gp);
+            g2.fillRect(0, 0, width, height);
+        }
+    }
 }
