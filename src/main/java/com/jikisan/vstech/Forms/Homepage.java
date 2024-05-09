@@ -8,10 +8,10 @@ import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import java.util.Map;
+import javax.swing.*;
 
 public class Homepage extends javax.swing.JFrame {
 
@@ -21,17 +21,47 @@ public class Homepage extends javax.swing.JFrame {
     private List<BpDataModel> bpData;
     private DateListModel dateList;
 
+    private Map<String, Integer> xPointsMap;
+    private PatientModel patient;
+    private String[] patientDates;
+    private String[] xpoints;
+
     public Homepage() {
-        initComponents();
-        setPlaceholderImg();
-        generateTprSheet(ActivePatient.getInstance().getPatient());
+        tempData = new ArrayList<TempDataModel>();
+        prData = new ArrayList<PrDataModel>();
+        rrData = new ArrayList<RrDataModel>();
+        bpData = new ArrayList<BpDataModel>();
+        new Dashboard().setVisible(true);
+        dispose();
+//        initComponents();
+//        setPlaceholderImg();
+//        generateTprSheet();
+//
+//        tempData = new ArrayList<TempDataModel>();
+//        prData = new ArrayList<PrDataModel>();
+//        rrData = new ArrayList<RrDataModel>();
+//        bpData = new ArrayList<BpDataModel>();
+
+
     }
 
     public Homepage(PatientModel patientModel) {
+        tempData = new ArrayList<TempDataModel>();
+        prData = new ArrayList<PrDataModel>();
+        rrData = new ArrayList<RrDataModel>();
+        bpData = new ArrayList<BpDataModel>();
+
+        this.patient = patientModel;
+        patientDates = patient.getDates().split(",");
+        xPointsMap = Mapper.getXpointsMap(patientDates);
+        xpoints = ListToArrayConverter(Mapper.getCombinedDates());
+
         initComponents();
         setPlaceholderImg();
         generatePatientData(patientModel);
-        generateTprSheet(patientModel);
+        generateTprSheet();
+
+
     }
 
     private void generatePatientData(PatientModel patient) {
@@ -73,7 +103,6 @@ public class Homepage extends javax.swing.JFrame {
         rrTextField = new javax.swing.JTextField();
         bpTextField = new javax.swing.JTextField();
         o2TxtField = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
@@ -85,14 +114,16 @@ public class Homepage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(136, 191, 253));
-        setPreferredSize(new java.awt.Dimension(1500, 1000));
+        setResizable(false);
 
+        jPanel5.setBackground(new java.awt.Color(196, 203, 228));
         jPanel5.setMinimumSize(new java.awt.Dimension(1500, 1000));
         jPanel5.setPreferredSize(new java.awt.Dimension(1500, 1000));
 
         jPanel1.setBackground(new java.awt.Color(196, 203, 228));
-        jPanel1.setMinimumSize(new java.awt.Dimension(500, 1000));
-        jPanel1.setPreferredSize(new java.awt.Dimension(500, 1000));
+        jPanel1.setMaximumSize(new java.awt.Dimension(350, 1000));
+        jPanel1.setMinimumSize(new java.awt.Dimension(350, 1000));
+        jPanel1.setPreferredSize(new java.awt.Dimension(350, 1000));
 
         lblProfileImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblProfileImg.setMaximumSize(new java.awt.Dimension(150, 150));
@@ -125,7 +156,7 @@ public class Homepage extends javax.swing.JFrame {
                     .addComponent(lblCaseNum)
                     .addComponent(lblAge)
                     .addComponent(lblDiagnosis))
-                .addContainerGap(209, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,13 +192,12 @@ public class Homepage extends javax.swing.JFrame {
         jLabel13.setText("O2:");
 
         tempTxtField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        tempTxtField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
         tempTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tempTxtFieldKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tempTxtFieldKeyTyped(evt);
             }
         });
 
@@ -176,12 +206,18 @@ public class Homepage extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 prTextFieldKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                prTextFieldKeyTyped(evt);
+            }
         });
 
         rrTextField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         rrTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 rrTextFieldKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rrTextFieldKeyTyped(evt);
             }
         });
 
@@ -190,6 +226,9 @@ public class Homepage extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 bpTextFieldKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                bpTextFieldKeyTyped(evt);
+            }
         });
 
         o2TxtField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
@@ -197,24 +236,17 @@ public class Homepage extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 o2TxtFieldKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                o2TxtFieldKeyTyped(evt);
+            }
         });
-
-        jButton2.setBackground(new java.awt.Color(134, 171, 228));
-        jButton2.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        jButton2.setText("SAVE");
-        jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton2.setPreferredSize(new java.awt.Dimension(41, 18));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
                     .addComponent(jLabel11)
@@ -229,7 +261,7 @@ public class Homepage extends javax.swing.JFrame {
                         .addComponent(prTextField, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(bpTextField)
                         .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(199, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bpTextField, o2TxtField, prTextField, rrTextField, tempTxtField});
@@ -256,9 +288,7 @@ public class Homepage extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         jPanel4.setOpaque(false);
@@ -306,36 +336,44 @@ public class Homepage extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(lblProfileImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblProfileImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(43, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(31, 31, 31)
                 .addComponent(lblProfileImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(100, 100, 100)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 377, Short.MAX_VALUE)
                 .addComponent(jLabel8)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
+
+        tprSheetPanel.setMinimumSize(new java.awt.Dimension(1000, 800));
+        tprSheetPanel.setPreferredSize(new java.awt.Dimension(1000, 800));
 
         javax.swing.GroupLayout tprSheetPanelLayout = new javax.swing.GroupLayout(tprSheetPanel);
         tprSheetPanel.setLayout(tprSheetPanelLayout);
@@ -345,7 +383,7 @@ public class Homepage extends javax.swing.JFrame {
         );
         tprSheetPanelLayout.setVerticalGroup(
             tprSheetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 887, Short.MAX_VALUE)
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
@@ -356,16 +394,16 @@ public class Homepage extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(869, Short.MAX_VALUE)
+                .addContainerGap(868, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -373,22 +411,22 @@ public class Homepage extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(tprSheetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tprSheetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tprSheetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tprSheetPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -396,47 +434,139 @@ public class Homepage extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+
+
+    private void rrTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }
+
+    private void tempTxtFieldKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+
+        boolean isDecimalPoint = (c == '.');
+        boolean alreadyHasDecimalPoint = tempTxtField.getText().contains(".");
+
+        if (!Character.isDigit(c) && !(isDecimalPoint && !alreadyHasDecimalPoint)) {
+            evt.consume(); // Ignore invalid input
+        }
+
+        if (isDecimalPoint && alreadyHasDecimalPoint) {
+            evt.consume(); // Disallow more than one decimal point
+        }
+    }
+
+    private void prTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }
+
+    private void bpTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }
+
+    private void o2TxtFieldKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }
+
+
+
     private void prTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println(prTextField.getText().toString());
+            String pr = prTextField.getText().toString();
+
+            if (pr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a value.");
+                return;
+            }
+            addPR(xpoints[prData.size()], "n/a", prTextField.getText().toString());
         }
     }
 
     private void rrTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println(rrTextField.getText().toString());
+            String rr = rrTextField.getText().toString();
+
+            if (rr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a value.");
+                return;
+            }
+            addRR(xpoints[rrData.size()], "n/a", rrTextField.getText().toString());
         }
     }
 
     private void bpTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println(bpTextField.getText().toString());
+            String bp = bpTextField.getText().toString();
+
+            if (bp.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a value.");
+                return;
+            }
+
         }
     }
 
     private void o2TxtFieldKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println(o2TxtField.getText().toString());
+            String o2 = o2TxtField.getText().toString();
+
+            if (o2.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a value.");
+                return;
+            }
+
         }
     }
 
-    private void tempTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {                                        
+    private void tempTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println(tempTxtField.getText().toString());
+            String temp = tempTxtField.getText().toString();
+
+            if (temp.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a value.");
+                return;
+            }
+
+            if (Integer.parseInt(temp) > 43 || Integer.parseInt(temp) < 30) {
+                JOptionPane.showMessageDialog(this, "Invalid value.");
+                return;
+            }
+
+            if (xpoints.length > tempData.size()) {
+                addTemp(xpoints[tempData.size()], "n/a", temp);
+            }
+
         }
     }
+
+
 
     private void setPlaceholderImg() {
         // Load the original image
@@ -454,20 +584,12 @@ public class Homepage extends javax.swing.JFrame {
         lblProfileImg.setIcon(scaledIcon);
     }
 
-    private void generateTprSheet(PatientModel patient) {
+    private void generateTprSheet() {
 
 
-        String[] dates = {
-//                "May 5", "May 6", "May 7", "May 8", "May 9"
-        };
 
-        String[] xpoints = {
-//                "May 5 12-am", "May 5 4-am", "May 5 8-am",
-//                "May 5 12-pm", "May 5 4-pm", "May 5 8-pm",
-//                "May 6 12-am", "May 6 4-am"
-        };
         String[] temps = {
-//                "37.0", "38.1", "39.2",
+//                "37", "38.1", "39.2",
 //                "38.3", "38.4", "37.8",
 //                "38.0", "36.5",
         };
@@ -479,7 +601,7 @@ public class Homepage extends javax.swing.JFrame {
         String[] rrs = {
 //                "25", "20", "17",
 //                "15", "19", "16",
-//                "11", "10"
+//                "11", "0"
         };
         String[] bp = {
                 // "25", "20", "17",
@@ -487,38 +609,32 @@ public class Homepage extends javax.swing.JFrame {
                 // "11", "13"
         };
 
-        tempData = new ArrayList<TempDataModel>();
-        prData = new ArrayList<PrDataModel>();
-        rrData = new ArrayList<RrDataModel>();
-        bpData = new ArrayList<BpDataModel>();
-
-        // ADD TEMP DATA
+//        // ADD TEMP DATA
         for (int i = 0; i < temps.length; i++) {
-            addTemp(xpoints[i], "4-am", temps[i]);
+            addTemp(xpoints[i], "n/a", temps[i]);
         }
+//
+//        // ADD PR DATA
+//        for (int i = 0; i < prs.length; i++) {
+//            addPR(xpoints[i], "n/a", prs[i]);
+//            ;
+//        }
+//
+//        // ADD RR DATA
+//        for (int i = 0; i < rrs.length; i++) {
+//            addRR(xpoints[i], "n/a", rrs[i]);
+//        }
+//
+//        // ADD BP DATA
+//        for (int i = 0; i < bp.length; i++) {
+//            bpData.add(new BpDataModel(xpoints[i], "n/a", bp[i]));
+//        }
 
-        // ADD PR DATA
-        for (int i = 0; i < prs.length; i++) {
-            addPR(xpoints[i], "4-am", prs[i]);
-            ;
-        }
-
-        // ADD RR DATA
-        for (int i = 0; i < rrs.length; i++) {
-            addRR(xpoints[i], "4-am", rrs[i]);
-        }
-
-        // ADD BP DATA
-        for (int i = 0; i < bp.length; i++) {
-            bpData.add(new BpDataModel(xpoints[i], "4-am", bp[i]));
-        }
-
-        DateListModel date = new DateListModel(dates);
 
         TprSheetPanel tprSheetCustomPanel = new TprSheetPanel(
                 new DataModel(tempData, prData, rrData, bpData),
-                Mapper.getXpointsMap(dates),
-                patient.getDates().split(",")
+                xPointsMap,
+                patientDates
         );
 
         // Clear the placeholder and add the custom panel
@@ -529,6 +645,11 @@ public class Homepage extends javax.swing.JFrame {
         // Reapply layout and repaint to ensure changes are reflected
         tprSheetPanel.revalidate();
         tprSheetPanel.repaint();
+    }
+
+    private String[] ListToArrayConverter(List<String> combinedDates) {
+        String[] stringArray = new String[combinedDates.size()];
+        return combinedDates.toArray(stringArray);
     }
 
     private String[] convertToArray(String dates) {
@@ -545,6 +666,7 @@ public class Homepage extends javax.swing.JFrame {
     }
 
     public void addRR(String date, String hour, String temp) {
+
         rrData.add(new RrDataModel(date, hour, temp));
     }
 
@@ -582,7 +704,6 @@ public class Homepage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bpTextField;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

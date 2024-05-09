@@ -7,11 +7,7 @@ import com.jikisan.vstech.Model.PrDataModel;
 import com.jikisan.vstech.Model.RrDataModel;
 import com.jikisan.vstech.Model.TempDataModel;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +47,10 @@ public class TprSheetPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        setOpaque(true);
+        setMinimumSize(new Dimension(1000, 1000));
+        setAutoscrolls(true);
+
         drawGrid(g, totalRows, totalColumns);
         fillDates(g);
         setData(g);
@@ -80,11 +80,11 @@ public class TprSheetPanel extends JPanel {
             if (i % 6 == 0) {
                 g.drawLine(x, 0, x, gridHeight);
             } else if (i % 3 == 0) {
-                int endY = (i == 3) ? gridHeight : gridHeight - (rowHeight * 7);
+                int endY = (i == 3) ? gridHeight : gridHeight - (rowHeight * 8);
                 g.drawLine(x, rowHeight, x, endY);
             } else {
                 if (i > 6 && i % 3 != 0) {
-                    g.drawLine(x, rowHeight * 2, x, gridHeight - (rowHeight * 7));
+                    g.drawLine(x, rowHeight * 2, x, gridHeight - (rowHeight * 8));
                 }
             }
         }
@@ -312,7 +312,7 @@ public class TprSheetPanel extends JPanel {
     }
 
     private int tempYpoint(String temp) {
-        int rowNum = tempMapper.get(temp) == null ? 0 : tempMapper.get(temp);
+        int rowNum = tempMapper.get(temp) == null ? 43 : tempMapper.get(temp);
         int rowHeight = getHeight() / totalRows;
         int column = (int) ((rowHeight * rowNum) + (rowHeight / 2));
         return column;
