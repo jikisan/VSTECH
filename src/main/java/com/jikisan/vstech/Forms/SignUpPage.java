@@ -5,6 +5,7 @@
 package com.jikisan.vstech.Forms;
 
 import com.jikisan.vstech.DAO.DbConn;
+import com.jikisan.vstech.DAO.NurseDao;
 import com.jikisan.vstech.Model.NurseListModel;
 import com.jikisan.vstech.Model.NurseModel;
 
@@ -24,6 +25,12 @@ public class SignUpPage extends javax.swing.JFrame {
     public SignUpPage() {
         initComponents();
         conn = DbConn.ConnectDb();
+
+        try {
+            NurseDao.createNurseTable(conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -267,7 +274,6 @@ public class SignUpPage extends javax.swing.JFrame {
         String nursePassword = password.getText();
 
         String sql = "INSERT INTO Nurse(fullName, age, department, licenseNumber, username, password) VALUES (?, ?, ?, ?, ?, ?)";
-
 
         try {
             pst = conn.prepareStatement(sql);

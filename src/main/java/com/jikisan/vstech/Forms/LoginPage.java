@@ -3,6 +3,7 @@ package com.jikisan.vstech.Forms;
 
 import com.jikisan.vstech.DAO.DbConn;
 import com.jikisan.vstech.DAO.NurseDao;
+import com.jikisan.vstech.DAO.PatientDao;
 import com.jikisan.vstech.Model.NurseListModel;
 import com.jikisan.vstech.Model.NurseModel;
 
@@ -25,6 +26,13 @@ public class LoginPage extends javax.swing.JFrame {
         initComponents();
         conn = DbConn.ConnectDb();
         nurseDao = new NurseDao(conn);
+
+        try {
+            NurseDao.createNurseTable(conn);
+            PatientDao.createPatientTable(conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @SuppressWarnings("unchecked")

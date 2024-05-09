@@ -31,4 +31,31 @@ public class PatientDao {
         return statement.executeQuery();
     }
 
+    public static void createPatientTable(Connection conn) throws SQLException {
+        String sql = "CREATE TABLE IF NOT EXISTS Patient (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "name TEXT NOT NULL," +
+                "caseNumber TEXT NOT NULL," +
+                "age TEXT NOT NULL," +
+                "diagnosis TEXT," +
+                "photoName TEXT NOT NULL," +
+                "tempData TEXT," +
+                "hrData TEXT," +
+                "prData TEXT," +
+                "bpData TEXT," +
+                "o2Data TEXT," +
+                "dates TEXT NOT NULL," +
+                "rrData TEXT" +
+                ")";
+
+
+        try (
+                Statement stmt = conn.createStatement()) {
+            stmt.execute(sql); // Execute the CREATE TABLE command
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions
+        }
+
+    }
+
 }

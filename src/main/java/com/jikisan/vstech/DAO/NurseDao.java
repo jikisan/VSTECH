@@ -38,4 +38,24 @@ public class NurseDao {
         return isAuthenticated;
     }
 
+
+    public static void createNurseTable(Connection conn) throws SQLException {
+        String sql = "CREATE TABLE IF NOT EXISTS Nurse (" +
+                "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "fullName TEXT NOT NULL," +
+                "age TEXT NOT NULL," +
+                "department TEXT NOT NULL," +
+                "licenseNumber TEXT NOT NULL," +
+                "username TEXT NOT NULL," +
+                "password TEXT NOT NULL" +
+                ")";
+
+        try (
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql); // Execute the CREATE TABLE command
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions
+        }
+
+    }
 }

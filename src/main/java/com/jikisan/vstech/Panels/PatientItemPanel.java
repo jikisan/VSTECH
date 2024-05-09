@@ -19,7 +19,9 @@ public class PatientItemPanel extends JPanel{
     public PatientItemPanel(PatientModel patientModel, JFrame parentFrame) {
 
         String userDir = System.getProperty("user.dir");
-        String imagePath = userDir + "\\src\\main\\java\\Images\\bed.png"; // Modify as needed
+        String imagePath = userDir + "\\images\\bed.png"; // Modify as needed
+
+//        String imagePath = userDir + "\\src\\main\\java\\Images\\bed.png"; // Modify as needed
         System.out.println(imagePath);
         ImageIcon icon = new ImageIcon(imagePath);
         int iconLabelSize = 70;
