@@ -45,8 +45,8 @@ public class TprSheetPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        setOpaque(true);
         setMinimumSize(new Dimension(1000, 1000));
+        setBackground(Color.WHITE);
         setAutoscrolls(true);
 
         drawGrid(g, totalRows, totalColumns);

@@ -1,31 +1,30 @@
 package com.jikisan.vstech.Forms;
 
+import com.jikisan.vstech.DAO.DbConn;
+import com.jikisan.vstech.DAO.PatientDao;
 import com.jikisan.vstech.DiagnosisForm.ConditionType;
 import com.jikisan.vstech.DiagnosisForm.DiagnosisForm;
 import com.jikisan.vstech.Model.*;
 import com.jikisan.vstech.Panels.TprSheetPanel;
 import com.jikisan.vstech.Mapper;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
-public class Homepage extends javax.swing.JFrame {
+public class Homepage extends JFrame {
 
     private List<TempDataModel> tempData;
     private List<PrDataModel> prData;
     private List<RrDataModel> rrData;
     private List<BpDataModel> bpData;
-    private DateListModel dateList;
 
     private Map<String, Integer> xPointsMap;
     private Map<String, Integer> bpXpointsMap;
@@ -61,9 +60,7 @@ public class Homepage extends javax.swing.JFrame {
         initComponents();
         setPlaceholderImg();
         generatePatientData(patientModel);
-        generateTprSheet();
-
-
+        generateTprSheet(patientModel);
     }
 
     @SuppressWarnings("unchecked")
@@ -72,86 +69,86 @@ public class Homepage extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel5 = new jPanelGradient();
-        javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
-        lblProfileImg = new javax.swing.JLabel();
-        javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
-        lblName = new javax.swing.JLabel();
-        lblCaseNum = new javax.swing.JLabel();
-        lblAge = new javax.swing.JLabel();
-        lblDiagnosis = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel9 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel10 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel12 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel13 = new javax.swing.JLabel();
-        tempTxtField = new javax.swing.JTextField();
-        prTextField = new javax.swing.JTextField();
-        rrTextField = new javax.swing.JTextField();
-        bpTextField = new javax.swing.JTextField();
-        o2TxtField = new javax.swing.JTextField();
-        bpHoursComboBox = new javax.swing.JComboBox<>();
-        jPanel4 = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
-        backBtn = new javax.swing.JLabel();
-        tprSheetPanel = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
+        JPanel jPanel1 = new JPanel();
+        lblProfileImg = new JLabel();
+        JPanel jPanel3 = new JPanel();
+        lblName = new JLabel();
+        lblCaseNum = new JLabel();
+        lblAge = new JLabel();
+        lblDiagnosis = new JLabel();
+        JLabel jLabel8 = new JLabel();
+        jPanel2 = new JPanel();
+        JLabel jLabel9 = new JLabel();
+        JLabel jLabel10 = new JLabel();
+        JLabel jLabel11 = new JLabel();
+        JLabel jLabel12 = new JLabel();
+        JLabel jLabel13 = new JLabel();
+        tempTxtField = new JTextField();
+        prTextField = new JTextField();
+        rrTextField = new JTextField();
+        bpTextField = new JTextField();
+        o2TxtField = new JTextField();
+        bpHoursComboBox = new JComboBox<>();
+        jPanel4 = new JPanel();
+        JLabel jLabel2 = new JLabel();
+        JLabel jLabel3 = new JLabel();
+        JLabel jLabel4 = new JLabel();
+        JLabel jLabel6 = new JLabel();
+        backBtn = new JLabel();
+        tprSheetPanel = new JPanel();
+        jPanel6 = new JPanel();
+        JLabel jLabel1 = new JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setBackground(new java.awt.Color(136, 191, 253));
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new Color(136, 191, 253));
         setResizable(false);
 
-        jPanel5.setBackground(new java.awt.Color(196, 203, 228));
-        jPanel5.setMinimumSize(new java.awt.Dimension(1500, 1000));
-        jPanel5.setPreferredSize(new java.awt.Dimension(1500, 1000));
+        jPanel5.setBackground(new Color(196, 203, 228));
+        jPanel5.setMinimumSize(new Dimension(1500, 1000));
+        jPanel5.setPreferredSize(new Dimension(1500, 1000));
 
-        jPanel1.setBackground(new java.awt.Color(196, 203, 228));
-        jPanel1.setMaximumSize(new java.awt.Dimension(350, 1000));
-        jPanel1.setMinimumSize(new java.awt.Dimension(350, 1000));
+        jPanel1.setBackground(new Color(196, 203, 228));
+        jPanel1.setMaximumSize(new Dimension(350, 1000));
+        jPanel1.setMinimumSize(new Dimension(350, 1000));
         jPanel1.setOpaque(false);
-        jPanel1.setPreferredSize(new java.awt.Dimension(350, 1000));
+        jPanel1.setPreferredSize(new Dimension(350, 1000));
 
-        lblProfileImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblProfileImg.setMaximumSize(new java.awt.Dimension(150, 150));
-        lblProfileImg.setMinimumSize(new java.awt.Dimension(150, 150));
+        lblProfileImg.setHorizontalAlignment(SwingConstants.CENTER);
+        lblProfileImg.setMaximumSize(new Dimension(150, 150));
+        lblProfileImg.setMinimumSize(new Dimension(150, 150));
         lblProfileImg.setOpaque(true);
-        lblProfileImg.setPreferredSize(new java.awt.Dimension(150, 150));
+        lblProfileImg.setPreferredSize(new Dimension(150, 150));
 
-        jPanel3.setBackground(new java.awt.Color(196, 203, 228));
+        jPanel3.setBackground(new Color(196, 203, 228));
         jPanel3.setOpaque(false);
 
-        lblName.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        lblName.setFont(new Font("Roboto", 1, 18)); // NOI18N
         lblName.setText("Loading...");
 
-        lblCaseNum.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        lblCaseNum.setFont(new Font("Roboto", 1, 18)); // NOI18N
         lblCaseNum.setText("Loading...");
 
-        lblAge.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        lblAge.setFont(new Font("Roboto", 1, 18)); // NOI18N
         lblAge.setText("Loading...");
 
-        lblDiagnosis.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        lblDiagnosis.setFont(new Font("Roboto", 1, 18)); // NOI18N
         lblDiagnosis.setText("Loading...");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(lblName)
                     .addComponent(lblCaseNum)
                     .addComponent(lblAge)
                     .addComponent(lblDiagnosis))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(lblName)
                 .addGap(18, 18, 18)
@@ -160,100 +157,100 @@ public class Homepage extends javax.swing.JFrame {
                 .addComponent(lblAge)
                 .addGap(18, 18, 18)
                 .addComponent(lblDiagnosis)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel8.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel8.setFont(new Font("Verdana", 1, 14)); // NOI18N
         jLabel8.setText("Values:");
 
         jPanel2.setOpaque(false);
 
-        jLabel9.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel9.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel9.setText("T:");
 
-        jLabel10.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel10.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel10.setText("PR:");
 
-        jLabel11.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel11.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel11.setText("BP:");
 
-        jLabel12.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel12.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel12.setText("RR:");
 
-        jLabel13.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel13.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel13.setText("O2:");
 
-        tempTxtField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        tempTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        tempTxtField.setFont(new Font("Roboto", 0, 12)); // NOI18N
+        tempTxtField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
                 tempTxtFieldKeyPressed(evt);
             }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
+            public void keyTyped(KeyEvent evt) {
                 tempTxtFieldKeyTyped(evt);
             }
         });
 
-        prTextField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        prTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        prTextField.setFont(new Font("Roboto", 0, 12)); // NOI18N
+        prTextField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
                 prTextFieldKeyPressed(evt);
             }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
+            public void keyTyped(KeyEvent evt) {
                 prTextFieldKeyTyped(evt);
             }
         });
 
-        rrTextField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        rrTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        rrTextField.setFont(new Font("Roboto", 0, 12)); // NOI18N
+        rrTextField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
                 rrTextFieldKeyPressed(evt);
             }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
+            public void keyTyped(KeyEvent evt) {
                 rrTextFieldKeyTyped(evt);
             }
         });
 
-        bpTextField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        bpTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        bpTextField.setFont(new Font("Roboto", 0, 12)); // NOI18N
+        bpTextField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
                 bpTextFieldKeyPressed(evt);
             }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
+            public void keyTyped(KeyEvent evt) {
                 bpTextFieldKeyTyped(evt);
             }
         });
 
-        o2TxtField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        o2TxtField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        o2TxtField.setFont(new Font("Roboto", 0, 12)); // NOI18N
+        o2TxtField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
                 o2TxtFieldKeyPressed(evt);
             }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
+            public void keyTyped(KeyEvent evt) {
                 o2TxtFieldKeyTyped(evt);
             }
         });
 
-        bpHoursComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6-2", "2-10", "10-6", " " }));
+        bpHoursComboBox.setModel(new DefaultComboBoxModel<>(new String[] { "6-2", "2-10", "10-6", " " }));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(21, 21, 21)
-                        .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(o2TxtField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(jLabel12)
                             .addComponent(jLabel10))
                         .addGap(21, 21, 21)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tempTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(tempTxtField, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
                             .addComponent(rrTextField)
                             .addComponent(prTextField)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -261,61 +258,61 @@ public class Homepage extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(bpTextField)
                         .addGap(18, 18, 18)
-                        .addComponent(bpHoursComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bpHoursComboBox, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)))
                 .addGap(57, 57, 57))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bpTextField, o2TxtField, prTextField, rrTextField, tempTxtField});
+        jPanel2Layout.linkSize(SwingConstants.HORIZONTAL, new Component[] {bpTextField, o2TxtField, prTextField, rrTextField, tempTxtField});
 
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(tempTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tempTxtField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(prTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(prTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(rrTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rrTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(o2TxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(o2TxtField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(bpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bpHoursComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bpHoursComboBox, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bpHoursComboBox, bpTextField});
+        jPanel2Layout.linkSize(SwingConstants.VERTICAL, new Component[] {bpHoursComboBox, bpTextField});
 
         jPanel4.setOpaque(false);
 
-        jLabel2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel2.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel2.setText("Name:");
 
-        jLabel3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel3.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel3.setText("Case Number:");
 
-        jLabel4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel4.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel4.setText("Age:");
 
-        jLabel6.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel6.setFont(new Font("Roboto", 0, 12)); // NOI18N
         jLabel6.setText("Diagnosis");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -323,149 +320,152 @@ public class Homepage extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel4)
-                .addGap(18, 18, 18)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        backBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        backBtn.setFont(new Font("Segoe UI", 1, 12)); // NOI18N
         backBtn.setLabelFor(backBtn);
         backBtn.setText("Back");
-        backBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        backBtn.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
                 backBtnMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lblProfileImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblProfileImg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addComponent(backBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(backBtn)
                 .addGap(9, 9, 9)
-                .addComponent(lblProfileImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblProfileImg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 352, Short.MAX_VALUE)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
 
-        tprSheetPanel.setMinimumSize(new java.awt.Dimension(1000, 800));
-        tprSheetPanel.setPreferredSize(new java.awt.Dimension(1000, 800));
+        tprSheetPanel.setMinimumSize(new Dimension(1000, 800));
+        tprSheetPanel.setOpaque(false);
+        tprSheetPanel.setPreferredSize(new Dimension(1000, 800));
 
-        javax.swing.GroupLayout tprSheetPanelLayout = new javax.swing.GroupLayout(tprSheetPanel);
+        GroupLayout tprSheetPanelLayout = new GroupLayout(tprSheetPanel);
         tprSheetPanel.setLayout(tprSheetPanelLayout);
         tprSheetPanelLayout.setHorizontalGroup(
-            tprSheetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            tprSheetPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
         tprSheetPanelLayout.setVerticalGroup(
-            tprSheetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            tprSheetPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 887, Short.MAX_VALUE)
         );
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
+        jPanel6.setOpaque(false);
+
+        jLabel1.setFont(new Font("Segoe UI", 3, 48)); // NOI18N
         jLabel1.setText("VSTECH");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(868, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(tprSheetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
+                        .addComponent(tprSheetPanel, GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tprSheetPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tprSheetPanel, GroupLayout.PREFERRED_SIZE, 887, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void backBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseClicked
+    private void backBtnMouseClicked(MouseEvent evt) {//GEN-FIRST:event_backBtnMouseClicked
         new Dashboard().setVisible(true);
         dispose();
     }//GEN-LAST:event_backBtnMouseClicked
@@ -501,7 +501,26 @@ public class Homepage extends javax.swing.JFrame {
         lblProfileImg.setIcon(icon);
     }
 
-    private void generateTprSheet() {
+    private void generateTprSheet(PatientModel patientModel) {
+
+        for (String temp : stringToList(patientModel.getTempData())) {
+            addTemp(xpoints[tempData.size()], "n/a", temp);
+        }
+
+        for (String pr : stringToList(patient.getPrData())) {
+            addPR(xpoints[prData.size()], "n/a", pr);
+        }
+
+        for (String rr : stringToList(patient.getRrData())) {
+            addRR(xpoints[rrData.size()], "n/a", rr);
+        }
+
+//        for (String bp : stringToList(patient.getBpData())) {
+//            String bpHours = patient.get;
+//            int count = countOccurrences(bpData, bpHours);
+//            String bpDate = bpXpoints[count];
+//            addBP(bpDate, bpHours, bp);
+//        }
 
         TprSheetPanel tprSheetCustomPanel = new TprSheetPanel(
                 new DataModel(tempData, prData, rrData, bpData),
@@ -519,7 +538,7 @@ public class Homepage extends javax.swing.JFrame {
 
 
     //KEYTYPED
-    private void tempTxtFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void tempTxtFieldKeyTyped(KeyEvent evt) {
         char c = evt.getKeyChar();
 
         boolean isDecimalPoint = (c == '.');
@@ -534,7 +553,7 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
-    private void rrTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void rrTextFieldKeyTyped(KeyEvent evt) {
         char c = evt.getKeyChar();
 
         if (!Character.isDigit(c)) {
@@ -542,7 +561,7 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
-    private void prTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void prTextFieldKeyTyped(KeyEvent evt) {
         char c = evt.getKeyChar();
 
         if (!Character.isDigit(c)) {
@@ -550,7 +569,7 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
-    private void o2TxtFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void o2TxtFieldKeyTyped(KeyEvent evt) {
         char c = evt.getKeyChar();
 
         if (!Character.isDigit(c)) {
@@ -558,13 +577,13 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
-    private void bpTextFieldKeyTyped(java.awt.event.KeyEvent evt) {
+    private void bpTextFieldKeyTyped(KeyEvent evt) {
 
     }
 
 
     //KEYPRESSED
-    private void tempTxtFieldKeyPressed(java.awt.event.KeyEvent evt) {
+    private void tempTxtFieldKeyPressed(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String temp = tempTxtField.getText().toString();
 
@@ -580,6 +599,12 @@ public class Homepage extends javax.swing.JFrame {
 
             if (xpoints.length > tempData.size()) {
                 addTemp(xpoints[tempData.size()], "n/a", limitToFirstFour(temp));
+                PatientDao.updatePatientData(
+                        DbConn.ConnectDb(),
+                        patient.getId(),
+                        tempDataToString(tempData),
+                        "tempData"
+                );
             }
 
             if (Float.parseFloat(temp) < 36.5) {
@@ -597,7 +622,7 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
-    private void prTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+    private void prTextFieldKeyPressed(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String pr = prTextField.getText().toString();
 
@@ -613,6 +638,18 @@ public class Homepage extends javax.swing.JFrame {
 
             if (xpoints.length > prData.size()) {
                 addPR(xpoints[prData.size()], "n/a", prTextField.getText().toString());
+                PatientDao.updatePatientData(
+                        DbConn.ConnectDb(),
+                        patient.getId(),
+                        prDataToString(prData),
+                        "prData"
+                );
+                PatientDao.updatePatientData(
+                        DbConn.ConnectDb(),
+                        patient.getId(),
+                        prDataToString(prData),
+                        "prData"
+                );
             }
 
             if (Float.parseFloat(pr) < 60) {
@@ -628,7 +665,7 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
-    private void rrTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+    private void rrTextFieldKeyPressed(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String rr = rrTextField.getText().toString();
 
@@ -646,6 +683,12 @@ public class Homepage extends javax.swing.JFrame {
 
             if (xpoints.length > rrData.size()) {
                 addRR(xpoints[rrData.size()], "n/a", rrTextField.getText().toString());
+                PatientDao.updatePatientData(
+                        DbConn.ConnectDb(),
+                        patient.getId(),
+                        rrDataToString(rrData),
+                        "rrData"
+                );
             }
 
             if (Float.parseFloat(rr) < 12) {
@@ -663,7 +706,7 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
-    private void o2TxtFieldKeyPressed(java.awt.event.KeyEvent evt) {
+    private void o2TxtFieldKeyPressed(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String o2 = o2TxtField.getText().toString();
 
@@ -688,7 +731,7 @@ public class Homepage extends javax.swing.JFrame {
         }
     }
 
-    private void bpTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+    private void bpTextFieldKeyPressed(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
             String bp = bpTextField.getText().toString();
@@ -738,16 +781,16 @@ public class Homepage extends javax.swing.JFrame {
         tempData.add(new TempDataModel(date, hour, temp));
     }
 
-    public void addPR(String date, String hour, String temp) {
-        prData.add(new PrDataModel(date, hour, temp));
+    public void addPR(String date, String hour, String pr) {
+        prData.add(new PrDataModel(date, hour, pr));
     }
 
-    public void addRR(String date, String hour, String temp) {
-        rrData.add(new RrDataModel(date, hour, temp));
+    public void addRR(String date, String hour, String rr) {
+        rrData.add(new RrDataModel(date, hour, rr));
     }
 
-    public void addBP(String date, String hour, String temp) {
-        bpData.add(new BpDataModel(date, hour, temp));
+    public void addBP(String date, String hour, String bp) {
+        bpData.add(new BpDataModel(date, hour, bp));
     }
 
 
@@ -780,6 +823,47 @@ public class Homepage extends javax.swing.JFrame {
         return tokens;
     }
 
+    public static String listToString(List<String> list) {
+        return String.join(",", list);
+    }
+
+    public static String tempDataToString(List<TempDataModel> list) {
+        StringJoiner joiner = new StringJoiner(",");
+
+        for (TempDataModel item : list) {
+            joiner.add(item.getTemp());
+        }
+
+        return joiner.toString();
+    }
+
+    private String prDataToString(List<PrDataModel> list) {
+        StringJoiner joiner = new StringJoiner(",");
+
+        for (PrDataModel item : list) {
+            joiner.add(item.getPR());
+        }
+
+        return joiner.toString();
+    }
+
+    private String rrDataToString(List<RrDataModel> list) {
+        StringJoiner joiner = new StringJoiner(",");
+
+        for (RrDataModel item : list) {
+            joiner.add(item.getRR());
+        }
+
+        return joiner.toString();
+    }
+
+    public static List<String> stringToList(String str) {
+        if (str == null || str.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return Arrays.asList(str.split(","));
+    }
+
     private int countOccurrences(List<BpDataModel> list, String target) {
         int count = 0;
 
@@ -795,30 +879,30 @@ public class Homepage extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+            for (UIManager.LookAndFeelInfo info : UIManager
                     .getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
+            Logger.getLogger(Homepage.class.getName()).log(Level.SEVERE,
                     null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
+            Logger.getLogger(Homepage.class.getName()).log(Level.SEVERE,
                     null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
+            Logger.getLogger(Homepage.class.getName()).log(Level.SEVERE,
                     null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Homepage.class.getName()).log(java.util.logging.Level.SEVERE,
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Homepage.class.getName()).log(Level.SEVERE,
                     null, ex);
         }
         // </editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Homepage().setVisible(true);
             }
@@ -826,23 +910,23 @@ public class Homepage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel backBtn;
-    private javax.swing.JComboBox<String> bpHoursComboBox;
-    private javax.swing.JTextField bpTextField;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JLabel lblAge;
-    private javax.swing.JLabel lblCaseNum;
-    private javax.swing.JLabel lblDiagnosis;
-    private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblProfileImg;
-    private javax.swing.JTextField o2TxtField;
-    private javax.swing.JTextField prTextField;
-    private javax.swing.JTextField rrTextField;
-    private javax.swing.JTextField tempTxtField;
-    private javax.swing.JPanel tprSheetPanel;
+    private JLabel backBtn;
+    private JComboBox<String> bpHoursComboBox;
+    private JTextField bpTextField;
+    private JPanel jPanel2;
+    private JPanel jPanel4;
+    private JPanel jPanel5;
+    private JPanel jPanel6;
+    private JLabel lblAge;
+    private JLabel lblCaseNum;
+    private JLabel lblDiagnosis;
+    private JLabel lblName;
+    private JLabel lblProfileImg;
+    private JTextField o2TxtField;
+    private JTextField prTextField;
+    private JTextField rrTextField;
+    private JTextField tempTxtField;
+    private JPanel tprSheetPanel;
     // End of variables declaration//GEN-END:variables
 
     class jPanelGradient extends JPanel {

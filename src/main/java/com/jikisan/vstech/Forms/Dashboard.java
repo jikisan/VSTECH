@@ -29,11 +29,11 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         conn = DbConn.ConnectDb();
         this.patientDao = new PatientDao();
-        generatePatiends();
+        generatePatients();
     }
 
 
-    private void generatePatiends() {
+    private void generatePatients() {
         JPanel patientCards = createPatientCards();
 
         patientPanel.removeAll();
@@ -73,8 +73,16 @@ public class Dashboard extends javax.swing.JFrame {
                 String photoName = rs.getString("photoName");
                 String dates = rs.getString("dates");
 
+                String tempData = rs.getString("tempData");
+                String hrData = rs.getString("hrData");
+                String rrData = rs.getString("rrData");
+                String prData = rs.getString("prData");
+                String bpData = rs.getString("bpData");
+                String o2Data = rs.getString("o2Data");
+
                 // Add more fields as needed
-                patients.add(new PatientModel(id, name, caseNumber, age, diagnosis, photoName, dates));
+                patients.add(new PatientModel(id, name, caseNumber, age, diagnosis, photoName, dates
+                        , tempData, hrData, rrData, prData, bpData, o2Data));
             }
             rs.close();
         } catch (SQLException ex) {

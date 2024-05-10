@@ -10,14 +10,16 @@ import com.jikisan.vstech.Panels.PatientItemPanel;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.*;
 
 public class DiagnosisForm extends javax.swing.JFrame {
 
     private ConditionType condition;
     private JFrame homepageFrame;
-    private String [] diagnosisArray;
+    private String[] diagnosisArray;
     private ArrayList<String[]> interventionList;
+    private ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
 
     public DiagnosisForm() {
         initComponents();
@@ -28,9 +30,7 @@ public class DiagnosisForm extends javax.swing.JFrame {
         this.condition = condition;
         this.homepageFrame = frame;
         fillHeader(condition);
-
     }
-
 
     private void fillHeader(ConditionType condition) {
         conditionHeader.setText(condition.toString());
@@ -39,9 +39,9 @@ public class DiagnosisForm extends javax.swing.JFrame {
             case HYPERTHERMIA:
                 conditionHeader.setText("HYPERTHERMIA");
                 diagnosisArray = DiagnosisAndIntervensions.getHyperthermiaDiagnosis();
-                interventionList = DiagnosisAndIntervensions.HYPOTHERMIA_INTERVENTIONS();
+                interventionList = DiagnosisAndIntervensions.HYPERTHERMIA_INTERVENTIONS();
                 generateDiagnosis(condition);
-            break;
+                break;
 
             case HYPOTHERMIA:
                 conditionHeader.setText("HYPOTHERMIA");
@@ -101,37 +101,30 @@ public class DiagnosisForm extends javax.swing.JFrame {
     private void generateDiagnosis(ConditionType condition) {
 
         JPanel diagnosisCards = createDiagnosisCards(condition);
-        int width = panelDiagnosis.getWidth();
-
-//        setPreferredSize(new Dimension(width, 50 * diagnosisArray.length));
-//        setMinimumSize(new Dimension(width, 50 * diagnosisArray.length));
-
         panelDiagnosis.removeAll();
-        panelDiagnosis.setLayout(new GridLayout(0, 1, 10, 10));
+        panelDiagnosis.setAutoscrolls(true);
+        panelDiagnosis.setLayout(new BoxLayout(panelDiagnosis, BoxLayout.Y_AXIS));
         panelDiagnosis.setOpaque(false);
         panelDiagnosis.add(diagnosisCards);
         panelDiagnosis.revalidate();
         panelDiagnosis.repaint();
+
+        JScrollPane scrollPane = new JScrollPane(panelDiagnosis); // Add panel to JScrollPane
+        add(scrollPane);
     }
 
     private JPanel createDiagnosisCards(ConditionType condition) {
 
-        int width = panelDiagnosis.getWidth();
-
-        JPanel panel = new JPanel(new GridLayout(0, 1, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(0, 1, 0, 0));
+        panel.setAutoscrolls(true);
         panel.setOpaque(false);
 
         for (String diagnosis : diagnosisArray) {
-            JLabel label = new JLabel();
-            label.setText(diagnosis);
-            label.setFont(new Font("Arial", Font.BOLD, 14));
-            panel.add(label);
-
-            label.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    JOptionPane.showMessageDialog(null, interventionList.get(0)[1]);
-                }
-            });
+            JCheckBox checkBox = new JCheckBox();
+            checkBox.setText(diagnosis);
+            checkBox.setFont(new Font("Arial", Font.BOLD, 14));
+            panel.add(checkBox);
+            checkBoxes.add(checkBox);
         }
 
         return panel;
@@ -151,12 +144,15 @@ public class DiagnosisForm extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         panelDiagnosis = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        nextBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
-        jPanel1.setPreferredSize(new java.awt.Dimension(0, 0));
+        jPanel1.setMinimumSize(new java.awt.Dimension(815, 815));
+        jPanel1.setOpaque(false);
+        jPanel1.setPreferredSize(new java.awt.Dimension(815, 815));
 
         jPanel2.setOpaque(false);
 
@@ -206,6 +202,8 @@ public class DiagnosisForm extends javax.swing.JFrame {
 
         jPanel3.setOpaque(false);
 
+        panelDiagnosis.setAutoscrolls(true);
+        panelDiagnosis.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         panelDiagnosis.setOpaque(false);
         panelDiagnosis.setPreferredSize(new java.awt.Dimension(0, 0));
 
@@ -213,31 +211,59 @@ public class DiagnosisForm extends javax.swing.JFrame {
         panelDiagnosis.setLayout(panelDiagnosisLayout);
         panelDiagnosisLayout.setHorizontalGroup(
             panelDiagnosisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 547, Short.MAX_VALUE)
+            .addGap(0, 559, Short.MAX_VALUE)
         );
         panelDiagnosisLayout.setVerticalGroup(
             panelDiagnosisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
+            .addGap(0, 336, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                    .addContainerGap(259, Short.MAX_VALUE)
-                    .addComponent(panelDiagnosis, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 592, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(1, 1, 1)
-                    .addComponent(panelDiagnosis, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(panelDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
+        );
+
+        jPanel4.setOpaque(false);
+
+        nextBtn.setBackground(new java.awt.Color(0, 153, 255));
+        nextBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        nextBtn.setForeground(new java.awt.Color(255, 255, 255));
+        nextBtn.setText("NEXT");
+        nextBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(367, 367, 367)
+                    .addComponent(nextBtn)
+                    .addContainerGap(367, Short.MAX_VALUE)))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 39, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(nextBtn)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -246,37 +272,60 @@ public class DiagnosisForm extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(2, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 20, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(830, 735));
+        setSize(new java.awt.Dimension(830, 563));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        ArrayList<String> newInterventions = new ArrayList<>();
+
+        for (int i = 0; i < checkBoxes.size(); i++) {
+            JCheckBox checkBox = checkBoxes.get(i);
+            if (checkBox.isSelected()) {
+
+                newInterventions.addAll(Arrays.asList(interventionList.get(i)));
+            }
+        }
+
+        System.out.println(newInterventions);
+        new InterventionForm(newInterventions, homepageFrame).setVisible(true);
+        dispose();
+    }
 
     public static void main(String args[]) {
 
@@ -297,6 +346,8 @@ public class DiagnosisForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JButton nextBtn;
     private javax.swing.JPanel panelDiagnosis;
     // End of variables declaration//GEN-END:variables
 

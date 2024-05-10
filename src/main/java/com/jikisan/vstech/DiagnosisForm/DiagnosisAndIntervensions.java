@@ -258,7 +258,7 @@ public class DiagnosisAndIntervensions {
             "15. Social Isolation"
     };
 
-    private static ArrayList<String[]> HYPERTHERMIA_INTERVENTIONS() {
+    public static ArrayList<String[]> HYPERTHERMIA_INTERVENTIONS() {
         ArrayList<String[]> list = new ArrayList<>();
         list.add(HYPERTHERMIA_INTERVENTION_1);
         list.add(HYPERTHERMIA_INTERVENTION_2);

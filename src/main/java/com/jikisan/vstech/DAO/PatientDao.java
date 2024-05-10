@@ -58,4 +58,22 @@ public class PatientDao {
 
     }
 
+    // Method to update employee salary based on employee ID
+    public static void updatePatientData(Connection conn, int employeeId, String data, String name) {
+        String sql = "UPDATE Patient SET "+ name +" = ? WHERE id = ?"; // The SQL UPDATE statement
+
+        try (
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Set the parameters for the prepared statement
+            pstmt.setString(1, data);
+            pstmt.setInt(2, employeeId);
+
+            pstmt.executeUpdate(); // Execute the update
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

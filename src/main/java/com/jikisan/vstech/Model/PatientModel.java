@@ -20,7 +20,7 @@ public class PatientModel {
     private String dates;
     private String rrData;
 
-    public PatientModel(int id, String name, String caseNumber, String age, String diagnosis, String photo, String tempData, String hrData, String prData, String bpData, String o2Data, String dates, String rrData) {
+    public PatientModel(int id, String name, String caseNumber, String age, String diagnosis, String photo, String dates, String tempData, String hrData, String rrData, String prData, String bpData, String o2Data) {
         this.id = id;
         this.name = name;
         this.caseNumber = caseNumber;
