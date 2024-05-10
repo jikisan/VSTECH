@@ -79,11 +79,11 @@ public class TprSheetPanel extends JPanel {
             if (i % 6 == 0) {
                 g.drawLine(x, 0, x, gridHeight);
             } else if (i % 3 == 0) {
-                int endY = (i == 3) ? gridHeight : gridHeight - (rowHeight * 8);
+                int endY = (i == 3) ? gridHeight : gridHeight - (rowHeight * 10);
                 g.drawLine(x, rowHeight, x, endY);
             } else {
                 if (i > 6 && i % 3 != 0) {
-                    g.drawLine(x, rowHeight * 2, x, gridHeight - (rowHeight * 8));
+                    g.drawLine(x, rowHeight * 2, x, gridHeight - (rowHeight * 10));
                 }
             }
         }
@@ -115,7 +115,7 @@ public class TprSheetPanel extends JPanel {
                 "6-2", "2-10", "10-6"
         };
 
-        g.setFont(new Font("Verdana", Font.BOLD, 12));
+        g.setFont(new Font("Verdana", Font.BOLD, 10));
         g.setColor(Color.BLACK);
 
         g.drawString("Date", textRow(2, 15), textColumn(1));

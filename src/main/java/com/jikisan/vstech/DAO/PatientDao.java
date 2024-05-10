@@ -76,4 +76,28 @@ public class PatientDao {
         }
     }
 
+    public static void deletePatientById(Connection conn, int patientId) {
+        // The SQL DELETE statement
+        String sql = "DELETE FROM Patient WHERE id = ?";
+
+        try (
+                // Create a prepared statement for the DELETE operation
+                PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            // Set the parameter for the prepared statement
+            pstmt.setInt(1, patientId); // This sets the first parameter to the patientId
+
+            int affectedRows = pstmt.executeUpdate(); // Execute the DELETE statement
+
+            if (affectedRows > 0) {
+                System.out.println("Patient with ID " + patientId + " was successfully deleted.");
+            } else {
+                System.out.println("No patient found with ID " + patientId);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error deleting patient: " + e.getMessage());
+        }
+    }
+
 }

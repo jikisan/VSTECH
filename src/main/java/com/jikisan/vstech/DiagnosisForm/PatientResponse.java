@@ -43,7 +43,7 @@ public class PatientResponse extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
 
         jLabel5.setFont(new java.awt.Font("Roboto", 1, 28)); // NOI18N
-        jLabel5.setText("Nursing Intervention");
+        jLabel5.setText("Patient Response");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

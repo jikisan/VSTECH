@@ -36,7 +36,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void generatePatients() {
         JPanel patientCards = createPatientCards();
 
-        patientPanel.removeAll();
+//        patientPanel.removeAll();
         patientPanel.setLayout(new BorderLayout());
         patientPanel.setSize(1000, 500);
         patientPanel.setOpaque(false);

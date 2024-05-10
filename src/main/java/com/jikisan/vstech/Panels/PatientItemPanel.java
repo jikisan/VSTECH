@@ -1,6 +1,8 @@
 
 package com.jikisan.vstech.Panels;
 
+import com.jikisan.vstech.DAO.DbConn;
+import com.jikisan.vstech.DAO.PatientDao;
 import com.jikisan.vstech.Forms.Dashboard;
 import com.jikisan.vstech.Forms.Homepage;
 import com.jikisan.vstech.Model.ActivePatient;
@@ -54,8 +56,35 @@ public class PatientItemPanel extends JPanel{
             @Override
             public void mouseClicked(MouseEvent e) {
                 ActivePatient.getInstance().setPatient(patientModel);
-                new Homepage(patientModel).setVisible(true);
-                parentFrame.dispose();
+
+                // Custom option names for the dialog
+                Object[] options = {"View", "Delete"};
+
+                // Create the custom dialog with specific options
+                int response = JOptionPane.showOptionDialog(
+                        parentFrame, // Parent component
+                        "Would you like to View or Delete?", // Message
+                        "Choose Action", // Title
+                        JOptionPane.YES_NO_OPTION, // Default option type (used to set YES/NO)
+                        JOptionPane.QUESTION_MESSAGE, // Icon for the dialog
+                        null, // No custom icon
+                        options, // Custom button names
+                        options[0] // Default option (pre-selected)
+                );
+
+                if (response == JOptionPane.YES_OPTION) {
+                    new Homepage(patientModel).setVisible(true);
+                    parentFrame.dispose();
+                } else if (response == JOptionPane.NO_OPTION) {
+                    PatientDao.deletePatientById(DbConn.ConnectDb(), patientModel.getId());
+                    JOptionPane.showMessageDialog(parentFrame, "Patient Deleted");
+                    new Dashboard().setVisible(true);
+                    parentFrame.dispose();
+                } else {
+                    System.out.println("User closed the dialog without choosing");
+                }
+
+
             }
         });
     }

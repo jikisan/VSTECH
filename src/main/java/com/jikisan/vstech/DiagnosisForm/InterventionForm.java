@@ -51,6 +51,7 @@ public class InterventionForm extends javax.swing.JFrame {
             JCheckBox checkBox = new JCheckBox();
             checkBox.setText(intervention);
             checkBox.setFont(new Font("Arial", Font.BOLD, 14));
+            checkBox.setOpaque(false);
             panel.add(checkBox);
             checkBoxes.add(checkBox);
         }

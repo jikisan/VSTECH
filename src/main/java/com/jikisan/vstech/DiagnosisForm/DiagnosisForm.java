@@ -34,6 +34,12 @@ public class DiagnosisForm extends javax.swing.JFrame {
 
     private void fillHeader(ConditionType condition) {
         conditionHeader.setText(condition.toString());
+//        String userDir = System.getProperty("user.dir");
+//        String imagePath = userDir + "\\images\\exclamation.png"; // Modify as needed
+//        ImageIcon icon = new ImageIcon(imagePath);
+//        jLabel1.setIcon(icon);
+        jLabel1.setIconTextGap(10);
+
 
         switch (condition) {
             case HYPERTHERMIA:
@@ -101,16 +107,20 @@ public class DiagnosisForm extends javax.swing.JFrame {
     private void generateDiagnosis(ConditionType condition) {
 
         JPanel diagnosisCards = createDiagnosisCards(condition);
+        JScrollPane scrollPane = new JScrollPane(diagnosisCards);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setBorder(null);
+        scrollPane.getViewport().setBorder(null);
+
         panelDiagnosis.removeAll();
         panelDiagnosis.setAutoscrolls(true);
         panelDiagnosis.setLayout(new BoxLayout(panelDiagnosis, BoxLayout.Y_AXIS));
         panelDiagnosis.setOpaque(false);
-        panelDiagnosis.add(diagnosisCards);
+        panelDiagnosis.add(scrollPane);
         panelDiagnosis.revalidate();
         panelDiagnosis.repaint();
 
-        JScrollPane scrollPane = new JScrollPane(panelDiagnosis); // Add panel to JScrollPane
-        add(scrollPane);
     }
 
     private JPanel createDiagnosisCards(ConditionType condition) {
@@ -123,6 +133,7 @@ public class DiagnosisForm extends javax.swing.JFrame {
             JCheckBox checkBox = new JCheckBox();
             checkBox.setText(diagnosis);
             checkBox.setFont(new Font("Arial", Font.BOLD, 14));
+            checkBox.setOpaque(false);
             panel.add(checkBox);
             checkBoxes.add(checkBox);
         }
@@ -156,9 +167,10 @@ public class DiagnosisForm extends javax.swing.JFrame {
 
         jPanel2.setOpaque(false);
 
-        jLabel1.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 51, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ALERT");
+        jLabel1.setText("!! ALERT !!");
         jLabel1.setMinimumSize(new java.awt.Dimension(20, 29));
         jLabel1.setPreferredSize(new java.awt.Dimension(20, 29));
 
