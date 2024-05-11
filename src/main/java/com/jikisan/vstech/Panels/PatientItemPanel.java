@@ -33,7 +33,7 @@ public class PatientItemPanel extends JPanel{
         iconLabel.setVerticalAlignment(SwingConstants.CENTER);
         iconLabel.setHorizontalTextPosition(JLabel.CENTER);
         iconLabel.setVerticalTextPosition(JLabel.BOTTOM);
-        iconLabel.setText(patientModel.getName().toUpperCase(Locale.ROOT));
+        iconLabel.setText(patientModel.getBed().toUpperCase(Locale.ROOT));
         iconLabel.setFont(new Font("Arial", Font.BOLD, 14));
         iconLabel.setIconTextGap(20);
         iconLabel.setIcon(icon);

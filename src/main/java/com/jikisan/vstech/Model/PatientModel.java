@@ -11,6 +11,7 @@ public class PatientModel {
     private String age;
     private String diagnosis;
     private String photo;
+    private String bed;
 
     private String tempData;
     private String hrData;
@@ -20,23 +21,29 @@ public class PatientModel {
     private String dates;
     private String rrData;
 
-    public PatientModel(int id, String name, String caseNumber, String age, String diagnosis, String photo, String dates, String tempData, String hrData, String rrData, String prData, String bpData, String o2Data) {
+    public PatientModel(int id, String name, String caseNumber, String age, String diagnosis, String photo, String dates, String bed, String tempData, String hrData, String rrData, String prData, String bpData, String o2Data) {
         this.id = id;
         this.name = name;
         this.caseNumber = caseNumber;
         this.age = age;
         this.diagnosis = diagnosis;
         this.photo = photo;
+        this.dates = dates;
+        this.bed = bed;
+
         this.tempData = tempData;
         this.hrData = hrData;
         this.prData = prData;
         this.bpData = bpData;
         this.o2Data = o2Data;
-        this.dates = dates;
         this.rrData = rrData;
     }
 
-    public PatientModel(int id, String name, String caseNumber, String age, String diagnosis, String photo, String dates) {
+    public String getBed() {
+        return bed;
+    }
+
+    public PatientModel(int id, String name, String caseNumber, String age, String diagnosis, String photo, String dates, String bed) {
         this.id = id;
         this.name = name;
         this.caseNumber = caseNumber;
@@ -44,6 +51,7 @@ public class PatientModel {
         this.diagnosis = diagnosis;
         this.photo = photo;
         this.dates = dates;
+        this.bed = bed;
     }
 
     public int getId() {

@@ -4,10 +4,8 @@ import com.jikisan.vstech.Mapper;
 import com.jikisan.vstech.Model.*;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import javax.swing.JPanel;
 
 public class TprSheetPanel extends JPanel {
@@ -28,7 +26,7 @@ public class TprSheetPanel extends JPanel {
     private final int totalColumns = 36;
     private final float lineThickness = 3.0f;
 
-    public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap, Map<String, Integer> _bpXpointsMap, String [] dates) {
+    public TprSheetPanel(DataModel dataModel, Map<String, Integer> _dateTimeMap, Map<String, Integer> _bpXpointsMap, String[] dates) {
         this.dateTimeMapper = _dateTimeMap;
         this.bpXpointsMap = _bpXpointsMap;
         this.tempMapper = Mapper.getTempYpointsMap();
@@ -208,7 +206,6 @@ public class TprSheetPanel extends JPanel {
     }
 
 
-
     public void fillDates(Graphics g) {
         int row = 8;
         int column = 1;
@@ -221,84 +218,118 @@ public class TprSheetPanel extends JPanel {
 
         g2d.setStroke(new BasicStroke(lineThickness));
 
-        repaint();
+//        repaint();
 
     }
 
     private void drawTempLine(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
-        
         g2d.setStroke(new BasicStroke(lineThickness));
         g.setColor(Color.BLACK);
 
-        int[] xPoints = new int[tempList.size()];
-        int[] yPoints = new int[tempList.size()];
+        int skipCount = 0;
 
         for (int i = 0; i < tempList.size(); i++) {
-            String date = tempList.get(i).getDate();
-            String hour = tempList.get(i).getHour();
-            xPoints[i] = dateXpoint(date);
-            yPoints[i] = tempYpoint(tempList.get(i).getTemp());
+            String temp = tempList.get(i).getTemp();
+            if (temp.equalsIgnoreCase("skip")) {
+                skipCount++;
+            }
+        }
+
+
+        int[] xPoints = new int[tempList.size() - skipCount];
+        int[] yPoints = new int[tempList.size() - skipCount];
+
+        for (int i = 0; i < xPoints.length; i++) {
+            String date = tempList.get(i + skipCount).getDate();
+            String temp = tempList.get(i + skipCount).getTemp();
+
+            if (!temp.equalsIgnoreCase("skip")) {
+                xPoints[i] = dateXpoint(date);
+                yPoints[i] = tempYpoint(temp);
+                System.out.println("not skip");
+            }
         }
 
         if (xPoints.length == 1) {
-            g.fillOval(xPoints[0], yPoints[0], 10, 10);
+            g.fillOval(xPoints[0], yPoints[0], 5, 5);
         } else if (xPoints.length > 1) {
             g.drawPolyline(xPoints, yPoints, xPoints.length);
         }
-
-        repaint();
     }
 
     private void drawPrLine(Graphics g) {
+
         Graphics2D g2d = (Graphics2D) g;
-        
         g2d.setStroke(new BasicStroke(lineThickness));
         g.setColor(Color.RED);
 
-        int[] xPoints = new int[prList.size()];
-        int[] yPoints = new int[prList.size()];
+        int skipCount = 0;
 
         for (int i = 0; i < prList.size(); i++) {
-            String date = prList.get(i).getDate();
-            String hour = prList.get(i).getHour();
-            xPoints[i] = dateXpoint(date);
-            yPoints[i] = prYpoint(prList.get(i).getPR());
+            String pr = prList.get(i).getPR();
+            if (pr.equalsIgnoreCase("skip")) {
+                skipCount++;
+            }
+        }
+
+        int[] xPoints = new int[prList.size() - skipCount];
+        int[] yPoints = new int[prList.size() - skipCount];
+
+        for (int i = 0; i < xPoints.length; i++) {
+            String date = prList.get(i + skipCount).getDate();
+            String pr = prList.get(i + skipCount).getPR();
+
+            if (!pr.equalsIgnoreCase("skip")) {
+                xPoints[i] = dateXpoint(date);
+                yPoints[i] = prYpoint(pr);
+            }
         }
 
         if (xPoints.length == 1) {
-            g.fillOval(xPoints[0], yPoints[0], 10, 10);
+            g.fillOval(xPoints[0], yPoints[0], 5, 5);
         } else if (xPoints.length > 1) {
             g.drawPolyline(xPoints, yPoints, xPoints.length);
         }
-
-        repaint();
     }
 
     private void drawRrLine(Graphics g) {
+
         Graphics2D g2d = (Graphics2D) g;
-        
         g2d.setStroke(new BasicStroke(lineThickness));
         g.setColor(Color.BLUE);
 
-        int[] xPoints = new int[rrList.size()];
-        int[] yPoints = new int[rrList.size()];
+        int skipCount = 0;
 
         for (int i = 0; i < rrList.size(); i++) {
-            String date = rrList.get(i).getDate();
-            String hour = rrList.get(i).getHour();
-            xPoints[i] = dateXpoint(date);
-            yPoints[i] = prYpoint(rrList.get(i).getRR());
+            String rr = rrList.get(i).getRR();
+            if (rr.equalsIgnoreCase("skip")) {
+                skipCount++;
+            }
+        }
+
+        int[] xPoints = new int[rrList.size() - skipCount];
+        int[] yPoints = new int[rrList.size() - skipCount];
+
+
+        for (int i = 0; i < xPoints.length; i++) {
+            String date = rrList.get(i + skipCount).getDate();
+            String rr = rrList.get(i + skipCount).getRR();
+
+            if (!rr.equalsIgnoreCase("skip")) {
+                xPoints[i] = dateXpoint(date);
+                yPoints[i] = prYpoint(rr);
+            }
         }
 
         if (xPoints.length == 1) {
-            g.fillOval(xPoints[0], yPoints[0], 10, 10);
+            g.fillOval(xPoints[0], yPoints[0], 5, 5);
         } else if (xPoints.length > 1) {
             g.drawPolyline(xPoints, yPoints, xPoints.length);
         }
 
-        repaint();
+//        repaint();
     }
 
     private void fillBpData(Graphics g) {
@@ -327,10 +358,8 @@ public class TprSheetPanel extends JPanel {
 
         g2d.setStroke(new BasicStroke(lineThickness));
 
-        repaint();
+//        repaint();
     }
-
-
 
 
     private int dateXpoint(String dateTime) {

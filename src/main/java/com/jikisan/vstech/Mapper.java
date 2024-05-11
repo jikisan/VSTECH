@@ -86,11 +86,10 @@ public class Mapper {
     public static List<String> getCombinedDates() {
         return combinedDateTimes;
     }
+    
     public static List<String> getBpCombinedDates() {
         return combinedBpDateTimes;
     }
-
-
 
     public static Map<String, Integer> getTempYpointsMap() {
         final Map<String, Integer> temperatureMap = new HashMap<>();

@@ -46,6 +46,7 @@ public class PatientDao {
                 "o2Data TEXT," +
                 "dates TEXT NOT NULL," +
                 "rrData TEXT" +
+                "bed TEXT NOT NULL," +
                 ")";
 
 

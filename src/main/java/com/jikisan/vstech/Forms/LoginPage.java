@@ -89,6 +89,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         jLabel4.setText("Password");
 
+        signUpBtn.setVisible(false);
         signUpBtn.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
         signUpBtn.setText("Sign Up");
         signUpBtn.addMouseListener(new java.awt.event.MouseAdapter() {
