@@ -6,8 +6,12 @@ import com.jikisan.vstech.DAO.NurseDao;
 import com.jikisan.vstech.DAO.NursingManagementDao;
 import com.jikisan.vstech.DAO.PatientDao;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,6 +38,24 @@ public class LoginPage extends javax.swing.JFrame {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        signUpBtn.setVisible(false);
+
+        BufferedImage img = null;
+        String userDir = System.getProperty("user.dir");
+        String imagePath = userDir + "\\images\\login_banner.jpg"; // Modify as needed
+
+        try {
+            img = ImageIO.read(new File(imagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Image dimg = img.getScaledInstance(banner.getWidth(), banner.getHeight(),
+                Image.SCALE_SMOOTH);
+
+        ImageIcon icon = new ImageIcon(dimg);
+        banner.setIcon(icon);
     }
 
     @SuppressWarnings("unchecked")
@@ -41,8 +63,9 @@ public class LoginPage extends javax.swing.JFrame {
     private void initComponents() {
 
         javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
-        javax.swing.JPanel jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new jPanelGradient();
+        jPanel2 = new javax.swing.JPanel();
+        banner = new javax.swing.JLabel();
+        javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
@@ -66,11 +89,11 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 500, Short.MAX_VALUE)
+                        .addComponent(banner, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(banner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel3.setBackground(new java.awt.Color(188, 188, 233));
@@ -90,7 +113,6 @@ public class LoginPage extends javax.swing.JFrame {
 
         jLabel4.setText("Password");
 
-        signUpBtn.setVisible(false);
         signUpBtn.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
         signUpBtn.setText("Sign Up");
         signUpBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,11 +126,7 @@ public class LoginPage extends javax.swing.JFrame {
         signInBtn.setText("SIGN IN");
         signInBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    signInBtnActionPerformed(evt);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                signInBtnActionPerformed(evt);
             }
         });
 
@@ -157,7 +175,7 @@ public class LoginPage extends javax.swing.JFrame {
                                 .addComponent(signUpBtn)
                                 .addGap(100, 100, 100)
                                 .addComponent(signInBtn)
-                                .addContainerGap(39, Short.MAX_VALUE))
+                                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[]{passwordTxtField, signInBtn, usernameTxtField});
@@ -202,7 +220,7 @@ public class LoginPage extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_signUpBtnMouseClicked
 
-    private void signInBtnActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {//GEN-FIRST:event_signInBtnActionPerformed
+    private void signInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInBtnActionPerformed
         String username = usernameTxtField.getText();
         String password = passwordTxtField.getText();
 
@@ -225,8 +243,7 @@ public class LoginPage extends javax.swing.JFrame {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-    }
+    }//GEN-LAST:event_signInBtnActionPerformed
 
     public static void main(String args[]) {
 
@@ -239,7 +256,8 @@ public class LoginPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel banner;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField passwordTxtField;
     private javax.swing.JButton signInBtn;
     private javax.swing.JLabel signUpBtn;
