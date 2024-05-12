@@ -754,7 +754,7 @@ public class Homepage extends JFrame {
                     new DiagnosisForm(ConditionType.BRADYCARDIA, this, nm).setVisible(true);
                 }
 
-                if (Float.parseFloat(pr) > 101) {
+                if (Float.parseFloat(pr) > 100) {
                     NursingManagement nm = new NursingManagement(
                             (int) System.currentTimeMillis(),
                             LoggedInNurseModel.getInstance().getId(),
@@ -892,7 +892,7 @@ public class Homepage extends JFrame {
                 addBP(bpDate, bpHours, bp);
                 PatientDao.updatePatientData(DbConn.ConnectDb(), patient.getId(), bpDataToString(bpData), "bpData");
 
-                if (systolic > 120 && diastolic > 80) {
+                if (systolic > 120 || diastolic > 80) {
                     NursingManagement nm = new NursingManagement(
                             (int) System.currentTimeMillis(),
                             LoggedInNurseModel.getInstance().getId(),
@@ -905,7 +905,7 @@ public class Homepage extends JFrame {
                     new DiagnosisForm(ConditionType.HYPERTENSION, this, nm).setVisible(true);
 
                 }
-                else if (systolic < 90 && diastolic < 60) {
+                else if (systolic < 90 || diastolic < 60) {
                     NursingManagement nm = new NursingManagement(
                             (int) System.currentTimeMillis(),
                             LoggedInNurseModel.getInstance().getId(),

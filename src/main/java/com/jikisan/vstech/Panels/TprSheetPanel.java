@@ -362,6 +362,7 @@ public class TprSheetPanel extends JPanel {
     }
 
 
+
     private int dateXpoint(String dateTime) {
         int columnNum = dateTimeMapper.get(dateTime.toLowerCase());
         int colWidth = getWidth() / totalColumns;
@@ -379,14 +380,16 @@ public class TprSheetPanel extends JPanel {
     private int tempYpoint(String temp) {
         int rowNum = tempMapper.get(temp) == null ? 43 : tempMapper.get(temp);
         int rowHeight = getHeight() / totalRows;
-        int column = (int) ((rowHeight * rowNum) + (rowHeight / 2));
+        int offSet = temp.contains(".") ? (rowHeight / 2) : 0;
+        int column = (int) ((rowHeight * (rowNum + 1) - offSet));
         return column;
     }
 
-    private int prYpoint(String temp) {
-        int rowNum = prMapper.get(temp) == null ? 0 : prMapper.get(temp);
+    private int prYpoint(String pr) {
+        int rowNum = prMapper.get(pr) == null ? 0 : prMapper.get(pr);
         int rowHeight = getHeight() / totalRows;
-        int column = (int) ((rowHeight * rowNum) + (rowHeight / 2));
+        int offSet = Integer.parseInt(pr) % 5 == 0 ? 0 : (rowHeight / 2);
+        int column = (int) ((rowHeight * (rowNum + 1) - offSet));
         return column;
     }
 
