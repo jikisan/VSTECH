@@ -6,8 +6,6 @@ package com.jikisan.vstech.Forms;
 
 import com.jikisan.vstech.DAO.DbConn;
 import com.jikisan.vstech.DAO.NurseDao;
-import com.jikisan.vstech.Model.NurseListModel;
-import com.jikisan.vstech.Model.NurseModel;
 
 import javax.swing.*;
 import java.awt.*;

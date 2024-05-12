@@ -1,7 +1,6 @@
 package com.jikisan.vstech.DAO;
 
-import com.jikisan.vstech.Model.NurseListModel;
-import com.jikisan.vstech.Model.NurseModel;
+import com.jikisan.vstech.Model.LoggedInNurseModel;
 
 import java.sql.*;
 
@@ -28,13 +27,32 @@ public class NurseDao {
         boolean isAuthenticated = rs.next();  // If there's a result, authentication is successful
 
         if (isAuthenticated) {
-            NurseModel.getInstance(rs.getString("fullName"), rs.getString("age"), rs.getString("department"), rs.getString("licenseNumber"), rs.getString("username"), rs.getString("password"));
+            LoggedInNurseModel.getInstance(rs.getInt("id") ,rs.getString("fullName"), rs.getString("age"), rs.getString("department"), rs.getString("licenseNumber"), rs.getString("username"), rs.getString("password"));
         }
 
         rs.close();
         statement.close();
 
         return isAuthenticated;
+    }
+
+    public ResultSet getNurseById(int id) throws SQLException {
+        String query = "SELECT * FROM Nurse WHERE id = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+
+        LoggedInNurseModel.getInstance(
+                rs.getInt("id"),
+                rs.getString("fullName"),
+                rs.getString("age"),
+                rs.getString("department"),
+                rs.getString("licenseNumber"),
+                rs.getString("username"),
+                rs.getString("password")
+        );
+
+        return rs;
     }
 
 
@@ -50,7 +68,7 @@ public class NurseDao {
                 ")";
 
         try (
-             Statement stmt = conn.createStatement()) {
+                Statement stmt = conn.createStatement()) {
             stmt.execute(sql); // Execute the CREATE TABLE command
         } catch (SQLException e) {
             e.printStackTrace(); // Handle exceptions

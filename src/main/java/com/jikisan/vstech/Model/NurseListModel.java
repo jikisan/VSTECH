@@ -1,13 +1,12 @@
 package com.jikisan.vstech.Model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NurseListModel {
 
     private static NurseListModel instance; // The single instance of the class
-    private NurseModel nurse;
-    private ArrayList<NurseModel> nurseList = new ArrayList<NurseModel>();
+    private LoggedInNurseModel nurse;
+    private ArrayList<LoggedInNurseModel> nurseList = new ArrayList<LoggedInNurseModel>();
 
     // Private constructor to prevent instantiation from outside the class
     private NurseListModel() {
@@ -22,12 +21,12 @@ public class NurseListModel {
         return instance; // Return the single instance
     }
 
-    public void setActiveNurse(NurseModel nurse) {
+    public void setActiveNurse(LoggedInNurseModel nurse) {
         this.nurse = nurse;
     }
 
 
-    public NurseModel getActiveNurse() {
+    public LoggedInNurseModel getActiveNurse() {
         return this.nurse;
     }
 }

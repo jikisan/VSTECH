@@ -74,6 +74,7 @@ public class PatientItemPanel extends JPanel{
 
                 if (response == JOptionPane.YES_OPTION) {
                     new Homepage(patientModel).setVisible(true);
+
                     parentFrame.dispose();
                 } else if (response == JOptionPane.NO_OPTION) {
                     PatientDao.deletePatientById(DbConn.ConnectDb(), patientModel.getId());

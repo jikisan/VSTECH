@@ -1,8 +1,9 @@
 
 package com.jikisan.vstech.Model;
 
-public class NurseModel {
-    private static NurseModel instance;  // Private static instance variable
+public class LoggedInNurseModel {
+    private static LoggedInNurseModel instance;  // Private static instance variable
+    private int id;
     private String fullName;
     private String age;
     private String department;
@@ -10,7 +11,10 @@ public class NurseModel {
     private String username;
     private String password;
 
-    private NurseModel(String fullName, String age, String department, String licenseNumber, String username, String password) {
+    private LoggedInNurseModel() {};
+
+    private LoggedInNurseModel(int id, String fullName, String age, String department, String licenseNumber, String username, String password) {
+        this.id = id;
         this.fullName = fullName;
         this.age = age;
         this.department = department;
@@ -19,17 +23,31 @@ public class NurseModel {
         this.password = password;
     }
 
-    public static NurseModel getInstance(String fullName, String age, String department, String licenseNumber, String username, String password) {
-        if (instance == null) { // Check if instance already exists
-            instance = new NurseModel(fullName, age, department, licenseNumber, username, password); // Create the first instance if not
+
+    public static LoggedInNurseModel getInstance() {
+        if (instance == null) {
+            instance = new LoggedInNurseModel();
+        }
+        return instance;    }
+
+    public static LoggedInNurseModel getInstance(int id, String fullName, String age, String department, String licenseNumber, String username, String password) {
+        if (instance == null) {
+            instance = new LoggedInNurseModel(id, fullName, age, department, licenseNumber, username, password); // Create the first instance if not
         }
         return instance;
     }
 
-    public static NurseModel getActiveNurse() {
+    public static LoggedInNurseModel getActiveNurse() {
         return instance;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFullName() {
         return fullName;
