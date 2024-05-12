@@ -2,6 +2,7 @@
 package com.jikisan.vstech.DiagnosisForm;
 
 import com.jikisan.vstech.Forms.Dashboard;
+import com.jikisan.vstech.Model.NursingManagement;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,16 +12,20 @@ import javax.swing.*;
 public class InterventionForm extends javax.swing.JFrame {
 
     private ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
+    private ArrayList<String> selectedDiagnosis;
     private JFrame homepageFrame;
+    private NursingManagement nm;
 
     public InterventionForm() {
         dispose();
         new Dashboard().setVisible(true);
     }
 
-    public InterventionForm( ArrayList<String> newInterventions, JFrame frame) {
+    public InterventionForm(ArrayList<String> selectedDiagnosis , ArrayList<String> newInterventions, JFrame frame, NursingManagement nm) {
         initComponents();
+        this.nm = nm;
         this.homepageFrame = frame;
+        this.selectedDiagnosis = selectedDiagnosis;
         generateInterventions(newInterventions);
     }
 
@@ -38,8 +43,6 @@ public class InterventionForm extends javax.swing.JFrame {
         interventionsPanel.add(scrollPane);
         interventionsPanel.revalidate();
         interventionsPanel.repaint();
-
-
     }
 
     private JPanel createInterventionItems(ArrayList<String> newInterventions) {
@@ -186,16 +189,16 @@ public class InterventionForm extends javax.swing.JFrame {
 
 
     private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        ArrayList<String> newInterventions = new ArrayList<>();
+        ArrayList<String> selectedInterventions = new ArrayList<>();
 
         for (int i = 0; i < checkBoxes.size(); i++) {
             JCheckBox checkBox = checkBoxes.get(i);
             if (checkBox.isSelected()) {
-
+                selectedInterventions.add(checkBox.getText());
             }
         }
 
-        new PatientResponse(homepageFrame).setVisible(true);
+        new NurseManagementSummary(selectedDiagnosis, selectedInterventions, homepageFrame, nm).setVisible(true);
         dispose();
     }
 

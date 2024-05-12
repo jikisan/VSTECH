@@ -28,7 +28,9 @@ public class LoginPage extends javax.swing.JFrame {
         try {
             NurseDao.createNurseTable(conn);
             PatientDao.createPatientTable(conn);
-            NursingManagementDao.createNursingManagementTable(conn);
+            NursingManagementDao.createDiagnoseDb(conn);
+            NursingManagementDao.createInterventionDb(conn);
+            NursingManagementDao.createNursingManagementDb(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

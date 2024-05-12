@@ -39,7 +39,7 @@ public class Homepage extends JFrame {
         prData = new ArrayList<PrDataModel>();
         rrData = new ArrayList<RrDataModel>();
         bpData = new ArrayList<BpDataModel>();
-        new Dashboard().setVisible(true);
+        new LoginPage().setVisible(true);
         dispose();
     }
 
@@ -100,10 +100,10 @@ public class Homepage extends JFrame {
         javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
         backBtn = new javax.swing.JLabel();
+        nmBtn = new javax.swing.JButton();
         tprSheetPanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
-        nextBtn = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -368,6 +368,15 @@ public class Homepage extends JFrame {
             }
         });
 
+        nmBtn.setBackground(new java.awt.Color(0, 153, 255));
+        nmBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        nmBtn.setText("Nursing Management");
+        nmBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nmBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -398,6 +407,10 @@ public class Homepage extends JFrame {
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 31, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nmBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,6 +423,8 @@ public class Homepage extends JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nmBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
@@ -437,22 +452,12 @@ public class Homepage extends JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
         jLabel1.setText("VSTECH");
 
-        nextBtn.setBackground(new java.awt.Color(0, 153, 255));
-        nextBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        nextBtn.setText("Nursing Management");
-        nextBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextBtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addComponent(nextBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
@@ -462,10 +467,6 @@ public class Homepage extends JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addContainerGap(19, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(nextBtn)
-                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -511,9 +512,6 @@ public class Homepage extends JFrame {
         dispose();
     }//GEN-LAST:event_backBtnMouseClicked
 
-    private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
-        new NursingManagementForm().setVisible(true);
-    }//GEN-LAST:event_nextBtnActionPerformed
 
     private void setPlaceholderImg() {
         // Load the original image
@@ -678,31 +676,38 @@ public class Homepage extends JFrame {
                 PatientDao.updatePatientData(DbConn.ConnectDb(), patient.getId(), tempDataToString(tempData), "tempData");
 
                 tempFirstDataTime.setVisible(false);
-            }
 
-            if (Float.parseFloat(temp) < 36.5) {
-//                JOptionPane.showMessageDialog(this, "HYPOTHERMIA");
-                NursingManagement nm = new NursingManagement();
-                nm.setNurseId(LoggedInNurseModel.getInstance().getId());
-                nm.setPatientId(patient.getId());
-                nm.setPlot(tempData.size() - hour);
-                nm.setAbnormalFinding("HYPOTHERMIA");
+                if (Float.parseFloat(temp) < 36.5) {
 
-                new DiagnosisForm(ConditionType.HYPOTHERMIA, this, nm).setVisible(true);
+                    NursingManagement nm = new NursingManagement(
+                            (int) System.currentTimeMillis(),
+                            LoggedInNurseModel.getInstance().getId(),
+                            patient.getId(),
+                            tempData.size() - hour,
+                            "HYPOTHERMIA",
+                            String.valueOf(System.currentTimeMillis()),
+                            xpoints[tempData.size() - 1]
+                    );
+                    new DiagnosisForm(ConditionType.HYPOTHERMIA, this, nm).setVisible(true);
+                }
 
-
-            }
-
-            if (Float.parseFloat(temp) > 37.5) {
+                if (Float.parseFloat(temp) > 37.5) {
 //                JOptionPane.showMessageDialog(this, "HYPERTHERMIA");
-                NursingManagement nm = new NursingManagement();
-                nm.setNurseId(LoggedInNurseModel.getInstance().getId());
-                nm.setPatientId(patient.getId());
-                nm.setPlot(tempData.size() - hour);
-                nm.setAbnormalFinding("HYPERTHERMIA");
-                new DiagnosisForm(ConditionType.HYPERTHERMIA, this, nm).setVisible(true);
+                    NursingManagement nm = new NursingManagement(
+                            (int) System.currentTimeMillis(),
+                            LoggedInNurseModel.getInstance().getId(),
+                            patient.getId(),
+                            tempData.size() - hour,
+                            "HYPERTHERMIA",
+                            String.valueOf(System.currentTimeMillis()),
+                            xpoints[tempData.size() - 1]
+                    );
+                    new DiagnosisForm(ConditionType.HYPERTHERMIA, this, nm).setVisible(true);
+
+                }
 
             }
+
 
         }
     }
@@ -735,27 +740,35 @@ public class Homepage extends JFrame {
                 PatientDao.updatePatientData(DbConn.ConnectDb(), patient.getId(), prDataToString(prData), "prData");
 
                 prFirstDataTime.setVisible(false);
+
+                if (Float.parseFloat(pr) < 60) {
+                    NursingManagement nm = new NursingManagement(
+                            (int) System.currentTimeMillis(),
+                            LoggedInNurseModel.getInstance().getId(),
+                            patient.getId(),
+                            prData.size() - hour,
+                            "BRADYCARDIA",
+                            String.valueOf(System.currentTimeMillis()),
+                            xpoints[prData.size() - 1]
+                    );
+                    new DiagnosisForm(ConditionType.BRADYCARDIA, this, nm).setVisible(true);
+                }
+
+                if (Float.parseFloat(pr) > 101) {
+                    NursingManagement nm = new NursingManagement(
+                            (int) System.currentTimeMillis(),
+                            LoggedInNurseModel.getInstance().getId(),
+                            patient.getId(),
+                            prData.size() - hour,
+                            "TACHYCARDIA",
+                            String.valueOf(System.currentTimeMillis()),
+                            xpoints[prData.size() - 1]
+                    );
+                    new DiagnosisForm(ConditionType.TACHYCARDIA, this, nm).setVisible(true);
+                }
             }
 
-            if (Float.parseFloat(pr) < 60) {
-//                JOptionPane.showMessageDialog(this, "BRADYCARDIA ");
-                NursingManagement nm = new NursingManagement();
-                nm.setNurseId(LoggedInNurseModel.getInstance().getId());
-                nm.setPatientId(patient.getId());
-                nm.setPlot(prData.size() - hour);
-                nm.setAbnormalFinding("BRADYCARDIA");
-                new DiagnosisForm(ConditionType.BRADYCARDIA, this, nm).setVisible(true);
-            }
 
-            if (Float.parseFloat(pr) > 101) {
-//                JOptionPane.showMessageDialog(this, "TACHYCARDIA");
-                NursingManagement nm = new NursingManagement();
-                nm.setNurseId(LoggedInNurseModel.getInstance().getId());
-                nm.setPatientId(patient.getId());
-                nm.setPlot(prData.size() - hour);
-                nm.setAbnormalFinding("TACHYCARDIA");
-                new DiagnosisForm(ConditionType.TACHYCARDIA, this, nm).setVisible(true);
-            }
 
         }
     }
@@ -789,29 +802,37 @@ public class Homepage extends JFrame {
                 PatientDao.updatePatientData(DbConn.ConnectDb(), patient.getId(), rrDataToString(rrData), "rrData");
 
                 rrFirstDataTime.setVisible(false);
+
+                if (Float.parseFloat(rr) < 12) {
+                    NursingManagement nm = new NursingManagement(
+                            (int) System.currentTimeMillis(),
+                            LoggedInNurseModel.getInstance().getId(),
+                            patient.getId(),
+                            rrData.size() - hour,
+                            "BRADYPNEA",
+                            String.valueOf(System.currentTimeMillis()),
+                            xpoints[prData.size() - 1]
+                    );
+                    new DiagnosisForm(ConditionType.BRADYPNEA, this, nm).setVisible(true);
+
+                }
+
+                if (Float.parseFloat(rr) > 20) {
+                    NursingManagement nm = new NursingManagement(
+                            (int) System.currentTimeMillis(),
+                            LoggedInNurseModel.getInstance().getId(),
+                            patient.getId(),
+                            rrData.size() - hour,
+                            "TACHYPNEA",
+                            String.valueOf(System.currentTimeMillis()),
+                            xpoints[prData.size() - 1]
+                    );
+                    new DiagnosisForm(ConditionType.TACHYPNEA, this, nm).setVisible(true);
+
+                }
             }
 
-            if (Float.parseFloat(rr) < 12) {
-//                JOptionPane.showMessageDialog(this, "BRADYPNEA ");
-                NursingManagement nm = new NursingManagement();
-                nm.setNurseId(LoggedInNurseModel.getInstance().getId());
-                nm.setPatientId(patient.getId());
-                nm.setPlot(rrData.size() - hour);
-                nm.setAbnormalFinding("BRADYPNEA");
-                new DiagnosisForm(ConditionType.BRADYPNEA, this, nm).setVisible(true);
 
-            }
-
-            if (Float.parseFloat(rr) > 20) {
-//                JOptionPane.showMessageDialog(this, "TACHYPNEA");
-                NursingManagement nm = new NursingManagement();
-                nm.setNurseId(LoggedInNurseModel.getInstance().getId());
-                nm.setPatientId(patient.getId());
-                nm.setPlot(rrData.size() - hour);
-                nm.setAbnormalFinding("TACHYPNEA");
-                new DiagnosisForm(ConditionType.TACHYPNEA, this, nm).setVisible(true);
-
-            }
 
         }
     }
@@ -827,17 +848,12 @@ public class Homepage extends JFrame {
             }
 
             if (Float.parseFloat(o2) > 100 || Float.parseFloat(o2) < 0) {
-//                JOptionPane.showMessageDialog(this, "Invalid input.");
-
+                JOptionPane.showMessageDialog(this, "Invalid input.");
                 return;
             }
 
-
             if (Float.parseFloat(o2) < 95) {
-//                JOptionPane.showMessageDialog(this, "LOW OXYGEN");
-                NursingManagement nm = new NursingManagement();
-                new DiagnosisForm(ConditionType.LOW_OXYGEN, this, nm).setVisible(true);
-
+                JOptionPane.showMessageDialog(this, "LOW OXYGEN");
             }
         }
     }
@@ -871,33 +887,44 @@ public class Homepage extends JFrame {
             }
 
             // Validate blood pressure range
-            if (systolic > 120 && diastolic > 80) {
-                NursingManagement nm = new NursingManagement();
-                nm.setNurseId(LoggedInNurseModel.getInstance().getId());
-                nm.setPatientId(patient.getId());
-                nm.setPlot(bpData.size());
-                nm.setAbnormalFinding("HYPERTENSION");
-                new DiagnosisForm(ConditionType.HYPERTENSION, this, nm).setVisible(true);
-
-            } else if (systolic < 90 && diastolic < 60) {
-                NursingManagement nm = new NursingManagement();
-                nm.setNurseId(LoggedInNurseModel.getInstance().getId());
-                nm.setPatientId(patient.getId());
-                nm.setPlot(bpData.size());
-                nm.setAbnormalFinding("HYPOTENSION");
-                new DiagnosisForm(ConditionType.HYPOTENSION, this, nm).setVisible(true);
-            }
-
-
             if (count < 10) {
                 String bpDate = bpXpoints[count];
                 addBP(bpDate, bpHours, bp);
                 PatientDao.updatePatientData(DbConn.ConnectDb(), patient.getId(), bpDataToString(bpData), "bpData");
+
+                if (systolic > 120 && diastolic > 80) {
+                    NursingManagement nm = new NursingManagement(
+                            (int) System.currentTimeMillis(),
+                            LoggedInNurseModel.getInstance().getId(),
+                            patient.getId(),
+                            bpData.size(),
+                            "HYPERTENSION",
+                            String.valueOf(System.currentTimeMillis()),
+                            bpXpoints[count] + " " +bpHours
+                    );
+                    new DiagnosisForm(ConditionType.HYPERTENSION, this, nm).setVisible(true);
+
+                }
+                else if (systolic < 90 && diastolic < 60) {
+                    NursingManagement nm = new NursingManagement(
+                            (int) System.currentTimeMillis(),
+                            LoggedInNurseModel.getInstance().getId(),
+                            patient.getId(),
+                            bpData.size(),
+                            "HYPOTENSION",
+                            String.valueOf(System.currentTimeMillis()),
+                            bpXpoints[count] + " " +bpHours
+                    );
+                    new DiagnosisForm(ConditionType.HYPOTENSION, this, nm).setVisible(true);
+                }
             }
 
         }
     }
 
+    private void nmBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nmBtnActionPerformed
+        new NursingManagementForm(patient).setVisible(true);
+    }//GEN-LAST:event_nmBtnActionPerformed
 
     //ADD DATA
     public void addTemp(String date, String hour, String temp) {
@@ -1046,7 +1073,7 @@ public class Homepage extends JFrame {
     private javax.swing.JLabel lblDiagnosis;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblProfileImg;
-    private javax.swing.JButton nextBtn;
+    private javax.swing.JButton nmBtn;
     private javax.swing.JTextField o2TxtField;
     private javax.swing.JComboBox<String> prFirstDataTime;
     private javax.swing.JTextField prTextField;

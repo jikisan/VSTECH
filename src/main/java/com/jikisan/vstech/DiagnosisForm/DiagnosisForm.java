@@ -146,17 +146,19 @@ public class DiagnosisForm extends javax.swing.JFrame {
 
     private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
         ArrayList<String> newInterventions = new ArrayList<>();
+        ArrayList<String> selectedDiagnosis = new ArrayList<>();
 
         for (int i = 0; i < checkBoxes.size(); i++) {
             JCheckBox checkBox = checkBoxes.get(i);
             if (checkBox.isSelected()) {
 
                 newInterventions.addAll(Arrays.asList(interventionList.get(i)));
+                selectedDiagnosis.add(checkBox.getText());
             }
         }//GEN-LAST:event_nextBtnActionPerformed
 
         System.out.println(newInterventions);
-        new InterventionForm(newInterventions, homepageFrame).setVisible(true);
+        new InterventionForm(selectedDiagnosis, newInterventions, homepageFrame, nm).setVisible(true);
         dispose();
     }
 
